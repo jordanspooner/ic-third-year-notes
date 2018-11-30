@@ -1,0 +1,1065 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a5paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1.2cm
+\rightmargin 1cm
+\bottommargin 1.2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle empty
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+CO343 Operations Research
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Linear Programming
+\end_layout
+
+\begin_layout Paragraph
+Linear program
+\end_layout
+
+\begin_layout Itemize
+Optimises a linear 
+\emph on
+objective function 
+\begin_inset Formula $f:\mathbb{R}^{n}\rightarrow\mathbb{R}$
+\end_inset
+
+
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+Over a 
+\emph on
+feasible set 
+\begin_inset Formula $\chi\subseteq\mathbb{R}^{n}$
+\end_inset
+
+
+\emph default
+ described by (in)equality 
+\emph on
+linear constraints
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+The feasible region is a 
+\emph on
+convex polyhedron
+\emph default
+, and the 
+\emph on
+vertices
+\emph default
+ contain a solution.
+\end_layout
+
+\begin_layout Paragraph
+Standard form
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Maximisation 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Minimisation
+\emph default
+: invert objective.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Inequalites 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Equalities
+\emph default
+: add slack/excess variables.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Negative 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Non-negative RHS
+\emph default
+: multiply constraint by 
+\begin_inset Formula $-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Free decision variables 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Non-negative variables
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Substitute 
+\begin_inset Formula $x_{j}=x_{j}^{+}-x_{j}^{-}$
+\end_inset
+
+ with 
+\begin_inset Formula $x_{j}^{+},x_{j}^{-}\geq0$
+\end_inset
+
+, or
+\end_layout
+
+\begin_layout Itemize
+Use an equality constraint to eliminate it (sub into all other constraints).
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Examples
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Resource allocation models
+\emph default
+: split a resource.
+ E.g.
+ find assignment of CPU share to maximise completion rate.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Variables: how much of each resource allocated to each use.
+\end_layout
+
+\begin_layout Itemize
+Constrains: on resource availability.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Blending models
+\emph default
+: combine resources.
+ E.g.
+ find most economical diet meeting nutritional requirements.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Variables: how much of each resource to use in the mix.
+\end_layout
+
+\begin_layout Itemize
+Constraints: express composition of output.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Operations planning models
+\emph default
+: decide organisational strategy.
+ E.g.
+ minimise cost of shipping goods.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Variables: identify products, activities, processing facilites, etc.
+\end_layout
+
+\begin_layout Itemize
+Constraints: balance inputs and outputs of activities.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Shift scheduling models
+\emph default
+: allocate workforce to tasks.
+ E.g.
+ minimise cost of shifts.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Variables: number of employees.
+\end_layout
+
+\begin_layout Itemize
+Contraints: allocate enough workers to cover activities.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Time-phased models
+\emph default
+: address circumstances that vary over time.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Variables: express returns or state at given time.
+\end_layout
+
+\begin_layout Itemize
+Constraints: time-phase balance constraints.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Two-phase simplex algorithm
+\end_layout
+
+\begin_layout Itemize
+Use when there is no obvious initial BFS.
+ 
+\end_layout
+
+\begin_layout Itemize
+I.e.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+all-slack basis
+\begin_inset Quotes erd
+\end_inset
+
+ not possible: 
+\begin_inset Formula $=$
+\end_inset
+
+ or 
+\begin_inset Formula $\geq$
+\end_inset
+
+ constraints.
+\end_layout
+
+\begin_layout Paragraph
+Phase 1
+\end_layout
+
+\begin_layout Enumerate
+Add artificial variables to constraints without slack variables.
+\end_layout
+
+\begin_layout Enumerate
+Minimse the sum of artificial variables 
+\begin_inset Formula $\zeta$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Find a basic representation for 
+\begin_inset Formula $\zeta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Find the minimum value for 
+\begin_inset Formula $\zeta$
+\end_inset
+
+ using simplex algorithm.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\zeta^{*}>0$
+\end_inset
+
+ stop, the LP is infeasible.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\zeta^{*}=0$
+\end_inset
+
+ but some artificial variable is still basic, we have a degenerate BFS.
+ Pivot to remove artificial variable from the BFS.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\zeta^{*}=0$
+\end_inset
+
+ with all artifical variables non-basic, go to phase 2.
+\end_layout
+
+\begin_layout Paragraph
+Phase 2
+\end_layout
+
+\begin_layout Enumerate
+Remove artificial columns from phase 1 tableau.
+\end_layout
+
+\begin_layout Enumerate
+Find a basic representation for 
+\begin_inset Formula $z$
+\end_inset
+
+, add to tableau.
+\end_layout
+
+\begin_layout Enumerate
+Find the minimum value for 
+\begin_inset Formula $z$
+\end_inset
+
+ using simplex algorithm.
+\end_layout
+
+\begin_layout Section
+Integer Programming
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Mixed Integer Linear Programming
+\emph default
+: some variables are integers.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Pure Integer Linear Programming
+\emph default
+: all variables (including slack, objective val) are integers.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Binary Linear Programming
+\emph default
+: all variables are binary.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Mixed Integer Binary Porgramming
+\emph default
+: integer variables are binary.
+\end_layout
+
+\begin_layout Paragraph
+Standard form
+\end_layout
+
+\begin_layout Enumerate
+Get to LP standard form (except slack/excess vars):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+Maximisation 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Minimisation
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Negative 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Non-negative RHS
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Free decision variables 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Non-negative variables
+\emph default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Scale the equations to make all coefficients integers.
+\end_layout
+
+\begin_layout Enumerate
+Insert integer slack and/or excess vars.
+\end_layout
+
+\begin_layout Paragraph
+Examples
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Knapsack problem
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Bin-packing problem
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Capital budgeting
+\emph default
+: which project to undertake given limited resources?
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Facility location
+\emph default
+: which centres should be built and how should demand be satisfied to minimise
+ costs?
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Crew scheduling
+\emph default
+: which sequences to operate such that costs are minimal and all flights
+ have crew?
+\end_layout
+
+\begin_layout Paragraph
+Logical operations
+\end_layout
+
+\begin_layout Standard
+Using Big-
+\begin_inset Formula $M$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Or
+\emph default
+: 
+\begin_inset Formula $a_{1}^{\top}x\leq b_{1}\lor a_{2}^{\top}x\leq b_{2}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{eqnarray*}
+a_{1}^{\top}x & \leq & b_{1}+M\delta\\
+a_{2}^{\top}x & \leq & b_{2}+M\left(1-\delta\right)\\
+\delta & \in & \left\{ 0,1\right\} 
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Formula $k$
+\end_inset
+
+-out-of-
+\begin_inset Formula $m$
+\end_inset
+
+
+\emph default
+: At least 
+\begin_inset Formula $k$
+\end_inset
+
+ of 
+\begin_inset Formula $a_{1}^{\top}x\leq b_{1},a_{2}^{\top}x\leq b_{2},\dots,a_{m}^{\top}x\leq b_{m}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{eqnarray*}
+a_{1}^{\top}x & \leq & b_{1}+M\delta_{1}\\
+a_{2}^{\top}x & \leq & b_{2}+M\delta_{2}\\
+ & \vdots\\
+a_{m}^{\top} & \leq & b_{m}+M\delta_{m}\\
+\sum_{j=1}^{m}\delta_{j} & \leq & m-k\\
+\delta_{j} & \in & \left\{ 0,1\right\} \qquad\forall j\in\{1..m\}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Finite-valued variables
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $x_{j}\in\{p_{1},p_{2},\dots,p_{m}\}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+Introduce variables 
+\begin_inset Formula $y_{j1},y_{j2},\dots,y_{jm}\in\{0,1\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Add the constraint 
+\begin_inset Formula $y_{j1}+y_{j2}+\dots+y_{jm}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Replace 
+\begin_inset Formula $x_{j}$
+\end_inset
+
+ with 
+\begin_inset Formula $p_{1}y_{j1}+p_{2}y_{j2}+\dots+p_{m}y_{jm}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Cutting plane algorithm
+\end_layout
+
+\begin_layout Enumerate
+Write ILP in standard form.
+\end_layout
+
+\begin_layout Enumerate
+Solve LP relaxation.
+\end_layout
+
+\begin_layout Enumerate
+If solution is integer, finish.
+\end_layout
+
+\begin_layout Enumerate
+Otherwise, introduce cuts and repeat.
+\end_layout
+
+\begin_layout Paragraph
+Gomory cut
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $f_{j}\coloneqq y_{ij}-\left\lfloor y_{ij}\right\rfloor $
+\end_inset
+
+ and 
+\begin_inset Formula $f\coloneqq y_{i0}-\left\lfloor y_{i0}\right\rfloor $
+\end_inset
+
+, we can always add the cut:
+\begin_inset Formula 
+\[
+\sum_{j\not\in I}f_{j}x_{j}^{*}\geq f
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Knapsack cover cut
+\end_layout
+
+\begin_layout Standard
+For a cover 
+\begin_inset Formula $S$
+\end_inset
+
+ (
+\begin_inset Formula $\sum_{j\in S}w_{j}>W$
+\end_inset
+
+), we can add the cut:
+\begin_inset Formula 
+\[
+\sum_{j\in S}x_{j}\leq\left|S\right|-1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Is minimal if no subset of 
+\begin_inset Formula $S$
+\end_inset
+
+ is a cover.
+\end_layout
+
+\begin_layout Subsection
+Branch and bound
+\end_layout
+
+\begin_layout Enumerate
+Solve LP relaxation of problem.
+\end_layout
+
+\begin_layout Enumerate
+If solution is integer, finish.
+\end_layout
+
+\begin_layout Enumerate
+Otherwise, choose non-integer 
+\begin_inset Formula $x_{p}^{*}$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Divide, adding constraints 
+\begin_inset Formula $x\leq\left\lfloor x_{p}^{*}\right\rfloor $
+\end_inset
+
+ and 
+\begin_inset Formula $x\geq\left\lceil x_{p}^{*}\right\rceil $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Solve recursively.
+ Disregard a branch if a better feasible solution is seen.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Duality
+\end_layout
+
+\begin_layout Standard
+Every prial problem, 
+\begin_inset Formula 
+\[
+\min\left\{ b^{\top}y:A^{\top}y\geq c,y\geq0\right\} 
+\]
+
+\end_inset
+
+has a dual problem, 
+\begin_inset Formula 
+\[
+\max\left\{ c^{\top}x:Ax\leq b,x\geq0\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Weak duality
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $c^{\top}x\leq b^{\top}y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Strong duality
+\end_layout
+
+\begin_layout Standard
+If 
+\begin_inset Formula $P$
+\end_inset
+
+ and 
+\begin_inset Formula $D$
+\end_inset
+
+ are both feasible and 
+\begin_inset Formula $B$
+\end_inset
+
+ is an optimal basis for 
+\begin_inset Formula $P$
+\end_inset
+
+, with optimal basic solution 
+\begin_inset Formula $\left(x_{B}^{*},x_{N}^{*}\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+The optimal solution to the dual problem are the shadow prices: 
+\begin_inset Formula $y^{*}=\left(B^{-1}\right)^{\top}c_{B}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+The objective values coincide: 
+\begin_inset Formula $c^{\top}x^{*}=b^{\top}y^{*}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Finding the Dual
+\end_layout
+
+\begin_layout Standard
+Indirect method:
+\end_layout
+
+\begin_layout Enumerate
+Bring the LP to a 
+\begin_inset Formula $P$
+\end_inset
+
+ or 
+\begin_inset Formula $D$
+\end_inset
+
+ form:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Replace free variables.
+\end_layout
+
+\begin_layout Enumerate
+Replace equalities with two inequalities.
+\end_layout
+
+\begin_layout Enumerate
+Change constraint direction by multiplying with -1 where necessary.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Obtain dual according to its definition.
+\end_layout
+
+\begin_layout Enumerate
+Simplify dual problem (optional):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Replace variable pairs 
+\begin_inset Formula $y_{i},y_{j}\geq0$
+\end_inset
+
+ that always occur as 
+\begin_inset Formula $\alpha y_{i}-\alpha y_{j}$
+\end_inset
+
+ by 
+\begin_inset Formula $y_{k}\in\mathbb{R}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Replace matching inequality constraints with equality constraints.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Direct method:
+\end_layout
+
+\begin_layout Enumerate
+For every primal constraint ccreate one dual variable, for every primal
+ variable create one dual constraint.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If primal is 
+\emph on
+min
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Constraint 
+\begin_inset Formula $(\geq,=,\leq)$
+\end_inset
+
+ goes to variable 
+\begin_inset Formula $(y_{i}\geq0,y_{i}\in\mathbb{R},y_{i}\leq0)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Variable 
+\begin_inset Formula $(x_{j}\geq0,x_{j}\in\mathbb{R},x_{j}\leq0)$
+\end_inset
+
+ goes to constraint 
+\begin_inset Formula $(\leq,=,\geq)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If primal is 
+\emph on
+max
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Constraint 
+\begin_inset Formula $(\geq,=,\leq)$
+\end_inset
+
+ goes to variable 
+\begin_inset Formula $(y_{i}\leq0,y_{i}\in\mathbb{R},y_{i}\geq0)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Variable 
+\begin_inset Formula $(x_{j}\geq0,x_{j}\in\mathbb{R},x_{j}\leq0)$
+\end_inset
+
+ goes to constraint 
+\begin_inset Formula $(\geq,=,\leq)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+The dual coefficient matrix comes from the transposed primal coefficient
+ matrix.
+\end_layout
+
+\begin_layout Enumerate
+Former RHS become new costs.
+\end_layout
+
+\begin_layout Enumerate
+Former costs become new right hand sides.
+\end_layout
+
+\begin_layout Paragraph
+Value function
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+v\left(p\right)=\min\left\{ z=c^{\top}x:Ax=p,x\geq0\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $v\left(p\right)$
+\end_inset
+
+ is 
+\emph on
+non-increasing
+\emph default
+, 
+\emph on
+convex
+\emph default
+ and 
+\emph on
+piecewise linear
+\emph default
+.
+\end_layout
+
+\end_body
+\end_document

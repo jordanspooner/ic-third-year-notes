@@ -1,0 +1,867 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a5paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1.2cm
+\rightmargin 1cm
+\bottommargin 1.2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle empty
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+EE2-13 Computer Architecture II
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Instruction set architecture
+\end_layout
+
+\begin_layout Standard
+Separates software and hardware.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Instruction
+\emph default
+: vector of bits, must be decoded before executon.
+\end_layout
+
+\begin_layout Paragraph
+MIPS architecture
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+RISC
+\emph default
+ (reduced instruction set computer) architecture with 
+\emph on
+three instruction types
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+32 registers
+\emph default
+, with $0 wired to 0, all others general purpose.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Register-register
+\emph default
+ / 
+\emph on
+load-store
+\emph default
+ architecture:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Most instructions only involve registers.
+ E.g.
+ 
+\family typewriter
+add $1, $2, $3
+\family default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Data transfer instructions
+\emph default
+.
+ E.g.
+ 
+\family typewriter
+lw $8, Astart($19)
+\family default
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Memory is 
+\emph on
+big-endian
+\emph default
+ and access must be 
+\emph on
+word-aligned
+\emph default
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Aim to minimise memory access (may be multi-cycle: slow, non-determinstic).
+\end_layout
+
+\begin_layout Paragraph
+Representing instructions
+\end_layout
+
+\begin_layout Standard
+Three formats.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/mips-instructions.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Data and control paths
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/data-control-path.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Key idea
+\emph default
+: combine datapaths when possible, add control to select.
+\end_layout
+
+\begin_layout Itemize
+A single cycle implementation like this is inefficient: longest path (load
+ instruction) determines clock cycle.
+\end_layout
+
+\begin_layout Section
+Computer arithmetic
+\end_layout
+
+\begin_layout Subsubsection*
+ALU Design
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/alu0.png
+	width 50col%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/alu31.png
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Group components together to form larger repeated unit (less wires crossing,
+ shorter paths).
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/full-alu.png
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+ALU Performance
+\end_layout
+
+\begin_layout Itemize
+Speed limited by propagation delay through slowest combinatorial path:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Need to ensure no combinatorial loop.
+\end_layout
+
+\begin_layout Itemize
+Slowest path usually a carry chain.
+\end_layout
+
+\begin_layout Itemize
+Max clock rate 
+\begin_inset Formula $\approx$
+\end_inset
+
+ 1 / delay of slowest path.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Addition and Subtraction
+\end_layout
+
+\begin_layout Itemize
+Use a full adder.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Subtraction
+\emph default
+: negate operand by inverting and adding carry of 1.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Detecting overflow
+\emph default
+: 
+\begin_inset Formula $A,B>0$
+\end_inset
+
+ but 
+\begin_inset Formula $A+B\leq0$
+\end_inset
+
+ 
+\emph on
+or
+\emph default
+ 
+\begin_inset Formula $A,B<0$
+\end_inset
+
+ but 
+\begin_inset Formula $A+B\geq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+MIPS generates an 
+\emph on
+exception
+\emph default
+.
+ Address of the instruction that overflowed is saved in a register, and
+ the computer jumps to a predefined address.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Carry-select adder
+\emph default
+: for faster addition:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Compute for both 
+\begin_inset Formula $c=0$
+\end_inset
+
+ and 
+\begin_inset Formula $c=1$
+\end_inset
+
+ after 
+\begin_inset Formula $n$
+\end_inset
+
+ stages.
+\end_layout
+
+\begin_layout Itemize
+Use multiplexer to choose based on actual 
+\begin_inset Formula $c$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+Multiplication
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/multiply.png
+	width 60col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Multiplier initally placed in the right half of product reg.
+\end_layout
+
+\begin_layout Enumerate
+If least significant bit is 0, add multiplicand to left half of product
+ reg.
+\end_layout
+
+\begin_layout Enumerate
+Shift product reg right by 1 bit.
+\end_layout
+
+\begin_layout Paragraph
+Booth's Algorithm
+\end_layout
+
+\begin_layout Itemize
+Replace summing 
+\begin_inset Formula $m+2m+\dots+2^{k-1}m$
+\end_inset
+
+ with 
+\begin_inset Formula $2^{k}m-m$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Replaces 
+\begin_inset Formula $k$
+\end_inset
+
+ additions with 1 subtraction and 1 addition (and 
+\begin_inset Formula $k$
+\end_inset
+
+ shifts).
+ 
+\end_layout
+
+\begin_layout Itemize
+E.g.
+ 
+\begin_inset Formula $001\:111_{2}\times101_{2}=2^{4}\times101_{2}-101_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+Division
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/divide.png
+	width 60col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Subtract divisor from remainder.
+\end_layout
+
+\begin_layout Enumerate
+Shift the quotient to left.
+ Set the least significant bit of the quotient to 1 if remainder was positive
+ or 0 if it was negative.
+\end_layout
+
+\begin_layout Enumerate
+If the remainder is negative, add the divisor back to it.
+\end_layout
+
+\begin_layout Enumerate
+Shift the divisor right.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Signed division
+\emph default
+: remove signs and add them back.
+\end_layout
+
+\begin_layout Section
+ISA Design Approaches
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+CISCs
+\emph default
+: complex instruction set computers.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Powerful instruction set with variable format.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Dense code.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Only needs simple compiler.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+RISCs
+\emph default
+: reduced instruction set computers.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Simple instructions with fixed format.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Increased code size.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Requires optimising compiler.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Reduced CPI and cycle time.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Simple implementation:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Adapts well to new technology.
+\end_layout
+
+\begin_layout Itemize
+Fast/cheap development.
+\end_layout
+
+\begin_layout Itemize
+Greater confidence in hardware correctness.
+\end_layout
+
+\begin_layout Itemize
+Smaller chip size/cheaper to manufacture.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Greater confidence in hardware
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Architectures
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Stack
+\emph default
+.
+ Operands specified implicitly at top of stack.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Dense code.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Less flexible: no random access.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Slow if stack in memory.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Accumulator
+\emph default
+.
+ One operand in accumulator register.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Faster than stack architecture.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Only one register (cheap).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Instructions still short.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Frequent memory access still slow.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Register
+\emph default
+.
+ Explicit register operands.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Faster than memory and we reduce memory traffic.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Compiler friendly.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ High instruction count.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Instructions long (must name all operands).
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Performance
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+CPI
+\emph default
+: clock cycles per instruction.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Clock period
+\emph default
+: 1 
+\begin_inset Formula $/$
+\end_inset
+
+ clock rate.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Num cycles for 
+\begin_inset Formula $P$
+\end_inset
+
+:
+\emph default
+ num instructions for 
+\begin_inset Formula $P$
+\end_inset
+
+ 
+\begin_inset Formula $\times$
+\end_inset
+
+ CPI.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Execution time for 
+\begin_inset Formula $P$
+\end_inset
+
+
+\emph default
+: clock period 
+\begin_inset Formula $\times$
+\end_inset
+
+ num cycles for 
+\begin_inset Formula $P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Exec. time}=\text{Instr. count}\times\text{CPI}\times\text{Cycle time}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Check dimensions!
+\end_layout
+
+\begin_layout Paragraph
+Power
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Power}=\text{Capcitance}\times\text{Voltage}^{2}\times\text{Frequency}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Power wall: cannot reduce voltage, cannot remove more heat.
+\end_layout
+
+\begin_layout Paragraph
+Improving performance
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Fast, local store
+\emph default
+ (caches, better RAM).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Concurrent execution
+\emph default
+ (superscalar, pipelining, multi-threading).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Domain-specific, direct hardware implementations
+\emph default
+ (FPGAs, no fetch/decode).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Multiprocessors
+\emph default
+ (e.g.
+ GPUs).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Asynchronous designs
+\emph default
+ (no global clock).
+\end_layout
+
+\end_body
+\end_document

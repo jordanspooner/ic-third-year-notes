@@ -1,0 +1,361 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a5paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1.2cm
+\rightmargin 1cm
+\bottommargin 1.2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle empty
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+CO572 Advanced Databases
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Database management systems
+\end_layout
+
+\begin_layout Paragraph
+Requirements
+\end_layout
+
+\begin_layout Standard
+Should provide:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Storage:
+\series default
+ single, reliable repository of data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Transactions:
+\series default
+ should be atomic, consistent, isolated, durable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Data analysis.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Programming model.
+\end_layout
+
+\begin_layout Standard
+In a way that is:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Efficient:
+\series default
+ not slower than hand-written applications.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Resilient:
+\series default
+ should recover from problems.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Robust:
+\series default
+ predictable performance.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Scalable:
+\series default
+ use resources efficiently.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Concurrent:
+\series default
+ serve multiple simultaneous clients transparently.
+\end_layout
+
+\begin_layout Subsubsection*
+Internals
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/db-components.png
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Usage Models
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+OLTP:
+\series default
+ online transaction processing: lots of small updates - want high throughput,
+ ACID guarantees.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+OLAP:
+\series default
+ online analytical processing: running a single data analysis task - want
+ low latency, queries are ad-hoc.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Reporting:
+\series default
+ running many data analysis tasks in a fixed time - want good resource efficienc
+y, queries known in advance.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+HTAP:
+\series default
+ hybrid transactional/analytical processing.
+\end_layout
+
+\begin_layout Section
+Storage
+\end_layout
+
+\begin_layout Paragraph
+Storage manager
+\end_layout
+
+\begin_layout Standard
+Needs to implement (at least):
+\end_layout
+
+\begin_layout Enumerate
+Insert tuple.
+\end_layout
+
+\begin_layout Enumerate
+Delete tuple by key.
+\end_layout
+
+\begin_layout Enumerate
+Find tuple by key.
+\end_layout
+
+\begin_layout Paragraph
+N-ary storage model
+\end_layout
+
+\begin_layout Itemize
+Simply store full tuples in a vector.
+\end_layout
+
+\begin_layout Itemize
+Insertion is as simple (append the tuple).
+\end_layout
+
+\begin_layout Itemize
+Data locality is bad when retrieving.
+\end_layout
+
+\begin_layout Paragraph
+Decomposed storage modeld
+\end_layout
+
+\begin_layout Itemize
+Each column stored in a separate vector.
+\end_layout
+
+\begin_layout Itemize
+Insertion now requires decomposition.
+\end_layout
+
+\begin_layout Itemize
+Retrieving a single tuple requires reconstructing.
+\end_layout
+
+\begin_layout Paragraph
+Metadata
+\end_layout
+
+\begin_layout Itemize
+If the table is 
+\emph on
+dense
+\emph default
+ (all keys are consecutive), we can have constant lookups.
+\end_layout
+
+\begin_layout Itemize
+If the table is 
+\emph on
+sorted
+\emph default
+, we can use binary search.
+\end_layout
+
+\begin_layout Section
+Concurrency Control
+\end_layout
+
+\begin_layout Standard
+DBMS implements indivisible tasks (
+\emph on
+transactions
+\emph default
+):
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Atomicity
+\emph default
+: all or nothing.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Consistency
+\emph default
+: consistent before 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ consistent after.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Isolation
+\emph default
+: indepenedent of any other transaction.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Durability
+\emph default
+: completed transactions are durable.
+\end_layout
+
+\end_body
+\end_document
