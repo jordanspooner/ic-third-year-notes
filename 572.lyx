@@ -857,6 +857,187 @@ Usefulness:
 \end_layout
 
 \begin_layout Section
+Query Planning and Optimisation
+\end_layout
+
+\begin_layout Standard
+Start with a correct plan and apply 
+\bar under
+equivalence
+\bar default
+ rules (keep correctness, and hopefully improve performance)
+\end_layout
+
+\begin_layout Itemize
+Work on sub-plan like divide and conquer.
+ From the root of the plan, apply pattern to start new plan and start process
+ again until you traverse without applying any transformation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Logical
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ algorithm-agnostic, 
+\series bold
+Physical
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ algorithm-aware, 
+\series bold
+Rule-based
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ data-agnostic, 
+\series bold
+Cost-based
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ data-aware
+\end_layout
+
+\begin_layout Paragraph
+Logical rule-based optimization
+\end_layout
+
+\begin_layout Standard
+Perform on relational algebra (portable), but often wrong, infinite cycles,
+ missing rule problem as show here:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/optimisation_1.png
+	width 50text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/optimisation_2.png
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Selection and projection 
+\series bold
+pushed
+\series default
+ through joins if only applied to one side
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Operator reordering
+\series default
+ (joins, selection, unions) like 
+\begin_inset Formula $s(==)<s(<)<s(<>)$
+\end_inset
+
+ (that example is a 
+\bar under
+guard
+\bar default
+ too to avoid infinite loop in optimisation when swapping 2 selections),
+ reorder selects based on type
+\end_layout
+
+\begin_layout Paragraph
+Cost based optimisation
+\end_layout
+
+\begin_layout Standard
+Cost metric here will be number of tuples produced
+\end_layout
+
+\begin_layout Itemize
+Estimations: like selecting one value: 
+\begin_inset Formula $\frac{{1}}{\text{\text{{disctinct\;values\;in\;column}}}}$
+\end_inset
+
+ and recording distinct values, can be very off (e.g.
+ booleans)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Statistics
+\series default
+: histograms 
+\begin_inset Formula $\frac{\text{{occurence\;value} }}{\text{{total\;tuple\;count}}}$
+\end_inset
+
+ and evaluate query on histogram first, multidimensional histograms to resolve
+ attribute correlation
+\end_layout
+
+\begin_layout Paragraph
+Physical optimisation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Example metrics:
+\series default
+ # volcano function calls, sum of all produced tuples (incl.
+ materializations), number of Page Faults (I/O), CPU costs, max(I/O, CPU),
+ total intermediate size
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Counting cost is hard:
+\series default
+ different algorithms have different costs on all the above, how do you
+ weight them? e.g.
+ 
+\bar under
+Nested Loop join:
+\bar default
+ less space, no hash, more comparisons
+\end_layout
+
+\begin_layout Paragraph
+Rule based physical optimisation
+\end_layout
+
+\begin_layout Standard
+Focused on hardware (parallelism, cache-conscious partitioning), or selecting
+ join algorithms like we discussed above.
+\end_layout
+
+\begin_layout Paragraph
+Cost-based physical optimisation
+\end_layout
+
+\begin_layout Standard
+Generally access path selection (read data from indexes? straight from table?
+ from materialised view?)
+\end_layout
+
+\begin_layout Section
 Concurrency Control
 \end_layout
 
