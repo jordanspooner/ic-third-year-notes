@@ -613,6 +613,61 @@ Block nested
 \end_layout
 
 \begin_layout Section
+Bulk Processing
+\end_layout
+
+\begin_layout Standard
+Turn 
+\bar under
+control dependencies
+\bar default
+ into 
+\bar under
+data dependencies
+\bar default
+.
+ No function calls (no jumps 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ CPU efficient).
+\end_layout
+
+\begin_layout Quote
+Page access probability from selectivity: 
+\begin_inset Formula $1-(1-s)^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Materialise all:
+\series default
+ write down entire tuple in output array on each operator
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+By reference:
+\series default
+ Return array of reference to the Tuples in the table.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+By reference using column storage (DSM):
+\series default
+ Same idea but optimises predicate evaluation by having more values fit
+ on a page
+\end_layout
+
+\begin_layout Section
 Concurrency Control
 \end_layout
 
