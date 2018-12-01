@@ -668,6 +668,195 @@ By reference using column storage (DSM):
 \end_layout
 
 \begin_layout Section
+Secondary Storage
+\end_layout
+
+\begin_layout Subsection
+Indexes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Clustered or Primary Index:
+\series default
+ store the tuples of a table, at most 1
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unclustered or Secondary Index:
+\series default
+ store pointers to the tuples of a table
+\end_layout
+
+\begin_layout Paragraph
+Hash indexing
+\end_layout
+
+\begin_layout Standard
+Hash table 
+\begin_inset Formula $<\text{{Key}, \text{{Position}>}}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Maintenance: 
+\series default
+Overallocated, need to rebuild if fill factor is too high (expensive even
+ with 
+\bar under
+consistent hashing
+\bar default
+), on delete need to put a marker in the hashtable for future probing, load
+ spikes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Equijoins/aggregation on specific keys, filter on specific keys
+\end_layout
+
+\begin_layout Paragraph
+Bitmap indexing
+\end_layout
+
+\begin_layout Standard
+A bitvector for each distinct value in a column (few distinct values) 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Can reduce bandwidth needed for scanning a column, can be compressed even
+ further, can use arbitrary conditions (make disjoint sets of values called
+ 
+\bar under
+binned bitmaps
+\bar default
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Run-length encoding: 
+\series default
+replace consecutive occurrences with length of the chain, works well on
+ high locality data, requires sequential scan to find values at a specific
+ position
+\end_layout
+
+\begin_layout Paragraph
+Foreign-Key indices
+\end_layout
+
+\begin_layout Standard
+Specifies that there is 
+\bar under
+exactly one
+\series bold
+\bar default
+ 
+\series default
+value in the PK column of the other table
+\end_layout
+
+\begin_layout Itemize
+Need to maintain integrity, DBMS on insert/update need to make sure the
+ value doesn't already exist
+\end_layout
+
+\begin_layout Itemize
+Implemented using a pointer because it means it joins to exactly one row
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness: Low space requirement, instant joins, insignificant effort added
+ on insert/update.
+
+\series default
+ But can't be used for anything else
+\end_layout
+
+\begin_layout Paragraph
+B-Trees
+\end_layout
+
+\begin_layout Standard
+Reduce load spikes by using a tree
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Support ranges, self balancing 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Disadvantages:
+\series default
+ Complex, leaf pointers aren't used, most of the data lives in the leaf
+ nodes but not all of it (need to go up)
+\end_layout
+
+\begin_layout Paragraph
+B+-Trees
+\end_layout
+
+\begin_layout Standard
+Keep all key and pointers to data in the leaf nodes, replicate the keys
+ above, link the leaves like a linked list.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ balancing is same effort, dense index at the bottom (sequential access),
+ scans over ranges are trivial
+\end_layout
+
+\begin_layout Subsection
+Materialized views
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\equiv$
+\end_inset
+
+ alias to a query.
+ However some systems actually stores the result of the query and modify
+ it on modifications of the underlying relations (expensive).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Running the same query returns result instantaneously, some systems are
+ smart in reusing part of the views to save on computation
+\end_layout
+
+\begin_layout Section
 Concurrency Control
 \end_layout
 
