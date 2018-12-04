@@ -310,6 +310,728 @@ sorted
 \end_layout
 
 \begin_layout Section
+Joins
+\end_layout
+
+\begin_layout Paragraph
+Nested loop joins
+\end_layout
+
+\begin_layout Itemize
+Sequential I/O
+\end_layout
+
+\begin_layout Itemize
+Trivial to parallelize (no dependent loop iterations)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Theta(|left|\times|right|)$
+\end_inset
+
+ with average effort of 
+\begin_inset Formula $\frac{{|left|\times|right|}}{2}$
+\end_inset
+
+ assuming uniqueness
+\end_layout
+
+\begin_layout Paragraph
+Sort-Merge Joins
+\end_layout
+
+\begin_layout Itemize
+Sequential I/O in the merge phase
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $O(|left|\times\log|left|+|right|\times\log|right|+|left|+|right|)$
+\end_inset
+
+ assuming uniqueness
+\end_layout
+
+\begin_layout Itemize
+Works for inequality joins
+\end_layout
+
+\begin_layout Paragraph
+Hash Joins
+\end_layout
+
+\begin_layout Standard
+build-side 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ buffered side in the hashtable, probe-side 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ lookup the hashtable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Hash function (CRC32, MurmurHash, Modulo-Division) requirements:
+\series default
+ 
+\bar under
+pure
+\bar default
+ and 
+\bar under
+known
+\bar default
+, 
+\bar under
+contiguous
+\bar default
+ output domain.
+ Nice to property to have: uniform
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Handling conflicts requirements:
+\series default
+ Locality (to a certain extent), no holes (probe all the output domain)
+\end_layout
+
+\begin_layout Itemize
+Sequential I/O the input.
+ Parallelizable on probe side, research on build side
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $O(|build|\times|probe|)$
+\end_inset
+
+ in the worst case, 
+\begin_inset Formula $\Theta(|build|+|probe|)$
+\end_inset
+
+ in the best
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Disadvantages: 
+\series default
+wastes space (over-allocated by 2), people generally rehash (not hole-free),
+ hashing costs lots of CPU cycles (can be more expensive than memory), hashtable
+s are probed randomly.
+\end_layout
+
+\begin_layout Paragraph
+Probing strategies:
+\end_layout
+
+\begin_layout Standard
+Consider the distance from the original conflict
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Linear probing:
+\series default
+ try increasing distance by 1 until no conflict, leads to long probe chains
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Quadratic probing:
+\series default
+ try doubling the distance until no conflict, good locality on first three
+ probes and bad after, still likely to incur conflicts on first probes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cyclic group probing:
+\series default
+ Generate a sequence of numbers while making sure every number in range
+ is generated.
+ 
+\begin_inset Formula $f(x)=(x\times g)\mod n$
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the size of the hashtable such that 
+\begin_inset Formula $n=p^{k}$
+\end_inset
+
+, 
+\begin_inset Formula $p$
+\end_inset
+
+ odd prime, 
+\begin_inset Formula $\Rightarrow\exists g({primitive\;roots})$
+\end_inset
+
+ of 
+\begin_inset Formula $p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Partitioning
+\end_layout
+
+\begin_layout Standard
+To make one relation much smaller than the other to fit in the buffer pool.
+ Make use of the fact that sequential access is much cheaper than random
+ access.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../tyn/img/partitioning.png
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The buffer pool above needs only to hold 5 pages at a time before flushing
+ them to disk 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ sequential I/O in partitioning.
+ If partitioning is applied to the probe side to in such a way that matching
+ tuples hash to the same value as the probe side then that will reduce massively
+ the amount of work to do.
+\end_layout
+
+\begin_layout Paragraph
+Block Nested Loop Joins
+\end_layout
+
+\begin_layout Standard
+Simply brings better I/O behavior to NLJs, properties are similar otherwise.
+\end_layout
+
+\begin_layout Paragraph
+Indexed Nested Loop Joins
+\end_layout
+
+\begin_layout Standard
+One side has an index, scan over the other side and use the index to get
+ the matching tuple
+\end_layout
+
+\begin_layout Itemize
+Sequential I/O on the unindexed side, 
+\bar under
+Quasi
+\bar default
+-random on the indexed side
+\end_layout
+
+\begin_layout Itemize
+Parallelizable over the values on the unindexed side
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Theta(|unidexed|\times|\log indexed|)$
+\end_inset
+
+, 
+\begin_inset Formula $O(|left|\times|right|)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Which algorithm to use
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sort-Merge join:
+\series default
+ if relations are sorted or have similar sizes.
+ Or if evaluating inequality-joins
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Index nested loops:
+\series default
+ if one relation has an index
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Hashjoin 
+\series default
+if one relation is much smaller than the other (less than 10%)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Nested loops
+\series default
+ if one relation is tiny (
+\begin_inset Formula $<20$
+\end_inset
+
+ values)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Block nested
+\series default
+ loops join for theta-joins
+\end_layout
+
+\begin_layout Section
+Bulk Processing
+\end_layout
+
+\begin_layout Standard
+Turn 
+\bar under
+control dependencies
+\bar default
+ into 
+\bar under
+data dependencies
+\bar default
+.
+ No function calls (no jumps 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ CPU efficient).
+\end_layout
+
+\begin_layout Quote
+Page access probability from selectivity: 
+\begin_inset Formula $1-(1-s)^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Materialise all:
+\series default
+ write down entire tuple in output array on each operator
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+By reference:
+\series default
+ Return array of reference to the Tuples in the table.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+By reference using column storage (DSM):
+\series default
+ Same idea but optimises predicate evaluation by having more values fit
+ on a page
+\end_layout
+
+\begin_layout Section
+Secondary Storage
+\end_layout
+
+\begin_layout Subsection
+Indexes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Clustered or Primary Index:
+\series default
+ store the tuples of a table, at most 1
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Unclustered or Secondary Index:
+\series default
+ store pointers to the tuples of a table
+\end_layout
+
+\begin_layout Paragraph
+Hash indexing
+\end_layout
+
+\begin_layout Standard
+Hash table 
+\begin_inset Formula $<\text{{Key}, \text{{Position}>}}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Maintenance: 
+\series default
+Overallocated, need to rebuild if fill factor is too high (expensive even
+ with 
+\bar under
+consistent hashing
+\bar default
+), on delete need to put a marker in the hashtable for future probing, load
+ spikes
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Equijoins/aggregation on specific keys, filter on specific keys
+\end_layout
+
+\begin_layout Paragraph
+Bitmap indexing
+\end_layout
+
+\begin_layout Standard
+A bitvector for each distinct value in a column (few distinct values) 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Can reduce bandwidth needed for scanning a column, can be compressed even
+ further, can use arbitrary conditions (make disjoint sets of values called
+ 
+\bar under
+binned bitmaps
+\bar default
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Run-length encoding: 
+\series default
+replace consecutive occurrences with length of the chain, works well on
+ high locality data, requires sequential scan to find values at a specific
+ position
+\end_layout
+
+\begin_layout Paragraph
+Foreign-Key indices
+\end_layout
+
+\begin_layout Standard
+Specifies that there is 
+\bar under
+exactly one
+\series bold
+\bar default
+ 
+\series default
+value in the PK column of the other table
+\end_layout
+
+\begin_layout Itemize
+Need to maintain integrity, DBMS on insert/update need to make sure the
+ value doesn't already exist
+\end_layout
+
+\begin_layout Itemize
+Implemented using a pointer because it means it joins to exactly one row
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness: Low space requirement, instant joins, insignificant effort added
+ on insert/update.
+
+\series default
+ But can't be used for anything else
+\end_layout
+
+\begin_layout Paragraph
+B-Trees
+\end_layout
+
+\begin_layout Standard
+Reduce load spikes by using a tree
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Support ranges, self balancing 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Disadvantages:
+\series default
+ Complex, leaf pointers aren't used, most of the data lives in the leaf
+ nodes but not all of it (need to go up)
+\end_layout
+
+\begin_layout Paragraph
+B+-Trees
+\end_layout
+
+\begin_layout Standard
+Keep all key and pointers to data in the leaf nodes, replicate the keys
+ above, link the leaves like a linked list.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ balancing is same effort, dense index at the bottom (sequential access),
+ scans over ranges are trivial
+\end_layout
+
+\begin_layout Subsection
+Materialized views
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\equiv$
+\end_inset
+
+ alias to a query.
+ However some systems actually stores the result of the query and modify
+ it on modifications of the underlying relations (expensive).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Usefulness:
+\series default
+ Running the same query returns result instantaneously, some systems are
+ smart in reusing part of the views to save on computation
+\end_layout
+
+\begin_layout Section
+Query Planning and Optimisation
+\end_layout
+
+\begin_layout Standard
+Start with a correct plan and apply 
+\bar under
+equivalence
+\bar default
+ rules (keep correctness, and hopefully improve performance)
+\end_layout
+
+\begin_layout Itemize
+Work on sub-plan like divide and conquer.
+ From the root of the plan, apply pattern to start new plan and start process
+ again until you traverse without applying any transformation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Logical
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ algorithm-agnostic, 
+\series bold
+Physical
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ algorithm-aware, 
+\series bold
+Rule-based
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ data-agnostic, 
+\series bold
+Cost-based
+\series default
+ 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ data-aware
+\end_layout
+
+\begin_layout Paragraph
+Logical rule-based optimization
+\end_layout
+
+\begin_layout Standard
+Perform on relational algebra (portable), but often wrong, infinite cycles,
+ missing rule problem as show here:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ../tyn/img/optimisation_1.png
+	width 50text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ../tyn/img/optimisation_2.png
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Selection and projection 
+\series bold
+pushed
+\series default
+ through joins if only applied to one side
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Operator reordering
+\series default
+ (joins, selection, unions) like 
+\begin_inset Formula $s(==)<s(<)<s(<>)$
+\end_inset
+
+ (that example is a 
+\bar under
+guard
+\bar default
+ too to avoid infinite loop in optimisation when swapping 2 selections),
+ reorder selects based on type
+\end_layout
+
+\begin_layout Paragraph
+Cost based optimisation
+\end_layout
+
+\begin_layout Standard
+Cost metric here will be number of tuples produced
+\end_layout
+
+\begin_layout Itemize
+Estimations: like selecting one value: 
+\begin_inset Formula $\frac{{1}}{\text{\text{{disctinct\;values\;in\;column}}}}$
+\end_inset
+
+ and recording distinct values, can be very off (e.g.
+ booleans)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Statistics
+\series default
+: histograms 
+\begin_inset Formula $\frac{\text{{occurence\;value} }}{\text{{total\;tuple\;count}}}$
+\end_inset
+
+ and evaluate query on histogram first, multidimensional histograms to resolve
+ attribute correlation
+\end_layout
+
+\begin_layout Paragraph
+Physical optimisation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Example metrics:
+\series default
+ # volcano function calls, sum of all produced tuples (incl.
+ materializations), number of Page Faults (I/O), CPU costs, max(I/O, CPU),
+ total intermediate size
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Counting cost is hard:
+\series default
+ different algorithms have different costs on all the above, how do you
+ weight them? e.g.
+ 
+\bar under
+Nested Loop join:
+\bar default
+ less space, no hash, more comparisons
+\end_layout
+
+\begin_layout Paragraph
+Rule based physical optimisation
+\end_layout
+
+\begin_layout Standard
+Focused on hardware (parallelism, cache-conscious partitioning), or selecting
+ join algorithms like we discussed above.
+\end_layout
+
+\begin_layout Paragraph
+Cost-based physical optimisation
+\end_layout
+
+\begin_layout Standard
+Generally access path selection (read data from indexes? straight from table?
+ from materialised view?)
+\end_layout
+
+\begin_layout Section
 Distributed databases
 \end_layout
 
