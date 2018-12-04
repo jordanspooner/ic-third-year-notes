@@ -556,6 +556,13 @@ Simple instructions with fixed format.
 \begin_inset Formula $-$
 \end_inset
 
+ Increased instruction count.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
  Increased code size.
 \end_layout
 
@@ -610,7 +617,7 @@ Smaller chip size/cheaper to manufacture.
 Architectures
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \emph on
 Stack
@@ -642,7 +649,7 @@ Stack
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \emph on
 Accumulator
@@ -681,7 +688,7 @@ Accumulator
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \emph on
 Register
@@ -729,9 +736,15 @@ Performance
 \emph on
 CPI
 \emph default
-: clock cycles per instruction.
+: clock cycles per instruction
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Varies based on program and ISA implementation.
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \emph on
@@ -799,6 +812,18 @@ Execution time for
 Check dimensions!
 \end_layout
 
+\begin_layout Standard
+
+\emph on
+MIPS
+\emph default
+: millions of instructions per second.
+\end_layout
+
+\begin_layout Itemize
+Doesn't take instruction count into account!
+\end_layout
+
 \begin_layout Paragraph
 Power
 \end_layout
@@ -806,7 +831,7 @@ Power
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\text{Power}=\text{Capcitance}\times\text{Voltage}^{2}\times\text{Frequency}
+\text{Power}\propto\text{Capcitive load}\times\text{Voltage}^{2}\times\text{Frequency}
 \]
 
 \end_inset
@@ -815,11 +840,19 @@ Power
 \end_layout
 
 \begin_layout Itemize
-Power wall: cannot reduce voltage, cannot remove more heat.
+
+\emph on
+Power wall
+\emph default
+: cannot reduce voltage, cannot remove more heat.
 \end_layout
 
 \begin_layout Paragraph
 Improving performance
+\end_layout
+
+\begin_layout Standard
+Beyond the power wall:
 \end_layout
 
 \begin_layout Enumerate
@@ -863,5 +896,864 @@ Asynchronous designs
  (no global clock).
 \end_layout
 
+\begin_layout Paragraph
+Evaluating performance
+\end_layout
+
+\begin_layout Enumerate
+Actual target workload.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Representative.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Specific/non-portable.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Difficult to measure.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Hard to idenitify.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Full application benchmarks.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Portable.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Widespread.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Useful for improvement.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Less representative.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Small kernal benchmarks.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Easy to use.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Idenitify peak capability.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Typically far away from typical performance.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Memory Hierarchy
+\end_layout
+
+\begin_layout Paragraph
+Locality principles
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Temporal locality
+\emph default
+: recently used items tend to be used again soon.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Guides cache replacement policy (what to replace when full).
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Spatial locality
+\emph default
+: items close to recently used items tend to be used next.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Fetch multiple pieces of data in one transaction.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Cache operation
+\end_layout
+
+\begin_layout Standard
+Cache organised in 
+\emph on
+blocks
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Cache hit
+\emph default
+: CPU finds required block in cache.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Cache miss
+\emph default
+: get data from miain memory.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Hit rate
+\emph default
+: ratio of cache access to total memory access.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Hit time
+\emph default
+: time to access cache + determine hit/miss.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Miss penalty
+\emph default
+: time to replace item in cache + transfer to CPU.
+\end_layout
+
+\begin_layout Paragraph
+Common framework
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Plan
+\emph default
+ a block: can go in one / some / any place.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Find
+\emph default
+ a block: by index / limited search / full search.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Replace
+\emph default
+ a block: random / LRU.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\emph on
+writing
+\emph default
+ to a block: write through / write back.
+\end_layout
+
+\begin_layout Paragraph
+Direct mapped cache
+\end_layout
+
+\begin_layout Standard
+Each memory locn.
+ mapped to one cache locn.
+ (E.g.
+ using 
+\begin_inset Formula $\mod$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+For a cache with 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ blocks, each of size 
+\begin_inset Formula $2^{m}$
+\end_inset
+
+ words:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $32-\left(n+m+2\right)$
+\end_inset
+
+ bits are used for the tag field.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n$
+\end_inset
+
+ bits are used for the index.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $m$
+\end_inset
+
+ bits are used for the word within the block.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $2$
+\end_inset
+
+ bits are used for the byte offset.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/direct-mapped-cache.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Larger blocks:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Generally lower miss rate by exploiting spatial locality.
+\end_layout
+
+\begin_layout Itemize
+Increases transfer time (miss penalty).
+\end_layout
+
+\begin_layout Itemize
+If cache is small, too few blocks causes early eviction.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Cache write policy
+\end_layout
+
+\begin_layout Standard
+Needs to maintian cache coherency.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Write through
+\emph default
+: write to both cache and memory.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Memory write bandwidth can cause bottleneck.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Write back
+\emph default
+: write to cache only.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Complex control, requires a dirty bit.
+\end_layout
+
+\begin_layout Itemize
+Dirty entries must be flushed on eviction.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Cache misses
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Compulsory misses
+\emph default
+ (first access).
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Capacity misses
+\emph default
+ (insufficient space).
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Conflict misses
+\emph default
+ (rigid placement).
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Reducing misses
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/cache-design.png
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Handling read miss
+\emph default
+es: 
+\end_layout
+
+\begin_layout Enumerate
+Send the original PC value (PC - 4) to memory.
+\end_layout
+
+\begin_layout Enumerate
+Instruct main memory to perform a read.
+\end_layout
+
+\begin_layout Enumerate
+Write the cache entry.
+\end_layout
+
+\begin_layout Enumerate
+Restart the instruction at the first step.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Handling write miss
+\emph default
+es (write through): use a write buffer.
+\end_layout
+
+\begin_layout Itemize
+Use a buffer to store data waiting to be written to memory.
+\end_layout
+
+\begin_layout Itemize
+Memory ontroller writes buffer contents to memory.
+\end_layout
+
+\begin_layout Itemize
+Stall if the buffer is saturated.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Occurs if CPU cycle time short compared to memory speed, or 
+\end_layout
+
+\begin_layout Itemize
+Possible solution: install a second-level (L2) cache.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Cache performance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{CPU time}=\left(\text{Execution cycles}+\text{Memory stall cycles}\right)\times\text{Cycle time}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{Total stall cycles}=\text{Read stall cycles}+\text{Write stall cycles}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{Read stall cycles}=\frac{\text{Reads}}{\text{Program}}\times\text{Read miss rate}\times\text{Read miss penalty (cycles)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\text{Write stall cycles} & =\frac{\text{Writes}}{\text{Program}}\times\text{Write miss rate}\times\text{Write miss penalty (cycles)}\\
+ & +\text{Write buffer stalls (when full)}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\text{Stall cycles} & =\text{Instruction count}\\
+ & \times\left(\text{Instruction miss rate}+\text{Load/store frequency}\times\text{Data miss rate}\right)\\
+ & \times\text{Miss penalty}
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{CPU cycles without stall}=\text{Instruction count}\times\text{CPI (no stall)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{CPU cycles with stall}=\text{CPU cycles without stall}+\text{Stall cycles}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\text{\% of time stalled}=\frac{\text{Stall cycles}}{\text{CPU cycles with stall}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Lower CPI
+\emph default
+: stall cycles have a greater impact.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Lower clock time
+\emph default
+: increased miss penalty (in terms of cycles).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\text{AMAT}_{\text{CPU}} & =\text{Hit time}_{\text{L1 cache}}\\
+ & +\text{Miss Rate}_{\text{L1 cache}}\times(\text{Hit time}_{\text{L2 cache}}+\text{Miss Rate}_{\text{L2 cache}}\times\text{AMAT}_{\text{Mem}})
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Associative caches
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Direct-mapped
+\emph default
+: simple, fast access, high miss rates.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Fully associative
+\emph default
+: costly, slower, low miss rates.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Formula $n$
+\end_inset
+
+-way set associative
+\emph default
+: each address maps to 
+\begin_inset Formula $n$
+\end_inset
+
+ blocks.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/associative-cache.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Block replacement policy
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+LRU
+\emph default
+: replace least recently used block.
+\end_layout
+
+\begin_layout Itemize
+As cache size increaases:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Miss rate decreases.
+\end_layout
+
+\begin_layout Itemize
+Advantage of LRU over random decrases.
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Virtual Memory
+\end_layout
+
+\begin_layout Standard
+Use main memory as a 
+\begin_inset Quotes eld
+\end_inset
+
+cache
+\begin_inset Quotes erd
+\end_inset
+
+ for secondary memory.
+\end_layout
+
+\begin_layout Enumerate
+Give each process the illusion of having its own memory.
+\end_layout
+
+\begin_layout Enumerate
+Memory may be shared among multiple programs.
+\end_layout
+
+\begin_layout Enumerate
+Can run programs too large for physical memeory.
+\end_layout
+
+\begin_layout Paragraph
+Address translation
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Virtual memory addresses
+\emph default
+ are translated to 
+\emph on
+physical addresses
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/addr-translation.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Page
+\emph default
+: fixed-size block of virtual memory.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Page fault
+\emph default
+: virtual memory miss.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Relocation
+\emph default
+: virtual address can be mapped to any physical addr.
+\end_layout
+
+\begin_layout Paragraph
+Page faults
+\end_layout
+
+\begin_layout Standard
+Take millions of cycles to process:
+\end_layout
+
+\begin_layout Enumerate
+Pages shoul be large enough to amortize high access times.
+\end_layout
+
+\begin_layout Enumerate
+Flexible page placement to reduce page faults (e.g.
+ using fully associative schemes).
+\end_layout
+
+\begin_layout Enumerate
+Page faults handled in software, and quite costly algorithms can be used.
+\end_layout
+
+\begin_layout Enumerate
+Write back is the only viable choice for write policy.
+\end_layout
+
+\begin_layout Paragraph
+Translation Look-aside Buffer
+\end_layout
+
+\begin_layout Standard
+On page fault, exception causes OS to make two memory accesses:
+\end_layout
+
+\begin_layout Enumerate
+Use page table to locate required page in disk.
+\end_layout
+
+\begin_layout Enumerate
+Place it somewhere in memory.
+\end_layout
+
+\begin_layout Standard
+Solution: find virtual page number in TLB:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/tlb.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+TLB hit
+\emph default
+: returns physical page addr.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+TLB miss
+\emph default
+: load part of page table into TLB and retry.
+\end_layout
+
+\begin_layout Paragraph
+TLBs and caches
+\end_layout
+
+\begin_layout Standard
+Best scenario: physical address found in TLB is present in cache:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/tlb-and-cache.png
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+TLB misses
+\end_layout
+
+\begin_layout Standard
+Check valid bit of page table entry:
+\end_layout
+
+\begin_layout Itemize
+If 1: copy physical page address to TLB, try again.
+\end_layout
+
+\begin_layout Itemize
+If 0, throw exception, OS handles page fault.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+Cause register
+\emph default
+ indicates page fault, 
+\emph on
+EPC
+\emph default
+ stores address.
+\end_layout
+
+\begin_layout Enumerate
+CPU switched to supervisor mode, disables further exceptions.
+\end_layout
+
+\begin_layout Enumerate
+Save state of current process.
+\end_layout
+
+\begin_layout Enumerate
+Find virtual address causing page fault (depends on instruction/data memory).
+\end_layout
+
+\begin_layout Enumerate
+Look up page table entry to find disk location.
+\end_layout
+
+\begin_layout Enumerate
+Choose a physical page to replace (if dirty, must be flushed to disk first).
+\end_layout
+
+\begin_layout Enumerate
+Start a read to bring referenced page into the chosen physical page.
+\end_layout
+
+\begin_layout Enumerate
+Run another process during data transfer.
+\end_layout
+
+\end_deeper
 \end_body
 \end_document

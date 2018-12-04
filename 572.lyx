@@ -63,12 +63,9 @@
 \bottommargin 1.2cm
 \secnumdepth 3
 \tocdepth 3
-\paragraph_separation indent
-\paragraph_indentation default
-\is_math_indent 0
-\math_numbering_side default
-\quotes_style english
-\dynamic_quotes 0
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
 \papercolumns 1
 \papersides 1
 \paperpagestyle empty
