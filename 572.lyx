@@ -310,7 +310,1396 @@ sorted
 \end_layout
 
 \begin_layout Section
-Concurrency Control
+Distributed databases
+\end_layout
+
+\begin_layout Paragraph
+CAP theory
+\end_layout
+
+\begin_layout Standard
+No distributed system can maintain all three:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Consistency
+\emph default
+: all nodes see the same version of data.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Availability
+\emph default
+: system always responds within fixed upper limit of time.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Partition tolerance
+\emph default
+: system always gives correct response even when messages are lost.
+\end_layout
+
+\begin_layout Paragraph
+Approaches
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Heterogeneous DDB
+\emph default
+: varied database techology, managed by different DBAs, designed at different
+ times.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Requires a 
+\emph on
+commmon data model
+\end_layout
+
+\begin_layout Itemize
+Need to perform 
+\emph on
+schema integration
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+Transform 
+\emph on
+local schemas
+\emph default
+ to a standard data modelling language.
+\end_layout
+
+\begin_layout Enumerate
+Filter to get 
+\emph on
+export schemas
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+Construct 
+\emph on
+global schemas
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+Filter to get 
+\emph on
+external schema
+\emph default
+ for applications.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Data warehouse
+\emph default
+: materialise copies of data with global schema.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Mediator architecture
+\emph default
+: gives live results, but higher latency and demand on systems.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Homogeneous DDB
+\emph default
+: same technology, one DBA, designed at same time.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Different sites each have 
+\emph on
+local schema
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+Combine to form a single 
+\emph on
+global schema
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+Different 
+\emph on
+external schemas
+\emph default
+ for different applications.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Fragmentation / sharding
+\end_layout
+
+\begin_layout Standard
+Split data objects between sites, queries and updates correspondingly distribute
+d.
+\end_layout
+
+\begin_layout Itemize
+Usually less reliable (each database can go down).
+\end_layout
+
+\begin_layout Itemize
+Usually faster (parallelism in horizontal fragmentation).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Horizontal fragmentation
+\emph default
+:
+\begin_inset Formula 
+\[
+R=R_{1}\cup\dots\cup R_{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Split rows using 
+\begin_inset Formula $\sigma$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+R_{1}=\sigma_{P_{1}}R,\dots,R_{n}=\sigma_{P_{n}}R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Derived horizontal fragmentation splits rows using 
+\begin_inset Formula $\ltimes$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+R_{1}=R\ltimes S_{1},\dots,R\ltimes S_{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Fragmentation rules:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Must cover all possible values.
+\end_layout
+
+\begin_layout Enumerate
+Should not involve things that change!
+\end_layout
+
+\begin_layout Enumerate
+Should be easy to fragment on.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Vertical fragmentation
+\emph default
+: A loss-less join decomposition:
+\begin_inset Formula 
+\[
+R=R_{1}\bowtie\dots\bowtie R_{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Splits rows using 
+\begin_inset Formula $\pi$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+R_{1}=\pi_{\text{attrs}_{1}}R,\dots,R_{n}=\pi_{\text{attrs}_{n}}R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Fragmentation rule should include a key.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Replication
+\end_layout
+
+\begin_layout Standard
+Copy data objects between sites.
+\end_layout
+
+\begin_layout Itemize
+Queries may run on any site.
+\end_layout
+
+\begin_layout Itemize
+Updates must be written to all sites.
+\end_layout
+
+\begin_layout Itemize
+Usually more reliable (individual copies may go down).
+\end_layout
+
+\begin_layout Itemize
+Usually faster (by reducing load on each site).
+\end_layout
+
+\begin_layout Paragraph
+Migration
+\end_layout
+
+\begin_layout Standard
+Move data to where its used.
+\end_layout
+
+\begin_layout Section
+Big data
+\end_layout
+
+\begin_layout Paragraph
+Data models
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Key-value.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Schema-less.
+\end_layout
+
+\begin_layout Itemize
+Very limited querying capabalities.
+\end_layout
+
+\begin_layout Itemize
+Useful for caching.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Document store
+\emph default
+: document (semi-structured) data model (e.g.
+ JSON).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Schema-less.
+\end_layout
+
+\begin_layout Itemize
+Support queries searching field values.
+\end_layout
+
+\begin_layout Itemize
+Use MapReduce for OLAP.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Wide column
+\emph default
+: table data model with easy addition of new columns.
+ Columns may be put in families.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Schema-less.
+\end_layout
+
+\begin_layout Itemize
+Support queries searching field values.
+\end_layout
+
+\begin_layout Itemize
+Use MapReduce for OLAP.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Relational
+\emph default
+: relational data model.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Schema based.
+\end_layout
+
+\begin_layout Itemize
+Support queries searching fields and performing joins.
+\end_layout
+
+\begin_layout Itemize
+ACID properties of transactions.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Graph
+\emph default
+: nodes and edges (e.g.
+ RDF).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Schema-less.
+\end_layout
+
+\begin_layout Itemize
+Limited querying possible.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+MapReduce
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Load
+\emph default
+: items from data nodes to Map nodes.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Map
+\emph default
+: nodes perform map function on each item.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Combine
+\emph default
+: partially calculate the Reduce on the Map nodes.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Shuffle
+\emph default
+: send each item to the correct Reduce node.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Reduce
+\emph default
+: nodes perform reduction function on incoming items.
+\end_layout
+
+\begin_layout Paragraph
+Pig Latin
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Load
+\emph default
+: make data source available as relation:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+account = LOAD 'file.tsv'
+\end_layout
+
+\begin_layout Plain Layout
+
+          AS (no:int, type:chararray, rate:float);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Strore
+\emph default
+: execute script and store result:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+STORE account INTO 'copy' USING PigStorage(',');
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Project
+\emph default
+: 
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+rate = FOREACH account GENERATE rate;
+\end_layout
+
+\begin_layout Plain Layout
+
+distinct_rate = DISTINCT rate;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Filter
+\emph default
+:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+account_with_rate = FILTER account BY rate > 0.0;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Cross
+\emph default
+:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+branch_with_account = CROSS branch, account;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Equi-join
+\emph default
+:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+branch_and_account = JOIN branch BY sortcode
+\end_layout
+
+\begin_layout Plain Layout
+
+                           account BY sortcode;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Union
+\emph default
+:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+id = UNION branch_sortcode, account_no;
+\end_layout
+
+\begin_layout Plain Layout
+
+distinct_id = DISTINCT id;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Difference
+\emph default
+: use a left join:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+account_and_movement = JOIN account BY no LEFT,
+\end_layout
+
+\begin_layout Plain Layout
+
+                            movement BY no;
+\end_layout
+
+\begin_layout Plain Layout
+
+account_without_movement = 
+\end_layout
+
+\begin_layout Plain Layout
+
+    FILTER account_and_movement
+\end_layout
+
+\begin_layout Plain Layout
+
+    BY movement::no IS NULL;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Group by
+\emph default
+: produces a 
+\family typewriter
+group
+\family default
+ column with the grouped-on value and a column containing a 
+\emph on
+bag
+\emph default
+ of tuples belonging to each group.
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+account_movements = GROUP movement BY no;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Flatten
+\emph default
+: generate a row for each tuple in a bag:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+movement_copy = FOREACH account_movements
+\end_layout
+
+\begin_layout Plain Layout
+
+                GENERATE FLATTEN(movement);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Aggregation
+\emph default
+: 
+\family typewriter
+COUNT(a)
+\family default
+, 
+\family typewriter
+COUNT_STAR(a)
+\family default
+, 
+\family typewriter
+AVG(a)
+\family default
+, 
+\family typewriter
+MAX(a)
+\family default
+, 
+\family typewriter
+MIN(a)
+\family default
+, 
+\family typewriter
+SUM(a)
+\family default
+, or 
+\family typewriter
+DIFF(a, b)
+\family default
+:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+movement_copy =
+\end_layout
+
+\begin_layout Plain Layout
+
+    FOREACH account_movements
+\end_layout
+
+\begin_layout Plain Layout
+
+    GENERATE group AS no, 
+\end_layout
+
+\begin_layout Plain Layout
+
+             SUM(movement.amount) AS balance;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Cases
+\emph default
+: Use nested statements:
+\family typewriter
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+account_credit_and_debit =
+\end_layout
+
+\begin_layout Plain Layout
+
+    FOREACH account_detail {
+\end_layout
+
+\begin_layout Plain Layout
+
+        credit = FILTER account_and_movement
+\end_layout
+
+\begin_layout Plain Layout
+
+                 BY amount > 0.0;
+\end_layout
+
+\begin_layout Plain Layout
+
+        debit = FILTER account_and_movement
+\end_layout
+
+\begin_layout Plain Layout
+
+                BY amount < 0.0;
+\end_layout
+
+\begin_layout Plain Layout
+
+        GENERATE group AS no,
+\end_layout
+
+\begin_layout Plain Layout
+
+                 COUNT(account_and_movement) AS ts,
+\end_layout
+
+\begin_layout Plain Layout
+
+                 SUM(credit.amount) AS credit,
+\end_layout
+
+\begin_layout Plain Layout
+
+                 SUM(debit.amount) AS debit;
+\end_layout
+
+\begin_layout Plain Layout
+
+    }
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Pig optimisations
+\end_layout
+
+\begin_layout Enumerate
+Project before a 
+\family typewriter
+GROUP BY
+\family default
+: less data to handle in the 
+\family typewriter
+GROUP BY
+\family default
+.
+\end_layout
+
+\begin_layout Paragraph
+Pig to MapReduce
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+FILTER
+\family default
+ and 
+\family typewriter
+FOREACH
+\family default
+ are implemented using Map.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+GROUP
+\family default
+ implemented by a Combine, then Reduce.
+\end_layout
+
+\begin_layout Itemize
+All others implemented as just a Reduce.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If a Map process is after a Reduce, it can be put in the Reduce node.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Distributed hash join
+\end_layout
+
+\begin_layout Enumerate
+Each Map node generates its bit of each hash bucket.
+\end_layout
+
+\begin_layout Enumerate
+Reduce gets all files belonging to a particular hash bucket and performs
+ join.
+\end_layout
+
+\begin_layout Paragraph
+Replicated join
+\end_layout
+
+\begin_layout Enumerate
+Replicate the entire RHS (smaller table) to all Map nodes holding the LHS.
+\end_layout
+
+\begin_layout Enumerate
+Execute join as a Map process.
+\end_layout
+
+\begin_layout Paragraph
+Skewed join
+\end_layout
+
+\begin_layout Enumerate
+Uses a histogram of the frequency of join keys.
+\end_layout
+
+\begin_layout Enumerate
+Histogram used to distribute the join over Reduce nodes.
+ For keys with high frequency in LHS:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Distribute rows from LHS using round-robin.
+\end_layout
+
+\begin_layout Enumerate
+Duplicate rows from RHS to multiple Reduce nodes.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Merge join
+\end_layout
+
+\begin_layout Standard
+Assumes both inputs are sorted.
+\end_layout
+
+\begin_layout Enumerate
+Map nodes of LHS load required blocks from RHS.
+\end_layout
+
+\begin_layout Enumerate
+Execute sort-merge join as a Map process.
+\end_layout
+
+\begin_layout Section
+Distributed query processing
+\end_layout
+
+\begin_layout Paragraph
+DBMS componenets
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Transaction manager
+\emph default
+: query processor plans and translates queries.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Scheduler
+\emph default
+: schedules primitive operators to obey ACID properties.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Data manager
+\emph default
+: interacts with memory maintains durability of transactions.
+\end_layout
+
+\begin_layout Paragraph
+Distribution of transaction processing
+\end_layout
+
+\begin_layout Standard
+In a DDB:
+\end_layout
+
+\begin_layout Itemize
+Each site runs a 
+\emph on
+Local Transaction Manager
+\emph default
+, scheduler and data manager.
+\end_layout
+
+\begin_layout Itemize
+One or more sites run a 
+\emph on
+Global Transaction Manager
+\emph default
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Transforms transaction into sub-transactions for each site.
+\end_layout
+
+\end_deeper
+\begin_layout Subsubsection*
+RA Equivalences
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+SELECT
+\family default
+s over horizontal fragmentation:
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/select-horiz-frag.png
+	width 80text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status collapsed
+
+\begin_layout Plain Layout
+
+\family typewriter
+JOIN
+\family default
+s over derived horizontal fragmentation:
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/join-horiz-frag.png
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status collapsed
+
+\begin_layout Plain Layout
+Always push 
+\family typewriter
+PROJECT
+\family default
+s inside 
+\family typewriter
+JOIN
+\family default
+:
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/project-in-join.png
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status collapsed
+
+\begin_layout Plain Layout
+Always push 
+\family typewriter
+SELECT
+\family default
+s inside 
+\family typewriter
+JOIN
+\family default
+:
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/select-in-join.png
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status collapsed
+
+\begin_layout Plain Layout
+Direct join (high selectivity) 
+\begin_inset Formula $\rightleftarrows$
+\end_inset
+
+ semi join (low selectivity):
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/semi-join.png
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status collapsed
+
+\begin_layout Plain Layout
+Local join 
+\begin_inset Formula $\rightleftarrows$
+\end_inset
+
+ remote join (denormalises data):
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename img/remote-join.png
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+SQL queries over fragmented data
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Horizontal fragmentation
+\emph default
+: determined using 
+\family typewriter
+WHERE
+\family default
+ clause (
+\begin_inset Formula $\sigma$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Vertical fragmentation
+\emph default
+: determined using 
+\family typewriter
+SELECT
+\family default
+ clause (
+\begin_inset Formula $\pi$
+\end_inset
+
+), but must ensure 
+\family typewriter
+JOIN
+\family default
+ and 
+\family typewriter
+WHERE
+\family default
+ clauses can be processed.
+\end_layout
+
+\begin_layout Section
+Concurrency control
 \end_layout
 
 \begin_layout Standard
@@ -355,6 +1744,922 @@ Isolation
 Durability
 \emph default
 : completed transactions are durable.
+\end_layout
+
+\begin_layout Paragraph
+Transaction histories
+\end_layout
+
+\begin_layout Standard
+For a transaction 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+Begin transaction: 
+\begin_inset Formula $b_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Read / write operations on objects: 
+\begin_inset Formula $r_{n}\left[o_{j}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{n}\left[o_{j}\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Commit / abort: 
+\begin_inset Formula $c_{n}$
+\end_inset
+
+ or 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Cocurrency control
+\end_layout
+
+\begin_layout Standard
+Have to ensure:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Serialisability
+\emph default
+: a concurrent execution of transactions should have the same end result
+ as some serial execution.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Recoverability
+\emph default
+: no transaction commits depending on data that has been produced by another
+ transaction that has yet to commit.
+\end_layout
+
+\begin_layout Paragraph
+Anomolies
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Lost update
+\emph default
+: 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+and 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ update the same data element and one update is lost (overwritten).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Inconsistent analysis
+\emph default
+: 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ acesses data before 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ finishes working with that data.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Dirty read
+\emph default
+: 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ reads a value that 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ has written but not committed.
+ Can cause non-recoverability.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Dirty write
+\emph default
+: 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ writes to an object that 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ has written to but not committed.
+ Makes recoverability hard.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Phantom read
+\emph default
+: 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ executes two queries, the second returning something different to the first,
+ due 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ inserting/removing an object.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Write skew
+\emph default
+: 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ concurrently read overlapping data and then concurrently make updates.
+\end_layout
+
+\begin_layout Paragraph
+Conflicts
+\end_layout
+
+\begin_layout Standard
+An interaction between two transactions:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $r_{x}[o]$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{y}[o]$
+\end_inset
+
+ are in 
+\begin_inset Formula $H$
+\end_inset
+
+, or
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $w_{x}[o]$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{y}[o]$
+\end_inset
+
+ are in 
+\begin_inset Formula $H$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $H_{2}$
+\end_inset
+
+ are conflict equivalent if:
+\end_layout
+
+\begin_layout Enumerate
+They contain the same set of operations, and
+\end_layout
+
+\begin_layout Enumerate
+Order conflicts (of non-aborted transactions) in the same way.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H$
+\end_inset
+
+ is conflict serialisable if 
+\begin_inset Formula $C\left(H\right)\equiv_{CE}H'$
+\end_inset
+
+ where 
+\begin_inset Formula $H'$
+\end_inset
+
+ is a serial history.
+\end_layout
+
+\begin_layout Paragraph
+Serialisation graph
+\end_layout
+
+\begin_layout Standard
+Contains a node for each transaction in 
+\begin_inset Formula $H$
+\end_inset
+
+, and an edge if there as a conflict from one node to another.
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $SG\left(H\right)$
+\end_inset
+
+ is acyclic, then 
+\begin_inset Formula $H$
+\end_inset
+
+ is conflict serialisable.
+\end_layout
+
+\begin_layout Paragraph
+Recoverability
+\end_layout
+
+\begin_layout Standard
+In addition to recoverability, we sometimes want to ensure:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Avoids cascading aborts
+\emph default
+: no dirty reads.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Strict execution
+\emph default
+: no dirty reads or writes.
+\end_layout
+
+\begin_layout Paragraph
+Maintaining serialisability and recoverability
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Two-phase locking
+\emph default
+: conflict based.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Time-stamping
+\emph default
+: add timestamps to object, only read or write objects with earlier timestamp.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Optimistic concurrency control
+\emph default
+: inspect history for problems at commit.
+\end_layout
+
+\begin_layout Paragraph
+2PL Protocol
+\end_layout
+
+\begin_layout Standard
+Every history has a maximum lock period, we must be able to re-time history
+ to make all operations take place during that period 
+\begin_inset Formula $\implies$
+\end_inset
+
+ CSR.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Read locks
+\emph default
+ (non-exclusive).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Write locks
+\emph default
+ (exclusive).
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Growing
+\emph default
+ and 
+\emph on
+shrinking
+\emph default
+ phase: cannot gain a new lock after releasing a lock.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/2pl-anomolies.png
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+2PL 
+\emph on
+does not prevent phantom reads / complex write skew
+\emph default
+s.
+ Solutions:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Table locks
+\emph default
+: read lock table when performing a scan:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Can produce needless conflicts.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Efficient if large parts of the table are being updated.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Predicate locking
+\emph default
+: lock the predicate that the transaction uses.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Difficult to implement.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+We can get 
+\emph on
+deadlocks
+\emph default
+ with 2PL: if WFG has a cycle.
+\end_layout
+
+\begin_layout Paragraph
+Conservative locking
+\end_layout
+
+\begin_layout Standard
+Obtain all locks at beginnning.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Prevents deadlock.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Quite difficult to tell what locks required.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Not recoverable.
+\end_layout
+
+\begin_layout Paragraph
+Strict locking
+\end_layout
+
+\begin_layout Standard
+Prevent write locks being released before end of transaction.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Prevents dirty reads/writes 
+\begin_inset Formula $\implies$
+\end_inset
+
+ recoverability.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $-$
+\end_inset
+
+ Allows deadlock.
+\end_layout
+
+\begin_layout Paragraph
+Strong strict locking
+\end_layout
+
+\begin_layout Standard
+All locks released at end of transactions.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Simple to implement.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $+$
+\end_inset
+
+ Suitable for distributed transactions.
+\end_layout
+
+\begin_layout Paragraph
+SQL transaction isolation level
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+SET TRANSACTION ISOLATION LEVEL ...
+\end_layout
+
+\begin_layout Enumerate
+
+\family typewriter
+READ UNCOMMITTED
+\family default
+ prevents only dirty writes.
+\end_layout
+
+\begin_layout Enumerate
+
+\family typewriter
+READ COMMITTED
+\family default
+ prevents dirty reads and writes.
+\end_layout
+
+\begin_layout Enumerate
+
+\family typewriter
+SNAPSHOT
+\family default
+ prevents all anomolies except write skew.
+\end_layout
+
+\begin_layout Enumerate
+
+\family typewriter
+REPEATABLE READ
+\family default
+ prevents all anomolies except phantom reads.
+\end_layout
+
+\begin_layout Enumerate
+
+\family typewriter
+SERIALIZABLE
+\family default
+ implements full serialisability.
+\end_layout
+
+\begin_layout Paragraph
+Distributed concurrency control
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+DWFG
+\emph default
+:
+\end_layout
+
+\begin_layout Enumerate
+Add spawn double-edges to master.
+\end_layout
+
+\begin_layout Enumerate
+When a local cycle appears, fetch remote WFG.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Global 2PL
+\emph default
+: 2PL cannot just be executed at each site:
+\end_layout
+
+\begin_layout Enumerate
+Use strong strict locking at each site, using a global atomic commit to
+ end transaction.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Two-phase commit
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Can become blocked.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/2pc.png
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Distributed locking
+\emph default
+: for 
+\begin_inset Formula $n$
+\end_inset
+
+ sites, 
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Write-write conflicts
+\emph default
+: at least 
+\begin_inset Formula $\left\lceil \frac{n+1}{2}\right\rceil $
+\end_inset
+
+ sites must be sent write lock.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Read-write conflicts
+\emph default
+: at least 
+\begin_inset Formula $n-k+1$
+\end_inset
+
+ sites must be sent a read lock, where 
+\begin_inset Formula $k$
+\end_inset
+
+ is the number of write locks.
+\end_layout
+
+\begin_layout Section
+Temporal databses
+\end_layout
+
+\begin_layout Paragraph
+Temporal dimenstions
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Valid time
+\emph default
+: time data valid in Universe of Discourse.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Transaction time
+\emph default
+: time data valid in DBMS.
+\end_layout
+
+\begin_layout Paragraph
+Modelling a flow of time
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Discrete
+\emph default
+ vs 
+\emph on
+continuous
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Unbounded
+\emph default
+ vs 
+\emph on
+bounded
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Linear
+\emph default
+ vs 
+\emph on
+branching
+\emph default
+.
+\end_layout
+
+\begin_layout Paragraph
+US-Logic
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+\begin_inset Formula $A$
+\end_inset
+
+ until 
+\begin_inset Formula $B$
+\end_inset
+
+:
+\emph default
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ holds at every time up to an including the time when 
+\begin_inset Formula $B$
+\end_inset
+
+ holds.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+\begin_inset Formula $A$
+\end_inset
+
+ since 
+\begin_inset Formula $B$
+\end_inset
+
+
+\emph default
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ has held at every time since and including the time when 
+\begin_inset Formula $B$
+\end_inset
+
+ held.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+\begin_inset Formula $A$
+\end_inset
+
+ since product 
+\begin_inset Formula $B$
+\end_inset
+
+
+\emph default
+: 
+\begin_inset Formula $\text{eval}\left(A\overset{S}{\times}B,t\right)=\text{eval}\left(\left(A\times B\right)\cup\left(\left(A\overset{S}{\times}B\right)\ltimes A\right),t-1\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+\begin_inset Formula $A$
+\end_inset
+
+ until product 
+\begin_inset Formula $B$
+\end_inset
+
+
+\emph default
+: 
+\begin_inset Formula $\text{eval}\left(A\overset{U}{\times}B,t\right)=\text{eval}\left(\left(A\times B\right)\cup\left(\left(A\overset{U}{\times}B\right)\ltimes A\right),t+1\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We can derive:
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+\begin_inset Formula $A$
+\end_inset
+
+ since join 
+\begin_inset Formula $B$
+\end_inset
+
+
+\emph default
+: 
+\begin_inset Formula $\text{eval}\left(A\overset{S}{\bowtie}B,t\right)=\text{eval}\left(\sigma_{A.x=B.x}\left(A\overset{S}{\times}B\right),t\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+\begin_inset Formula $A$
+\end_inset
+
+ until join 
+\begin_inset Formula $B$
+\end_inset
+
+
+\emph default
+: 
+\begin_inset Formula $\text{eval}\left(A\overset{U}{\bowtie}B,t\right)=\text{eval}\left(\sigma_{A.x=B.x}\left(A\overset{U}{\times}B\right),t\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\Circle A\equiv A\text{ Until }\top$
+\end_inset
+
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ is true at the next time.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\CIRCLE A\equiv A\text{ Since }\top$
+\end_inset
+
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ is true at the previous time.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\lozenge A\equiv\top\text{ Until }A$
+\end_inset
+
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ is true at some time in the future.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\blacklozenge A\equiv\top\text{ Since }B$
+\end_inset
+
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ is true at some time in the past.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\square A\equiv A\text{ Until }\lnot\Circle\top$
+\end_inset
+
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ is always true in the future.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\blacksquare A\equiv A\text{ Since }\lnot\CIRCLE\top$
+\end_inset
+
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ is always true in the past.
 \end_layout
 
 \end_body

@@ -508,7 +508,7 @@ Signed division
 \end_layout
 
 \begin_layout Section
-ISA Design Approaches
+ISA design approaches
 \end_layout
 
 \begin_layout Enumerate
@@ -605,13 +605,6 @@ Smaller chip size/cheaper to manufacture.
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
-\begin_inset Formula $+$
-\end_inset
-
- Greater confidence in hardware
-\end_layout
-
 \end_deeper
 \begin_layout Paragraph
 Architectures
@@ -996,7 +989,7 @@ Small kernal benchmarks.
 
 \end_deeper
 \begin_layout Section
-Memory Hierarchy
+Memory hierarchy
 \end_layout
 
 \begin_layout Paragraph
@@ -1525,7 +1518,7 @@ Advantage of LRU over random decrases.
 
 \end_deeper
 \begin_layout Section
-Virtual Memory
+Virtual memory
 \end_layout
 
 \begin_layout Standard

@@ -61,7 +61,7 @@
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation skip
-\defskip smallskip
+\defskip medskip
 \quotes_language english
 \papercolumns 1
 \papersides 1
@@ -145,6 +145,19 @@ vertices
 
 \begin_layout Paragraph
 Standard form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\text{minimise } & z=c^{\top}x\\
+\text{subject to } & Ax=b\\
+ & x\geq0
+\end{align*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
@@ -237,7 +250,7 @@ Variables: how much of each resource allocated to each use.
 \end_layout
 
 \begin_layout Itemize
-Constrains: on resource availability.
+Constraints: on resource availability.
 \end_layout
 
 \end_deeper
@@ -277,7 +290,11 @@ Variables: identify products, activities, processing facilites, etc.
 \end_layout
 
 \begin_layout Itemize
-Constraints: balance inputs and outputs of activities.
+Constraints: 
+\emph on
+balance
+\emph default
+ inputs and outputs of activities.
 \end_layout
 
 \end_deeper
@@ -319,6 +336,719 @@ Constraints: time-phase balance constraints.
 \end_layout
 
 \end_deeper
+\begin_layout Paragraph
+Linear independence
+\end_layout
+
+\begin_layout Standard
+Linear independence of rows in 
+\begin_inset Formula $A$
+\end_inset
+
+ implies either:
+\end_layout
+
+\begin_layout Enumerate
+Contradictory constratints.
+\end_layout
+
+\begin_layout Enumerate
+Redundant constraints.
+\end_layout
+
+\begin_layout Paragraph
+Index set
+\end_layout
+
+\begin_layout Standard
+Set of indexes for columns which are linearly independent.
+\end_layout
+
+\begin_layout Paragraph
+Basis
+\end_layout
+
+\begin_layout Standard
+Matrix consisting of columns referenced by the index set.
+\end_layout
+
+\begin_layout Paragraph
+Basic solution
+\end_layout
+
+\begin_layout Enumerate
+A solution to 
+\begin_inset Formula $Ax=b$
+\end_inset
+
+ with 
+\begin_inset Formula $x_{i}=0$
+\end_inset
+
+ for all 
+\begin_inset Formula $i\not\in I$
+\end_inset
+
+ is a 
+\emph on
+basic solution
+\emph default
+ (vertices).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A basic solution corresponding to an index set 
+\begin_inset Formula $I$
+\end_inset
+
+ is unique since the columns referenced by the index set are linearly independen
+t, and so the basis 
+\begin_inset Formula $B$
+\end_inset
+
+ is invertible.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+A solution to 
+\begin_inset Formula $Ax=b$
+\end_inset
+
+ with 
+\begin_inset Formula $x\geq0$
+\end_inset
+
+ is a 
+\emph on
+feasible solution
+\emph default
+ (in feasible set).
+\end_layout
+
+\begin_layout Enumerate
+A 
+\emph on
+basic feasible solution
+\emph default
+ is both basic and feasible (vertices of the feasible set).
+\end_layout
+
+\begin_layout Paragraph
+Fundamental theorem of LP
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\exists$
+\end_inset
+
+ a feasible solution 
+\begin_inset Formula $\implies$
+\end_inset
+
+ 
+\begin_inset Formula $\exists$
+\end_inset
+
+ a BFS.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\exists$
+\end_inset
+
+ an optimal solution 
+\begin_inset Formula $\implies$
+\end_inset
+
+ 
+\begin_inset Formula $\exists$
+\end_inset
+
+ an optimal BFS.
+\end_layout
+
+\begin_layout Paragraph
+Variables
+\end_layout
+
+\begin_layout Itemize
+Variables 
+\begin_inset Formula $\left\{ x_{i}\right\} _{i\in I}$
+\end_inset
+
+ are 
+\emph on
+basic variables
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+Variables 
+\begin_inset Formula $\left\{ x_{i}\right\} _{i\not\in I}$
+\end_inset
+
+ are 
+\emph on
+nonbasic variables
+\emph default
+.
+\end_layout
+
+\begin_layout Paragraph
+Basic representation
+\end_layout
+
+\begin_layout Standard
+Reformulation of the system 
+\begin_inset Formula $\left(z=c^{\top}x,Ax=b\right)$
+\end_inset
+
+ which expresses the objective function and each BV as linear function of
+ the NBVs.
+ This ends up to be something like:
+\begin_inset Formula 
+\begin{align*}
+z= & c_{B}^{\top}B^{-1}b+\left(c_{N}-N^{\top}B^{-\top}c_{B}\right)^{\top}x_{N}\\
+x_{B}= & B^{-1}bNx_{N}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $r=c_{N}-N^{\top}B^{-\top}c_{B}$
+\end_inset
+
+ is the 
+\emph on
+reduced cost vector
+\emph default
+ that tells us:
+\end_layout
+
+\begin_layout Enumerate
+Whether the current BFS is optimal 
+\begin_inset Formula $\left(r\geq0\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Find a new BFS with a lower objective value (increase a nonbasic variable
+ with a negative reduced cost).
+\end_layout
+
+\begin_layout Paragraph
+Simplex tableau
+\end_layout
+
+\begin_layout Standard
+A nicer way of writing out basic representation:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0pt">
+<row topspace="default" bottomspace="default">
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BV
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $z$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{B}^{\top}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{N}^{\top}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RHS
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topspace="default" bottomspace="default">
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $z$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0^{\top}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-r^{\top}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $c_{B}^{\top}B^{-1}b$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topspace="default" bottomspace="default">
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x_{B}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B^{-1}N$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B^{-1}b$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Simplex algorithm
+\end_layout
+
+\begin_layout Standard
+Use Qiang's notes...
+\end_layout
+
+\begin_layout Paragraph
+Degenerate BS
+\end_layout
+
+\begin_layout Standard
+One or more basic variables are 0.
+\end_layout
+
+\begin_layout Itemize
+If all BFS's are non-degenerate, then the simplex algorithm terminates after
+ a finite number of steps (solution / unbounded).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The sequence of objective values is strictly decreasing.
+\end_layout
+
+\begin_layout Itemize
+The number of solutions is 
+\begin_inset Formula $\leq\left(\begin{array}{c}
+n\\
+m
+\end{array}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Therefore must terminate after a finite number of iterations.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+A BS 
+\begin_inset Formula $x$
+\end_inset
+
+ is degenerate iff it is associated with more than one index set.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Assume a BS 
+\begin_inset Formula $x$
+\end_inset
+
+ corresponds to two index sets 
+\begin_inset Formula $I_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $I_{2}$
+\end_inset
+
+ with 
+\begin_inset Formula $I_{1}\neq I_{2}$
+\end_inset
+
+, then an NBV 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $I_{1}$
+\end_inset
+
+ must be a BV in 
+\begin_inset Formula $x_{2}$
+\end_inset
+
+, we have a BV equal to 0.
+\end_layout
+
+\begin_layout Itemize
+If we have a BV equal to 0, we can pivot on that value to get a different
+ index set.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Finite termination theorem breaks down with degeneracy!
+\end_layout
+
+\begin_layout Paragraph
+Bland's rule
+\end_layout
+
+\begin_layout Enumerate
+Choose the leftmost non-basic column with positive cost.
+\end_layout
+
+\begin_layout Enumerate
+Choose the row with minimal 
+\begin_inset Formula $\overline{x}_{iq}$
+\end_inset
+
+, choosing the smallest index in case of ties.
+\end_layout
+
+\begin_layout Standard
+Not useful in practice - replacing 
+\begin_inset Formula $y_{i0}=0$
+\end_inset
+
+ with 
+\begin_inset Formula $y_{i0}=\epsilon$
+\end_inset
+
+ is acceptable.
+\end_layout
+
+\begin_layout Paragraph
+Min-max problems
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $\phi\left(x\right)=\max_{i=1,\dots,I}\left\{ c\left(i\right)^{\top}x+d\left(i\right)\right\} $
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left.\begin{array}{rl}
+\min & \phi\left(x\right)\\
+\text{s.t.} & Ax=b,x\geq0
+\end{array}\right\} =\left\{ \begin{array}{rl}
+\min & z\\
+\text{s.t} & z\geq c\left(i\right)^{\top}x+d\left(i\right)\forall i=1,\dots,I\\
+ & Ax=b\\
+ & x\geq0,z\text{ free}
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Proof
+\emph default
+: suppose that there is a solution 
+\begin_inset Formula $\left(x_{RHS}^{*},z_{RHS}^{*}\right)$
+\end_inset
+
+ for the RHS, and assume that there is different optimal solution 
+\begin_inset Formula $x_{LHS}^{*}$
+\end_inset
+
+ for the LHS with 
+\begin_inset Formula $\phi\left(x_{LHS}^{*}\right)\leq\phi\left(x_{RHS}^{*}\right)$
+\end_inset
+
+, then find a contradiction.
+\end_layout
+
+\begin_layout Paragraph
+Min-min problems
+\end_layout
+
+\begin_layout Standard
+Where 
+\begin_inset Formula $\psi\left(x\right)=\min_{i=1,\dots,I}\left\{ c\left(i\right)^{\top}x+d\left(i\right)\right\} $
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left.\begin{array}{rl}
+\min & \psi\left(x\right)\\
+\text{s.t.} & Ax=b,x\geq0
+\end{array}\right\} =\left\{ \begin{array}{rl}
+\min & z_{i}=c^{\top}(i)x(i)+d(i)\\
+\text{s.t} & Ax(i)=b\\
+ & x(i)\geq0
+\end{array}\right.
+\]
+
+\end_inset
+
+Then choose 
+\begin_inset Formula $\min_{i=1,\dots,I}z_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Proof
+\emph default
+: follows directly from 
+\begin_inset Formula $\min_{x\in X}\min_{y\in Y}f\left(x,y\right)=\min_{y\in Y}\min_{x\in X}f\left(x,y\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph
+Goal programming
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left.\begin{array}{rl}
+\min & \sum_{i=1}^{I}\left|c\left(i\right)^{\top}x-d(i)\right|\end{array}\right\} =\left\{ \begin{array}{rl}
+\min & \sum_{i=1}^{I}z_{i}^{+}+z_{i}^{-}\\
+\text{s.t} & c(i)^{\top}x-d\left(i\right)=z_{i}^{+}-z_{i}^{-}\\
+ & z_{i}^{+},z_{i}^{-}\geq0
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Fractional linear programming
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left.\begin{array}{rl}
+\min & \frac{\alpha_{o}+\alpha_{1}x_{1}+\dots+\alpha_{n}x_{n}}{\beta_{0}+\beta_{1}x_{1}+\dots+\beta_{n}x_{n}}\\
+\text{s.t.} & Ax=b,x\geq0
+\end{array}\right\} =\left\{ \begin{array}{rl}
+\min & \frac{\alpha_{o}y_{0}+\alpha_{1}y_{1}+\dots+\alpha_{n}y_{n}}{\beta_{0}y_{0}+\beta_{1}y_{1}+\dots+\beta_{n}y_{n}}\\
+\text{s.t} & b_{i}y_{0}-\sum_{j=1}^{n}a_{ij}y_{j}=0\forall i=1,\dots,m\\
+ & y_{0}>0,y_{1}\geq0,\dots,y_{n}\geq0
+\end{array}\right.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then we can always multiply any 
+\begin_inset Formula $y$
+\end_inset
+
+ by 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ 
+\begin_inset Formula $\implies$
+\end_inset
+
+ we can make the denominator 1:
+\begin_inset Formula 
+\[
+\begin{array}{rl}
+\min & \alpha_{o}y_{0}+\alpha_{1}y_{1}+\dots+\alpha_{n}y_{n}\\
+\text{s.t} & \beta_{0}y_{0}+\sum_{j=1}^{n}\beta_{j}y_{j}=1\\
+ & b_{i}y_{0}-\sum_{j=1}^{n}a_{ij}y_{j}=0\forall i=1,\dots,m\\
+ & y_{0}>0,y_{1}\geq0,\dots,y_{n}\geq0
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Need to prove that the denominator of the objective function is strictly
+ positive for all feasible 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsection
 Two-phase simplex algorithm
 \end_layout
