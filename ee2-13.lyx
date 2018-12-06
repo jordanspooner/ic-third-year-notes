@@ -1748,5 +1748,465 @@ Run another process during data transfer.
 \end_layout
 
 \end_deeper
+\begin_layout Section
+Pipelining
+\end_layout
+
+\begin_layout Standard
+Split hardware into stages, biggest delay determines clock period.
+\end_layout
+
+\begin_layout Enumerate
+Need to store partial results and control for future stages.
+\end_layout
+
+\begin_layout Enumerate
+Improves instruction throughput by increasing parallelism.
+\end_layout
+
+\begin_layout Enumerate
+Increases latency for each instruction.
+\end_layout
+
+\begin_layout Paragraph
+ISA design for pipelining
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Instructions same length
+\emph default
+: can easily fetch in one cycle and decode in the next.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Few instruction formats
+\emph default
+: registers in the same place, so we can read the register file at the same
+ time as working out the instr.
+ type.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Memory operands only in load/store
+\emph default
+: we can use execute stage to calculate address for memory access.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Aligned memory access
+\emph default
+: only ever need one memory access, so this can be done in a single pipeline
+ stage.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Single result
+\emph default
+: writes at most one result, making forwarding simpler.
+\end_layout
+
+\begin_layout Paragraph
+MIPS pipeline
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+IF
+\emph default
+: instruction fetched from memory.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+ID
+\emph default
+: instruction deoded and registers read.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+EX
+\emph default
+: excute operation or calculate address.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+MEM
+\emph default
+: access memory operand.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+WB
+\emph default
+: write result back to register.
+\end_layout
+
+\begin_layout Paragraph
+Hazards
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Structural hazard
+\emph default
+: combination of instructions not supported by hardware (required resource
+ busy).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+E.g.
+ MIPS pipeline with a single memory cannot do fetch and load/store at the
+ same time.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Data hazard
+\emph default
+: data needed to execute the instruction is not yet available.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Forwarding
+\emph default
+: use the result as soon as it is computed (add extra connections in datapath).
+\end_layout
+
+\begin_layout Itemize
+If the result must be passed backwards, then we must add a 
+\emph on
+pipeline stall
+\emph default
+ (bubble).
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Control hazard
+\emph default
+: instruction that was fetched was not the one that was needed.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\emph on
+Pipeline stall
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Branch prediction
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Delayed decision
+\emph default
+: have a branch delay slot.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Data hazards in MIPS
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/data-hazard.png
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+ID/EX source register = EX/MEM dest.
+ register, given that the instruction at EX/MEM would write, and register
+ is non-zero.
+\end_layout
+
+\begin_layout Enumerate
+ID/EX source register = MEM/WB dest.
+ register, given that the instruction at MEM/WB would write, and register
+ is non-zero (only if no hazard for EX/MEM).
+\end_layout
+
+\begin_layout Enumerate
+Forwarding between WB stage and ID/EX stage can happen directly through
+ the register file.
+\end_layout
+
+\begin_layout Paragraph
+Load-use data hazard in MIPS
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/load-use-hazard.png
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If instruction at ID/EX is load (reads memory), and the load destination
+ register (
+\family typewriter
+Rt
+\family default
+) is a source register in IF/ID, 
+\emph on
+pipeline stall
+\emph default
+:
+\end_layout
+
+\begin_layout Enumerate
+Prevent PC register from changing.
+\end_layout
+
+\begin_layout Enumerate
+Prevent IF/ID pipelin register from changing.
+\end_layout
+
+\begin_layout Enumerate
+Set EX, MEM and WB control fields to 0 (no-op).
+\end_layout
+
+\begin_layout Paragraph
+Control hazards in MIPS
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename img/pipelined-datapath.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Assume branch not taken
+\emph default
+: when a branch is taken, we flush IF, ID and EX stages of pipeline.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Reduce branch delay
+\emph default
+: do a register comparison in ID stage (instead of using ALU in EX stage).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Bypassed source opereands of a branch could come from ALU/MEM or MEM/WB,
+ so new forwarding logic is required.
+\end_layout
+
+\begin_layout Itemize
+If a branch directly follows an ALU instruction which produces an operand
+ for the branch, pipeline stall still required.
+\end_layout
+
+\begin_layout Itemize
+If a branch directly follows a load instruction which produces an operand
+ for the branch, two stall cycles still required.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Dynamic branch prediction
+\emph default
+: use runtime information.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Branch prediction buffer
+\emph default
+: memory indexed by lower portion 0of address of branch instruction.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Marks whether the branch was recently taken or not.
+\end_layout
+
+\begin_layout Itemize
+Better: 2-bit prediction scheme.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Branch delay slot
+\emph default
+: works well for short pipelines with one instruction per clock cycle.
+\end_layout
+
+\begin_layout Section
+Exceptions and Interrupts
+\end_layout
+
+\begin_layout Standard
+Unexpected events requiring change in flow of control.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Exception
+\emph default
+: internal signal.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Interrupt
+\emph default
+: external signal.
+\end_layout
+
+\begin_layout Paragraph
+MIPS
+\end_layout
+
+\begin_layout Enumerate
+Save the offending instruction in the EPC.
+\end_layout
+
+\begin_layout Enumerate
+Set the cause register.
+\end_layout
+
+\begin_layout Enumerate
+Jump to handler.
+\end_layout
+
+\begin_layout Paragraph
+Other architectures
+\end_layout
+
+\begin_layout Standard
+Use 
+\emph on
+vectored interrupts
+\emph default
+: handler address determined directly by cause register.
+\end_layout
+
+\begin_layout Paragraph
+Handler
+\end_layout
+
+\begin_layout Standard
+Can either:
+\end_layout
+
+\begin_layout Enumerate
+Read cause register, transfer to relevant handler.
+\end_layout
+
+\begin_layout Enumerate
+Take corrective action if restartable, use EPC to return.
+\end_layout
+
+\begin_layout Enumerate
+Terminate program and report error using EPC, cause, ...
+\end_layout
+
+\begin_layout Paragraph
+Exceptions in a pipeline
+\end_layout
+
+\begin_layout Standard
+Similar to a mispredicted branch:
+\end_layout
+
+\begin_layout Enumerate
+Complete previous instructions, but flush offending and subsequent instructions.
+\end_layout
+
+\begin_layout Enumerate
+Set cause and EPC values.
+\end_layout
+
+\begin_layout Enumerate
+Transfer control to handler.
+\end_layout
+
+\begin_layout Paragraph
+Multiple exceptions
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Simple method
+\emph default
+: flush subsequent instructions: precise exceptions.
+\end_layout
+
+\begin_layout Enumerate
+Complex pipelines may have multiple instructions per cycle, out-of-order
+ completion, etc.
+\end_layout
+
 \end_body
 \end_document
