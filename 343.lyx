@@ -873,6 +873,119 @@ Not useful in practice - replacing
 \end_layout
 
 \begin_layout Paragraph
+Two-phase simplex algorithm
+\end_layout
+
+\begin_layout Itemize
+Use when there is no obvious initial BFS.
+ 
+\end_layout
+
+\begin_layout Itemize
+I.e.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+all-slack basis
+\begin_inset Quotes erd
+\end_inset
+
+ not possible: 
+\begin_inset Formula $=$
+\end_inset
+
+ or 
+\begin_inset Formula $\geq$
+\end_inset
+
+ constraints.
+\end_layout
+
+\begin_layout Paragraph
+Phase 1
+\end_layout
+
+\begin_layout Enumerate
+Add artificial variables to constraints without slack variables.
+\end_layout
+
+\begin_layout Enumerate
+Minimse the sum of artificial variables 
+\begin_inset Formula $\zeta$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Find a basic representation for 
+\begin_inset Formula $\zeta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Find the minimum value for 
+\begin_inset Formula $\zeta$
+\end_inset
+
+ using simplex algorithm.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\zeta^{*}>0$
+\end_inset
+
+ stop, the LP is infeasible.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\zeta^{*}=0$
+\end_inset
+
+ but some artificial variable is still basic, we have a degenerate BFS.
+ Pivot to remove artificial variable from the BFS.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\zeta^{*}=0$
+\end_inset
+
+ with all artifical variables non-basic, go to phase 2.
+\end_layout
+
+\begin_layout Paragraph
+Phase 2
+\end_layout
+
+\begin_layout Enumerate
+Remove artificial columns from phase 1 tableau.
+\end_layout
+
+\begin_layout Enumerate
+Find a basic representation for 
+\begin_inset Formula $z$
+\end_inset
+
+, add to tableau.
+\end_layout
+
+\begin_layout Enumerate
+Find the minimum value for 
+\begin_inset Formula $z$
+\end_inset
+
+ using simplex algorithm.
+\end_layout
+
+\begin_layout Paragraph
 Min-max problems
 \end_layout
 
@@ -1047,119 +1160,6 @@ Need to prove that the denominator of the objective function is strictly
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Subsection
-Two-phase simplex algorithm
-\end_layout
-
-\begin_layout Itemize
-Use when there is no obvious initial BFS.
- 
-\end_layout
-
-\begin_layout Itemize
-I.e.
- 
-\begin_inset Quotes eld
-\end_inset
-
-all-slack basis
-\begin_inset Quotes erd
-\end_inset
-
- not possible: 
-\begin_inset Formula $=$
-\end_inset
-
- or 
-\begin_inset Formula $\geq$
-\end_inset
-
- constraints.
-\end_layout
-
-\begin_layout Paragraph
-Phase 1
-\end_layout
-
-\begin_layout Enumerate
-Add artificial variables to constraints without slack variables.
-\end_layout
-
-\begin_layout Enumerate
-Minimse the sum of artificial variables 
-\begin_inset Formula $\zeta$
-\end_inset
-
-:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Find a basic representation for 
-\begin_inset Formula $\zeta$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-Find the minimum value for 
-\begin_inset Formula $\zeta$
-\end_inset
-
- using simplex algorithm.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-If 
-\begin_inset Formula $\zeta^{*}>0$
-\end_inset
-
- stop, the LP is infeasible.
-\end_layout
-
-\begin_layout Enumerate
-If 
-\begin_inset Formula $\zeta^{*}=0$
-\end_inset
-
- but some artificial variable is still basic, we have a degenerate BFS.
- Pivot to remove artificial variable from the BFS.
-\end_layout
-
-\begin_layout Enumerate
-If 
-\begin_inset Formula $\zeta^{*}=0$
-\end_inset
-
- with all artifical variables non-basic, go to phase 2.
-\end_layout
-
-\begin_layout Paragraph
-Phase 2
-\end_layout
-
-\begin_layout Enumerate
-Remove artificial columns from phase 1 tableau.
-\end_layout
-
-\begin_layout Enumerate
-Find a basic representation for 
-\begin_inset Formula $z$
-\end_inset
-
-, add to tableau.
-\end_layout
-
-\begin_layout Enumerate
-Find the minimum value for 
-\begin_inset Formula $z$
-\end_inset
-
- using simplex algorithm.
 \end_layout
 
 \begin_layout Section
@@ -1407,7 +1407,7 @@ Replace
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Paragraph
 Cutting plane algorithm
 \end_layout
 
@@ -1483,7 +1483,7 @@ Is minimal if no subset of
  is a cover.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Paragraph
 Branch and bound
 \end_layout
 
@@ -1789,6 +1789,156 @@ convex
 piecewise linear
 \emph default
 .
+\end_layout
+
+\begin_layout Paragraph
+Shadow prices
+\end_layout
+
+\begin_layout Standard
+Objective coefficient of 
+\begin_inset Formula $x_{s}$
+\end_inset
+
+ for slack vars.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Pi=\left(B^{-1}\right)^{\top}c_{B}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+May be more than one optimal basis 
+\begin_inset Formula $\implies$
+\end_inset
+
+ shadow prices need not be unique.
+\begin_inset Formula 
+\[
+v\left(p\right)=v\left(b\right)+\Pi^{\top}\left(p-b\right)
+\]
+
+\end_inset
+
+if 
+\begin_inset Formula $B^{-1}p\ge0$
+\end_inset
+
+ (still feasible).
+ In general:
+\begin_inset Formula 
+\[
+v\left(p\right)\geq v\left(b\right)+\Pi^{\top}\left(p-b\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $-\Pi$
+\end_inset
+
+ gives the maximum price one should pay for an additional unit.
+\end_layout
+
+\begin_layout Section
+Game Theory
+\end_layout
+
+\begin_layout Paragraph
+Payoff matrix
+\end_layout
+
+\begin_layout Standard
+What RP gains and CP loses.
+\end_layout
+
+\begin_layout Paragraph
+Dominance
+\end_layout
+
+\begin_layout Enumerate
+Row where some other row has all values greater than or equal to us.
+\end_layout
+
+\begin_layout Enumerate
+Column where some other column has all values less than or equal to us.
+\end_layout
+
+\begin_layout Paragraph
+Nash equilibrium
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\max_{i=1,...,m}\alpha_{i}=\min_{j=1,...,n}\beta_{j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Without an equilibrium
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+V_{CP}=\min_{q_{1},\dots,q_{n}}\max_{p_{i},\dots,p_{m}}\sum_{i=1}^{m}\sum_{j=1}^{n}p_{i}q_{j}a_{ij}
+\]
+
+\end_inset
+
+subject to 
+\begin_inset Formula $\sum_{j=1}^{m}q_{j}=1$
+\end_inset
+
+ and 
+\begin_inset Formula $\sum_{i=1}^{n}p_{i}=1$
+\end_inset
+
+ with all 
+\begin_inset Formula $p$
+\end_inset
+
+s and 
+\begin_inset Formula $q$
+\end_inset
+
+s 
+\begin_inset Formula $\geq0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We can rewrite this as the linear program:
+\begin_inset Formula 
+\[
+\begin{array}{rlc}
+\min & \tau\\
+\text{s.t} & \tau\geq\sum_{j=1}^{n}q_{j}a_{ij} & \forall i=1,\dots,m\\
+ & \sum_{j=1}^{n}q_{j}=1\\
+ & q_{j}\geq0
+\end{array}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \end_body

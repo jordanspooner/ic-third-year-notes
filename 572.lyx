@@ -109,30 +109,34 @@ Should provide:
 
 \begin_layout Itemize
 
-\series bold
-Storage:
-\series default
- single, reliable repository of data.
+\emph on
+Storage
+\emph default
+: single, reliable repository of data.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Transactions:
-\series default
- should be atomic, consistent, isolated, durable.
+\emph on
+Transactions
+\emph default
+: should be atomic, consistent, isolated, durable.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Data analysis.
+\emph on
+Data analysis
+\emph default
+.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Programming model.
+\emph on
+Programming model
+\emph default
+.
 \end_layout
 
 \begin_layout Standard
@@ -141,42 +145,42 @@ In a way that is:
 
 \begin_layout Itemize
 
-\series bold
-Efficient:
-\series default
- not slower than hand-written applications.
+\emph on
+Efficient
+\emph default
+: not slower than hand-written applications.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Resilient:
-\series default
- should recover from problems.
+\emph on
+Resilient
+\emph default
+: should recover from problems.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Robust:
-\series default
- predictable performance.
+\emph on
+Robust
+\emph default
+: predictable performance.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Scalable:
-\series default
- use resources efficiently.
+\emph on
+Scalable
+\emph default
+: use resources efficiently.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Concurrent:
-\series default
- serve multiple simultaneous clients transparently.
+\emph on
+Concurrent
+\emph default
+: serve multiple simultaneous clients transparently.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -274,7 +278,7 @@ Data locality is bad when retrieving.
 \end_layout
 
 \begin_layout Paragraph
-Decomposed storage modeld
+Decomposed storage model
 \end_layout
 
 \begin_layout Itemize
@@ -282,7 +286,8 @@ Each column stored in a separate vector.
 \end_layout
 
 \begin_layout Itemize
-Insertion now requires decomposition.
+Insertion now requires decomposition (more complicated, requires random
+ access).
 \end_layout
 
 \begin_layout Itemize
@@ -309,20 +314,778 @@ sorted
 , we can use binary search.
 \end_layout
 
+\begin_layout Paragraph
+Hybrid storage: Delta/Main
+\end_layout
+
+\begin_layout Itemize
+Main storage uses DSM.
+\end_layout
+
+\begin_layout Itemize
+Delta storage uses NSM.
+\end_layout
+
+\begin_layout Itemize
+Periodically merge delta into main.
+\end_layout
+
+\begin_layout Paragraph
+Variable-sized datatypes
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+In-place storage
+\emph default
+: overallocate space.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Good for locality.
+\end_layout
+
+\begin_layout Itemize
+Simple.
+\end_layout
+
+\begin_layout Itemize
+Wastes space.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Out of place storage
+\emph default
+: key into a dictionary.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Space conservative (we can even do dictionary compression).
+\end_layout
+
+\begin_layout Itemize
+Bad for locality.
+\end_layout
+
+\begin_layout Itemize
+Complicated (hard to implement: garbage-collection).
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Disks
+\end_layout
+
+\begin_layout Enumerate
+Larger pages.
+\end_layout
+
+\begin_layout Enumerate
+Much higher latency (ms vs ns).
+\end_layout
+
+\begin_layout Enumerate
+Much lower throughput.
+\end_layout
+
+\begin_layout Enumerate
+OS gets in the way (filesize is limited).
+\end_layout
+
+\begin_layout Standard
+Change of goals:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/db-kernel.png
+	width 70text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Complicated I/O management strategies pay off.
+\end_layout
+
+\begin_layout Enumerate
+Pages are large: we use a 
+\emph on
+buffer manager
+\emph default
+ to manage pages for a relation.
+\end_layout
+
+\begin_layout Paragraph
+Pages
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Unspanned pages
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/unspanned-pages.png
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Simple.
+\end_layout
+
+\begin_layout Itemize
+Assuming known page fill-factors, we can always lookup an ID with a single
+ page lookup.
+\end_layout
+
+\begin_layout Itemize
+Wastes space.
+\end_layout
+
+\begin_layout Itemize
+Cannot deal with large records.
+\end_layout
+
+\begin_layout Itemize
+No in-page random access for variable sized records.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Spanned pages
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/spanned-pages.png
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Minimises space waste.
+\end_layout
+
+\begin_layout Itemize
+Supports large records.
+\end_layout
+
+\begin_layout Itemize
+Complicated.
+\end_layout
+
+\begin_layout Itemize
+Random access performance worsened.
+\end_layout
+
+\begin_layout Itemize
+No in-page random access for variable-sized records.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Slotted pages
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename img/slotted-pages.png
+	width 30text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Store tuples in in-place n-ary format.
+\end_layout
+
+\begin_layout Itemize
+Store tuple count in page header.
+\end_layout
+
+\begin_layout Itemize
+Store offsets to every tuple.
+ Only need to be large enough to address page.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Dictionaries usually kept in-page:
+\end_layout
+
+\begin_layout Itemize
+Solves problem of variable sized records.
+\end_layout
+
+\begin_layout Itemize
+Avoids needless page faults.
+\end_layout
+
+\begin_layout Itemize
+Allows duplicate elimination.
+\end_layout
+
+\begin_layout Section
+Querying
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Vector
+\emph default
+: ordered collection of objects of the same type.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Tuple
+\emph default
+: unordered collection of objects of different type.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Bag
+\emph default
+: unordered collection of objects of the same type.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Set
+\emph default
+: unordered collection of unique objects of the same type.
+\end_layout
+
+\begin_layout Paragraph
+Relational algebra
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\pi_{\text{attr}s}\left(A\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\sigma_{\text{pred}}\left(A\right)$
+\end_inset
+
+, 
+\begin_inset Formula $A\times B$
+\end_inset
+
+, 
+\begin_inset Formula $A\cup B$
+\end_inset
+
+, 
+\begin_inset Formula $\Gamma_{\text{(attrs, (attr, aggregate, name))}}$
+\end_inset
+
+, 
+\begin_inset Formula $\tau_{\text{(n, attr)}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Processing models
+\end_layout
+
+\begin_layout Paragraph
+Volcano processing
+\end_layout
+
+\begin_layout Itemize
+Easy to implement: focus on flexibility, clean design, maintainability,
+ developer productivity.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Extensible
+\emph default
+: easy to add new operators.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Good I/O behaviour
+\emph default
+: tuples consumed as they are produced.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Poor CPU usage
+\emph default
+: function pointers cause control hazards.
+\end_layout
+
+\begin_layout Itemize
+Uses 
+\family typewriter
+open()
+\family default
+, 
+\family typewriter
+next()
+\family default
+ and 
+\family typewriter
+close()
+\family default
+ methods.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Scan
+\emph default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+open()
+\family default
+: open file.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+next()
+\family default
+: read next item (better: use a buffer manager to keep just the page you
+ need open).
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+close()
+\family default
+: close file.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Projection
+\emph default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+open()
+\family default
+: open input.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+next()
+\family default
+: call 
+\family typewriter
+next()
+\family default
+, apply projection function.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+close()
+\family default
+: close input.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Selection
+\emph default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+open()
+\family default
+: open input.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+next()
+\family default
+: call 
+\family typewriter
+next()
+\family default
+ on input until an item qualifies.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+close()
+\family default
+: close input.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Union
+\emph default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+open()
+\family default
+: open inputs.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+next()
+\family default
+: call 
+\family typewriter
+next()
+\family default
+ on left input, or right input if we reach the end of LHS.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+close()
+\family default
+: close inputs.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Difference
+\emph default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+open()
+\family default
+: buffer the right input, and open the left.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+next()
+\family default
+: call 
+\family typewriter
+next()
+\family default
+ on left input until an item is not in the buffer.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+close()
+\family default
+: close left input.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Cross
+\emph default
+ (pipeline-breaking): 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+open()
+\family default
+: buffer the right input, and open the left.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+next()
+\family default
+: combine each left input with every right input (by keeping a pointer to
+ buffer pos), then call 
+\family typewriter
+next()
+\family default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+close()
+\family default
+: close left input.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Cross
+\emph default
+ (streaming): 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Return first results whilst buffering the RHS.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Grouped aggregation
+\emph default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+open()
+\family default
+: read through the tuples, get the group keys, calculate the hash value,
+ apply aggregate function and place in hash table.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+next()
+\family default
+: iterate through hash table slots.
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Pipeline breakers
+\end_layout
+
+\begin_layout Standard
+Operators that produces the first correct output only after all input tuples
+ have been processed:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Scan
+\emph default
+, 
+\emph on
+selection
+\emph default
+, 
+\emph on
+project
+\emph default
+, 
+\emph on
+union
+\emph default
+ are not pipeline breakers.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Difference
+\emph default
+, 
+\emph on
+grouping
+\emph default
+ are pipeline breakers.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Cross product
+\emph default
+, 
+\emph on
+join
+\emph default
+ are often implemented as a pipeline breaker.
+\end_layout
+
+\begin_layout Paragraph
+Buffer I/O in Volcano
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Scans
+\emph default
+: sequenetial I/O of all pages in relation.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Pipeline breakers
+\emph default
+: 
+\family typewriter
+open()
+\family default
+: if buffer fits in memory, no I/O, otherwise sequential / random (assume
+ one page per access) I/O.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Pipeline breakers
+\emph default
+: 
+\family typewriter
+next()
+\family default
+: if buffer fits in memory, no I/O, otherwise sequential I/O over buffer.
+\end_layout
+
+\begin_layout Paragraph
+Function calls in Volcano
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Selections and prjections
+\emph default
+: one to red input, one to apply predicate.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Cross product
+\emph default
+: one to read inner input, one to read outer input.
+\end_layout
+
+\begin_layout Enumerate
+
+\emph on
+Group by
+\emph default
+: one to read input, one to extract group key, one to calculate each new
+ aggregate value.
+\end_layout
+
 \begin_layout Section
 Joins
 \end_layout
 
 \begin_layout Paragraph
-Nested loop joins
+Nested loop join
 \end_layout
 
 \begin_layout Itemize
-Sequential I/O
+Simple.
 \end_layout
 
 \begin_layout Itemize
-Trivial to parallelize (no dependent loop iterations)
+Sequential I/O.
+\end_layout
+
+\begin_layout Itemize
+Trivial to parallelize (no dependent loop iterations).
 \end_layout
 
 \begin_layout Itemize
@@ -337,72 +1100,109 @@ Trivial to parallelize (no dependent loop iterations)
 \end_layout
 
 \begin_layout Paragraph
-Sort-Merge Joins
+Sort-merge join
+\end_layout
+
+\begin_layout Standard
+Requires sortedness.
+ Works for inequality joins.
 \end_layout
 
 \begin_layout Itemize
-Sequential I/O in the merge phase
+Sequential I/O in the merge phase.
+\end_layout
+
+\begin_layout Itemize
+Tricky to parallelize.
 \end_layout
 
 \begin_layout Itemize
 \begin_inset Formula $O(|left|\times\log|left|+|right|\times\log|right|+|left|+|right|)$
 \end_inset
 
- assuming uniqueness
-\end_layout
-
-\begin_layout Itemize
-Works for inequality joins
+ assuming uniqueness.
 \end_layout
 
 \begin_layout Paragraph
-Hash Joins
+Hash join
 \end_layout
 
 \begin_layout Standard
-build-side 
-\begin_inset Formula $\equiv$
-\end_inset
-
- buffered side in the hashtable, probe-side 
-\begin_inset Formula $\equiv$
-\end_inset
-
- lookup the hashtable.
+Build-side is the buffered side in the hashtable, probe-side is the lookup
+ the hashtable.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Hash function (CRC32, MurmurHash, Modulo-Division) requirements:
-\series default
- 
-\bar under
-pure
-\bar default
- and 
-\bar under
-known
-\bar default
-, 
-\bar under
-contiguous
-\bar default
- output domain.
- Nice to property to have: uniform
+\emph on
+Hash function
+\emph default
+ (e.g.
+ Modulo-Division) 
+\emph on
+requirements
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Pure
+\emph default
+: no state.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Handling conflicts requirements:
-\series default
- Locality (to a certain extent), no holes (probe all the output domain)
+\emph on
+Known
+\emph default
+ ouptut domain.
 \end_layout
 
 \begin_layout Itemize
-Sequential I/O the input.
- Parallelizable on probe side, research on build side
+
+\emph on
+Contiguous
+\emph default
+ output domain: no holes in output domain.
+\end_layout
+
+\begin_layout Itemize
+Nice to property to have: 
+\emph on
+uniform
+\emph default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Handling conflicts requirements
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Locality (to some extent).
+\end_layout
+
+\begin_layout Itemize
+No holes (probe all the output domain)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Sequential I/O on the inputs.
+\end_layout
+
+\begin_layout Itemize
+Parallelizable on probe side.
 \end_layout
 
 \begin_layout Itemize
@@ -413,56 +1213,99 @@ Sequential I/O the input.
 \begin_inset Formula $\Theta(|build|+|probe|)$
 \end_inset
 
- in the best
+ in the best.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Disadvantages: 
-\series default
-wastes space (over-allocated by 2), people generally rehash (not hole-free),
- hashing costs lots of CPU cycles (can be more expensive than memory), hashtable
-s are probed randomly.
+\emph on
+Disadvantages
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Wastes space (over-allocated by at least 2).
+\end_layout
+
+\begin_layout Itemize
+People generally rehash (not hole-free), hashing costs lots of CPU cycles
+ (can be more expensive than memory).
+\end_layout
+
+\begin_layout Itemize
+Probing is random access! If table doesn't fit into buffer pool 
+\begin_inset Formula $\implies$
+\end_inset
+
+ lots of I/O.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Often use buckets for slots.
 \end_layout
 
 \begin_layout Paragraph
-Probing strategies:
+Probing strategies
 \end_layout
 
 \begin_layout Standard
 Consider the distance from the original conflict
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 
-\series bold
-Linear probing:
-\series default
- try increasing distance by 1 until no conflict, leads to long probe chains
+\emph on
+Linear probing
+\emph default
+: try increasing distance by 1 until no conflict.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Leads to long probe chains.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\emph on
+Quadratic probing
+\emph default
+: try doubling the distance until no conflict.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Good locality on first three probes and bad after.
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
-Quadratic probing:
-\series default
- try doubling the distance until no conflict, good locality on first three
- probes and bad after, still likely to incur conflicts on first probes
+Still likely to incur conflicts on first probes.
 \end_layout
 
-\begin_layout Itemize
+\end_deeper
+\begin_layout Enumerate
 
-\series bold
-Cyclic group probing:
-\series default
- Generate a sequence of numbers while making sure every number in range
+\emph on
+Cyclic group probing
+\emph default
+: Generate a sequence of numbers while making sure every number in range
  is generated.
- 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
 \begin_inset Formula $f(x)=(x\times g)\mod n$
 \end_inset
 
- where 
+ where:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
 \begin_inset Formula $n$
 \end_inset
 
@@ -470,76 +1313,85 @@ Cyclic group probing:
 \begin_inset Formula $n=p^{k}$
 \end_inset
 
-, 
-\begin_inset Formula $p$
-\end_inset
-
- odd prime, 
-\begin_inset Formula $\Rightarrow\exists g({primitive\;roots})$
-\end_inset
-
- of 
+ for odd prime 
 \begin_inset Formula $p$
 \end_inset
 
 .
 \end_layout
 
+\begin_layout Itemize
+\begin_inset Formula $g$
+\end_inset
+
+ is a primite root of 
+\begin_inset Formula $p$
+\end_inset
+
+ (difficult to find).
+\end_layout
+
+\end_deeper
+\end_deeper
 \begin_layout Paragraph
 Partitioning
 \end_layout
 
 \begin_layout Standard
-To make one relation much smaller than the other to fit in the buffer pool.
- Make use of the fact that sequential access is much cheaper than random
- access.
+Improves the performance of the probe-side of a join.
+\end_layout
+
+\begin_layout Itemize
+Requires additional scans over the larger relation.
+\end_layout
+
+\begin_layout Itemize
+Ensures sequential I/O.
+\end_layout
+
+\begin_layout Itemize
+Easy to parallelize.
+\end_layout
+
+\begin_layout Itemize
+We can partition the larger relation too, and only join overlapping partitions...
 \end_layout
 
 \begin_layout Standard
+\noindent
+\align center
 \begin_inset Graphics
 	filename ../tyn/img/partitioning.png
-	width 50text%
+	width 65text%
 
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-The buffer pool above needs only to hold 5 pages at a time before flushing
- them to disk 
-\begin_inset Formula $\Rightarrow$
-\end_inset
-
- sequential I/O in partitioning.
- If partitioning is applied to the probe side to in such a way that matching
- tuples hash to the same value as the probe side then that will reduce massively
- the amount of work to do.
-\end_layout
-
 \begin_layout Paragraph
-Block Nested Loop Joins
+Block nested loops join
 \end_layout
 
 \begin_layout Standard
-Simply brings better I/O behavior to NLJs, properties are similar otherwise.
+Nested loops join, but scan per LHS page, rather than tuple.
 \end_layout
 
 \begin_layout Paragraph
-Indexed Nested Loop Joins
+Indexed nested loop join
 \end_layout
 
 \begin_layout Standard
 One side has an index, scan over the other side and use the index to get
- the matching tuple
+ the matching tuple.
 \end_layout
 
 \begin_layout Itemize
-Sequential I/O on the unindexed side, 
-\bar under
-Quasi
-\bar default
--random on the indexed side
+Sequential I/O on the unindexed side.
+\end_layout
+
+\begin_layout Itemize
+Quasi-random on the indexed side.
 \end_layout
 
 \begin_layout Itemize
@@ -550,11 +1402,7 @@ Parallelizable over the values on the unindexed side
 \begin_inset Formula $\Theta(|unidexed|\times|\log indexed|)$
 \end_inset
 
-, 
-\begin_inset Formula $O(|left|\times|right|)$
-\end_inset
-
-
+.
 \end_layout
 
 \begin_layout Paragraph
@@ -563,47 +1411,47 @@ Which algorithm to use
 
 \begin_layout Itemize
 
-\series bold
-Sort-Merge join:
-\series default
- if relations are sorted or have similar sizes.
- Or if evaluating inequality-joins
+\emph on
+Sort-merge join
+\emph default
+: if relations are sorted or have similar sizes.
+ Or if evaluating inequality-joins.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Index nested loops:
-\series default
- if one relation has an index
+\emph on
+Index nested loops
+\emph default
+: if one relation has an index.
 \end_layout
 
 \begin_layout Itemize
 
+\emph on
+Hash join
+\emph default
+:
 \series bold
-Hashjoin 
+ 
 \series default
-if one relation is much smaller than the other (less than 10%)
+if one relation is much smaller than the other (less than 10%).
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
+\emph on
 Nested loops
-\series default
- if one relation is tiny (
-\begin_inset Formula $<20$
-\end_inset
-
- values)
+\emph default
+: if one relation is tiny (< 20 values).
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
+\emph on
 Block nested
-\series default
- loops join for theta-joins
+\emph default
+: loops join for theta-joins.
 \end_layout
 
 \begin_layout Section
@@ -612,13 +1460,13 @@ Bulk Processing
 
 \begin_layout Standard
 Turn 
-\bar under
+\emph on
 control dependencies
-\bar default
+\emph default
  into 
-\bar under
+\emph on
 data dependencies
-\bar default
+\emph default
 .
  No function calls (no jumps 
 \begin_inset Formula $\Rightarrow$
@@ -637,27 +1485,27 @@ Page access probability from selectivity:
 
 \begin_layout Itemize
 
-\series bold
-Materialise all:
-\series default
- write down entire tuple in output array on each operator
+\emph on
+Materialise all
+\emph default
+: write down entire tuple in output array on each operator.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-By reference:
-\series default
- Return array of reference to the Tuples in the table.
+\emph on
+By reference
+\emph default
+: return array of reference to the Tuples in the table.
  
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-By reference using column storage (DSM):
-\series default
- Same idea but optimises predicate evaluation by having more values fit
+\emph on
+By reference using column storage (DSM)
+\emph default
+: same idea but optimises predicate evaluation by having more values fit
  on a page
 \end_layout
 
@@ -665,24 +1513,24 @@ By reference using column storage (DSM):
 Secondary Storage
 \end_layout
 
-\begin_layout Subsection
-Indexes
+\begin_layout Paragraph
+Indices
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Clustered or Primary Index:
-\series default
- store the tuples of a table, at most 1
+\emph on
+Clustered or Primary Index
+\emph default
+: store the tuples of a table, at most 1,
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Unclustered or Secondary Index:
-\series default
- store pointers to the tuples of a table
+\emph on
+Unclustered or Secondary Index
+\emph default
+: store pointers to the tuples of a table.
 \end_layout
 
 \begin_layout Paragraph
@@ -690,77 +1538,118 @@ Hash indexing
 \end_layout
 
 \begin_layout Standard
-Hash table 
-\begin_inset Formula $<\text{{Key}, \text{{Position}>}}$
+Hash table rom key 
+\begin_inset Formula $\rightarrow$
 \end_inset
 
+ position.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Maintenance
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Overallocate by a lot.
+\end_layout
+
+\begin_layout Itemize
+Need to rebuild if fill factor is too high (expensive even with consistent
+ hashing).
+\end_layout
+
+\begin_layout Itemize
+On delete need to put a marker in the hashtable for future probing.
+\end_layout
+
+\begin_layout Itemize
+Load spikes 
+\begin_inset Formula $\frownie$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Useful
+\emph default
  
+\emph on
+for
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Equi-joins, aggregation on specific keys.
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
-Maintenance: 
-\series default
-Overallocated, need to rebuild if fill factor is too high (expensive even
- with 
-\bar under
-consistent hashing
-\bar default
-), on delete need to put a marker in the hashtable for future probing, load
- spikes
+Filter on specific keys.
 \end_layout
 
-\begin_layout Itemize
-
-\series bold
-Usefulness:
-\series default
- Equijoins/aggregation on specific keys, filter on specific keys
-\end_layout
-
+\end_deeper
 \begin_layout Paragraph
 Bitmap indexing
 \end_layout
 
 \begin_layout Standard
-A bitvector for each distinct value in a column (few distinct values) 
+A bitvector for each distinct value in a column (few distinct values).
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Usefulness:
-\series default
- Can reduce bandwidth needed for scanning a column, can be compressed even
- further, can use arbitrary conditions (make disjoint sets of values called
- 
-\bar under
-binned bitmaps
-\bar default
-)
+\emph on
+Run-length encoding
+\emph default
+: replace consecutive occurrences with length of the chain.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Works well on high locality data.
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
-Run-length encoding: 
-\series default
-replace consecutive occurrences with length of the chain, works well on
- high locality data, requires sequential scan to find values at a specific
- position
+Requires sequential scan to find values at a specific position.
 \end_layout
 
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Useful for
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Can reduce bandwidth needed for scanning a column.
+\end_layout
+
+\begin_layout Itemize
+Can use arbitrary conditions (make disjoint sets of values called binned
+ bitmaps).
+\end_layout
+
+\end_deeper
 \begin_layout Paragraph
 Foreign-Key indices
 \end_layout
 
 \begin_layout Standard
-Specifies that there is 
-\bar under
-exactly one
+Specifies that there is exactly one
 \series bold
-\bar default
  
 \series default
 value in the PK column of the other table
@@ -768,46 +1657,75 @@ value in the PK column of the other table
 
 \begin_layout Itemize
 Need to maintain integrity, DBMS on insert/update need to make sure the
- value doesn't already exist
+ value doesn't already exist.
 \end_layout
 
 \begin_layout Itemize
-Implemented using a pointer because it means it joins to exactly one row
+Implemented using a pointer because it means it joins to exactly one row.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Usefulness: Low space requirement, instant joins, insignificant effort added
- on insert/update.
-
-\series default
- But can't be used for anything else
+\emph on
+Advantages
+\emph default
+:
 \end_layout
 
+\begin_deeper
+\begin_layout Itemize
+Low space requirement.
+\end_layout
+
+\begin_layout Itemize
+Instant joins.
+\end_layout
+
+\begin_layout Itemize
+Insignificant effort added on insert/update.
+\end_layout
+
+\end_deeper
 \begin_layout Paragraph
 B-Trees
 \end_layout
 
 \begin_layout Standard
-Reduce load spikes by using a tree
+Reduce load spikes by using a tree.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Usefulness:
-\series default
- Support ranges, self balancing 
+\emph on
+Advantages
+\emph default
+: Support ranges, self balancing 
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Disadvantages:
-\series default
- Complex, leaf pointers aren't used, most of the data lives in the leaf
- nodes but not all of it (need to go up)
+\emph on
+Disadvantages
+\emph default
+: Complex, leaf pointers aren't used, most of the data lives in the leaf
+ nodes but not all of it (need to go up).
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Insertion
+\emph default
+:
+\end_layout
+
+\begin_layout Enumerate
+Find the right leaf-node to insert.
+\end_layout
+
+\begin_layout Enumerate
+If the node overflows, split the node into two halves, choose the median
+ to go in the parent.
 \end_layout
 
 \begin_layout Paragraph
@@ -821,87 +1739,79 @@ Keep all key and pointers to data in the leaf nodes, replicate the keys
 
 \begin_layout Itemize
 
-\series bold
-Usefulness:
-\series default
- balancing is same effort, dense index at the bottom (sequential access),
- scans over ranges are trivial
+\emph on
+Advantages
+\emph default
+: scans over ranges are trivial.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Paragraph
 Materialized views
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\equiv$
-\end_inset
+Basically alias to a query.
+ 
+\end_layout
 
- alias to a query.
- However some systems actually stores the result of the query and modify
- it on modifications of the underlying relations (expensive).
+\begin_deeper
+\begin_layout Itemize
+Some systems actually stores the result of the query and modify it on modificati
+ons of the underlying relations (expensive).
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
-Usefulness:
-\series default
- Running the same query returns result instantaneously, some systems are
- smart in reusing part of the views to save on computation
+\emph on
+Useful for
+\emph default
+: running the same query returns result instantaneously.
 \end_layout
 
+\end_deeper
 \begin_layout Section
 Query Planning and Optimisation
 \end_layout
 
 \begin_layout Standard
-Start with a correct plan and apply 
-\bar under
-equivalence
-\bar default
- rules (keep correctness, and hopefully improve performance)
+Start with a correct plan and apply equivalence rules.
 \end_layout
 
 \begin_layout Itemize
-Work on sub-plan like divide and conquer.
- From the root of the plan, apply pattern to start new plan and start process
- again until you traverse without applying any transformation
+From the root of the plan, apply pattern to start new plan and start process
+ again until you traverse without applying any transformation.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
+\emph on
 Logical
-\series default
- 
-\begin_inset Formula $\equiv$
-\end_inset
+\emph default
+: algorithm-agnostic.
+\end_layout
 
- algorithm-agnostic, 
-\series bold
+\begin_layout Itemize
+
+\emph on
 Physical
-\series default
- 
-\begin_inset Formula $\equiv$
-\end_inset
+\emph default
+: algorithm-aware.
+\end_layout
 
- algorithm-aware, 
-\series bold
+\begin_layout Itemize
+
+\emph on
 Rule-based
-\series default
- 
-\begin_inset Formula $\equiv$
-\end_inset
+\emph default
+: data-agnostic.
+\end_layout
 
- data-agnostic, 
-\series bold
+\begin_layout Itemize
+
+\emph on
 Cost-based
-\series default
- 
-\begin_inset Formula $\equiv$
-\end_inset
-
- data-aware
+\emph default
+: data-aware.
 \end_layout
 
 \begin_layout Paragraph
@@ -909,25 +1819,7 @@ Logical rule-based optimization
 \end_layout
 
 \begin_layout Standard
-Perform on relational algebra (portable), but often wrong, infinite cycles,
- missing rule problem as show here:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Graphics
-	filename ../tyn/img/optimisation_1.png
-	width 50text%
-
-\end_inset
-
-
-\begin_inset Graphics
-	filename ../tyn/img/optimisation_2.png
-	width 50text%
-
-\end_inset
-
-
+Simple and portable, but sometimes wrong, infinite cycles, missing rules.
 \end_layout
 
 \begin_layout Itemize
@@ -943,46 +1835,51 @@ pushed
 \series bold
 Operator reordering
 \series default
- (joins, selection, unions) like 
+ (joins, selection, unions) using a heuristic like 
 \begin_inset Formula $s(==)<s(<)<s(<>)$
 \end_inset
 
- (that example is a 
-\bar under
-guard
-\bar default
- too to avoid infinite loop in optimisation when swapping 2 selections),
- reorder selects based on type
+.
 \end_layout
 
 \begin_layout Paragraph
-Cost based optimisation
+Cost-based optimisation
 \end_layout
 
 \begin_layout Standard
-Cost metric here will be number of tuples produced
+Cost metric could be number of tuples produced.
 \end_layout
 
 \begin_layout Itemize
-Estimations: like selecting one value: 
-\begin_inset Formula $\frac{{1}}{\text{\text{{disctinct\;values\;in\;column}}}}$
+
+\emph on
+Estimations
+\emph default
+: like selecting one value: 
+\begin_inset Formula $\frac{1}{\text{disctinct values in column}}$
 \end_inset
 
- and recording distinct values, can be very off (e.g.
- booleans)
+ and recording distinct values are brittle.
 \end_layout
 
 \begin_layout Itemize
 
-\series bold
+\emph on
 Statistics
-\series default
-: histograms 
-\begin_inset Formula $\frac{\text{{occurence\;value} }}{\text{{total\;tuple\;count}}}$
+\emph default
+: use histograms 
+\begin_inset Formula $\frac{\text{ocurrences of a value}}{\text{total tuple count}}$
 \end_inset
 
- and evaluate query on histogram first, multidimensional histograms to resolve
- attribute correlation
+ and evaluate query on histogram first.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Multidimensional histograms
+\emph default
+ used to resolve attribute correlation.
 \end_layout
 
 \begin_layout Paragraph
@@ -994,9 +1891,9 @@ Physical optimisation
 \series bold
 Example metrics:
 \series default
- # volcano function calls, sum of all produced tuples (incl.
- materializations), number of Page Faults (I/O), CPU costs, max(I/O, CPU),
- total intermediate size
+ number of function calls, sum of all produced tuples (incl.
+ materializations), number of page faults (I/O), CPU costs, max(I/O, CPU),
+ total intermediate size, ...
 \end_layout
 
 \begin_layout Itemize
@@ -1005,12 +1902,7 @@ Example metrics:
 Counting cost is hard:
 \series default
  different algorithms have different costs on all the above, how do you
- weight them? e.g.
- 
-\bar under
-Nested Loop join:
-\bar default
- less space, no hash, more comparisons
+ weight them?
 \end_layout
 
 \begin_layout Paragraph
@@ -1018,8 +1910,7 @@ Rule based physical optimisation
 \end_layout
 
 \begin_layout Standard
-Focused on hardware (parallelism, cache-conscious partitioning), or selecting
- join algorithms like we discussed above.
+Focused on hardware (parallelism, cache-conscious partitioning).
 \end_layout
 
 \begin_layout Paragraph
@@ -1027,8 +1918,7 @@ Cost-based physical optimisation
 \end_layout
 
 \begin_layout Standard
-Generally access path selection (read data from indexes? straight from table?
- from materialised view?)
+Generally access path selection: from base table, indices, etc.
 \end_layout
 
 \begin_layout Section
