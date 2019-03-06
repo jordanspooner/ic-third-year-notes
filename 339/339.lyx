@@ -509,5 +509,558 @@ status open
 
 \end_layout
 
+\begin_layout Section
+Applied performance modeling
+\end_layout
+
+\begin_layout Paragraph
+System modeling.
+
+\series medium
+ Encompases 
+\emph on
+hardware
+\emph default
+, 
+\emph on
+code
+\emph default
+, 
+\emph on
+data
+\emph default
+/
+\emph on
+input
+\emph default
+ to get profile.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Numerical/experimental models
+\series default
+: Easy to get if system exists.
+ Provides limited insights (not instructive nor interpretable outside of
+ the context and so generalises poorly) and requires lots of experimental
+ data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Analytical models
+\series default
+: System doesn't need to exist, what-if analysis.
+ It requires extensive validation and grows very complex to handle edge
+ cases.
+\end_layout
+
+\begin_layout Paragraph
+System parameters
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a General Purpose Register of the CPU
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access Latency of the Level 1 Cache (with processing time)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity of a General Purpose Register of the CPU
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a cache line of the Level 1 cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access Latency of the Level 2 Cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity of the Level 1 Cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a cache line of the Level 2 cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access Latency of the main memory
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity of the Level 2 Cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a Memory Page
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lookup time in the Page Table
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number of Memory Pages in the TLB times Page size
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Static analysis
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+extern int* input; extern size_t N; extern size_t stride;
+\end_layout
+
+\begin_layout Plain Layout
+
+int sum = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+for (size_t i = 0; i < N; i+= stride) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	sum += input[stride];
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Formula $s=\text{{stride}}$
+\end_inset
+
+, 
+\begin_inset Formula $T_{mem}=\sum_{i=0}^{3}I_{i}\times\min(1,\frac{{s}}{B_{i}})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dynamic systems and state
+\series default
+.
+ Stochastical models, in particular markov chains.
+\end_layout
+
+\begin_layout Paragraph
+Modeling memory access
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Parameters
+\series default
+: 
+\begin_inset Formula $R_{n}$
+\end_inset
+
+ number of stored tuples, 
+\begin_inset Formula $R_{w}$
+\end_inset
+
+(size of tuple in words).
+ 
+\begin_inset Formula $||R||$
+\end_inset
+
+ (size of region) is product of length and width.
+ 
+\begin_inset Formula $u$
+\end_inset
+
+ is number of word read in each access.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Composition
+\series default
+: 
+\begin_inset Formula $P_{1}\oplus P_{2}$
+\end_inset
+
+ Serial execution of 
+\begin_inset Formula $P_{1}$
+\end_inset
+
+,
+\begin_inset Formula $P_{2}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $P_{1}\odot P_{2}$
+\end_inset
+
+ concurrent execution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+// uniform random data, 1024 values
+\end_layout
+
+\begin_layout Plain Layout
+
+extern struct{int a; int b; int c;}* input1;
+\end_layout
+
+\begin_layout Plain Layout
+
+extern int* input2; // random data, 64 values
+\end_layout
+
+\begin_layout Plain Layout
+
+int sum = 0; for(size_t i = 0; i < inputSize; i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	sum += input2[input1[i].a] >> 4;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\text{{s\_trav}(R.w = 3, u =1, R.n=1024)\odot\text{{rr\_acc}(R.w=1, u=1, R.n=64, r=1024)}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Assumptions
+\series medium
+.
+ Assume distribution and independence of the input.
+ Assume independent parallelism (cache contention etc.
+ not discussed).
+ Can't model noise.
+\end_layout
+
 \end_body
 \end_document
