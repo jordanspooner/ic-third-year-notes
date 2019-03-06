@@ -1293,11 +1293,195 @@ CPU in-core parallelism, do it in hardware.
  mapped to assembly).
 \end_layout
 
+\begin_layout Section
+Memory efficient code
+\end_layout
+
 \begin_layout Paragraph
+Data hazards
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cache misses
+\series default
+, the three Cs (plus 
+\emph on
+coherence
+\emph default
+ across cores)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Compulsory
+\emph default
+: first access of the cache line
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Capacity
+\emph default
+: Discarded value and retrived later
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Conflict
+\emph default
+: Direct map and set-associative block-placement strategy
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Causes for data stalls (type) and solutions:
+\end_layout
+
+\begin_layout Itemize
+Non compulsory 
+\emph on
+cache miss
+\emph default
+ (
+\series bold
+capacity bound
+\series default
+): Reduce hot dataset size
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Popular cache replacement strategy is 
+\series bold
+LRU
+\series default
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+can cause 
+\series bold
+thrashing
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tile loops
+\series default
+ to decrease hot dataset size.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Fully utilised memory bus
+\emph default
+ (
+\series bold
+bandwidth bound
+\series default
+): Increase cache-line utilisation
+\end_layout
+
+\begin_layout Itemize
+Otherwise compulsory misses (
+\series bold
+latency bound
+\series default
+): Prefetch
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+void __buildin_prefetch(const void *addr, ...);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Virtual memory (hardware optimise to reduce latency)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Address translation
+\series default
+: CPU deals in virtual addresses.
+ Addresses in cache are 
+\emph on
+virtually indexed
+\emph default
+ and 
+\emph on
+physically tagged
+\emph default
+ (VIPT).
+ Translation Lookaside Buffer (
+\emph on
+TLB
+\emph default
+) caches translations, page fault is interupt.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
 Memory allocation
 \series medium
 .
- Difference between once, eager, and lazy (reallocation).
+ Difference between once, eager, and lazy (reallocation) is caused by 
+\series bold
+Copy on Write
+\series medium
+.
+\end_layout
+
+\begin_layout Itemize
+What happens when a prefetch causes a TLB miss (
+\series bold
+page fault
+\series default
+) ? Fetching page should cause OS interupt (resolve synonyms by page colouring,
+ set up CoW etc.) so shouldn't prefetch.
+\end_layout
+
+\begin_layout Paragraph*
+Multicore effect and coherance.
+
+\series medium
+ 
+\emph on
+MESI
+\emph default
+ to coordinate caches in QPI (Intel quickpath interconnect).
+ Cache lines can cause false sharing (writing to same line but different
+ addresses), slowdown of 
+\begin_inset Formula $\approx0.85T$
+\end_inset
+
+x where 
+\begin_inset Formula $T$
+\end_inset
+
+ is number of cores.
 \end_layout
 
 \end_body
