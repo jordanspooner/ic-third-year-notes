@@ -318,6 +318,7 @@ Events
 .
  A change in the system.
  Simple (clock tick), complex (cache miss).
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -335,6 +336,7 @@ Tracing
 Sampling
 \series default
  (keep state in intervals, often time based, inaccurate).
+ Sampling with size 1 is event based (counting number of occurences).
 \end_layout
 
 \begin_layout Itemize
@@ -350,7 +352,161 @@ Making a profile
 \series bold
 Trace
 \series default
-: Ordered log of every state
+: Ordered log of every state.
+ Example with stack call tracing, aggregated in flame graph.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/event-classification.png
+	width 90page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Collecting events
+\series medium
+.
+ Want detailed and accurate measurements whilst limiting the perturbation
+ in the system.
+ Could collect with software (OS, compiler), hardware (counter) or creating
+ an emulator.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Instrumentation
+\series default
+: Augment program with even logging code.
+ No need for hardware supports and works regardless of admin right etc.
+ Overhead and perturbation are high.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Automatic
+\series default
+ source level: libraries.
+ Binary level: Usually compiler supported, less control.
+ If static then always pay overhead whereas dynamic means no recompilation,
+ can be performed on running process, JIT?
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Manual
+\series default
+: Logging.
+ +: Control, no special hardware or compiler needs.
+ -: disabled for release builds, needs recompilation.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Performance counting
+\series default
+.
+ Software (application specific/OS level -packets, context switch).
+ Hardware (Often buggy and poorly documented).
+\end_layout
+
+\begin_layout Paragraph
+CPU architecture
+\end_layout
+
+\begin_layout Itemize
+Hardware are designed for certain classes of programs and full of hacks
+ so optimisation isn't as easy as just making programs with less instructions
+ and instead we have a 400 pages long Intel architectures optimisation ref
+ manual.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Pipelining
+\series default
+: instructions on different stages are executed in parallel on the CPU.
+ A 
+\series bold
+Control hazard
+\series default
+ means the pipeline is stopped because next intruction is conditional.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Caches
+\series default
+: 
+\begin_inset Quotes eld
+\end_inset
+
+Hot
+\begin_inset Quotes erd
+\end_inset
+
+ non-programmable memory.
+ Organised in a hierarchy of increasing size.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/cache-locality.png
+	width 43page%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/hot-dataset.png
+	width 43page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck analysis on CPU.
+ 
+\series medium
+Consists of checking micro-ops status.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/cpu-bottleneck-analysis.png
+	width 50page%
+
+\end_inset
+
+
 \end_layout
 
 \end_body
