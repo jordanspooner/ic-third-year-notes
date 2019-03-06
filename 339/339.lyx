@@ -1406,7 +1406,15 @@ status open
 
 \begin_layout Plain Layout
 
-void __buildin_prefetch(const void *addr, ...);
+
+\backslash
+texttt{void 
+\backslash
+_
+\backslash
+_buildin
+\backslash
+_prefetch(const void *addr, $...$);}
 \end_layout
 
 \end_inset
@@ -1482,6 +1490,320 @@ x where
 \end_inset
 
  is number of cores.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/mesi.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/false-sharing.png
+	width 45line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Load Testing
+\end_layout
+
+\begin_layout Paragraph
+Benchmarks v.
+ micro-benchmarks
+\end_layout
+
+\begin_layout Itemize
+Benchmarks are complex tests against a 
+\emph on
+reference
+\emph default
+ workload (
+\series bold
+realistic
+\series default
+).
+ Assess business purposes, highlights hardware limitations, and certify
+ performance.
+\end_layout
+
+\begin_layout Itemize
+Micro-benchmarks are 
+\series bold
+short
+\series default
+ tests designed to help optimise a critical part.
+\end_layout
+
+\begin_layout Paragraph
+Standart industry benchmarks
+\series medium
+.
+ From non-profits (TPC, SPEC).
+ Should be 
+\series default
+repeatable
+\series medium
+, 
+\series default
+interpretable
+\series medium
+, 
+\series default
+comparable
+\series medium
+, 
+\series default
+vendor-neural
+\series medium
+, 
+\series default
+transparent
+\series medium
+ and well documented.
+ Examples include:
+\end_layout
+
+\begin_layout Itemize
+SPEC: CPU2006 (integer and floating-point ops), jbb2015 (multitier Java
+ app), Cloud_IaaS (Map reduce, cassandra), etc.
+\end_layout
+
+\begin_layout Itemize
+TPC: -C (database transactions), -H (analytical queries), -DS (Big data
+ – Hadoop/Spark), etc.
+\end_layout
+
+\begin_layout Paragraph
+Specjbb2015
+\series medium
+.
+ Evaluates performance and scalability of 
+\emph on
+environments
+\emph default
+ for Java business applications (here a fake supermaket).
+ In addition to the fake app, includes a simulator that will scale the workload
+ injection, and a monitor to generate reports with key metrics.
+ It is made of three parts the backend (fake app), the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\series medium
+
+\backslash
+texttt{TxInjector}
+\end_layout
+
+\end_inset
+
+s and one Controller to coordinate the first two.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Controller
+\series default
+: Synchronise start/stop of the load injectors, coordinates benchmarking
+ phases, 
+\series bold
+dispaches work to load injectors
+\series default
+, send heartbeats to 
+\series bold
+detect failure
+\series default
+ and recover, collects aggregates and 
+\series bold
+stores the test results
+\series default
+.
+ Also configures the backend agents that manage the fake application.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Load injectors
+\series default
+: Each controls a 
+\series bold
+thread pool
+\series default
+ where each thread issues requests and waits for replies.
+ Threads are separated by 
+\series bold
+think time
+\series default
+ before being issued.
+ Uses java 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{nio}
+\end_layout
+
+\end_inset
+
+ for concurrent I/O.
+ 
+\series bold
+Report results
+\series default
+ to coordinator.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Execution phases
+\series default
+: Search High Bound Injection Rate (
+\emph on
+HBIR
+\emph default
+) 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Response Troughput (
+\emph on
+RT
+\emph default
+) curve building 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Validation 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Profiling (statistical data) 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Reporter (.html).
+ During 
+\emph on
+RT
+\emph default
+ curve building, observe transient and steady phases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/rt-specjbb.png
+	width 80line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Reported metrics
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+max-jOPS
+\emph default
+: maximum sustainable injection rate, above which the system does not convergenc
+e to steady-state within 90s
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+critical-jOPS
+\emph default
+: mean of injection rates of first failure and of last success of SLA (99th
+ percentile on response time)
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Load testing
+\series medium
+.
+
+\series default
+ Limitations of benchmarks 
+\series medium
+above: we only tested the platform, it's only a metric to evaluate JBA providers.
+ Creating a test workload for an arbitrary application can be done by either
+ customising benchmark or using a customable testing tool (JMeter, Selenium,
+ etc.) and do load testing which allows to simulate load (injectors, browsers)
+ and emulate realistic / custom user behaviors (think times, abandonment,
+ resume sessions, mix of requests, etc.).
 \end_layout
 
 \end_body
