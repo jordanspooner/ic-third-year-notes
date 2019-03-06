@@ -1062,5 +1062,243 @@ Assumptions
  Can't model noise.
 \end_layout
 
+\begin_layout Section
+CPU efficient code
+\end_layout
+
+\begin_layout Paragraph
+Metrics
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Wall time
+\series default
+ is ultimate goal when Cycles Per Instructions is more of a parameter.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stall cycles
+\series default
+ can be good but can miss the bigger picture, but help reduce:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Control
+\emph default
+ hazards: stalls due to data-dependent flow
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Structural
+\emph default
+ hazards: stalls due to CPU's features
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Data
+\emph default
+ hazards: stalls due to operands not being there on time.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+CPU efficiency
+\series default
+: proxy metrics
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Work-efficiency: Don't waste cycles
+\end_layout
+
+\begin_layout Itemize
+Simplicity: Fewer instructions for less resource utilisation
+\end_layout
+
+\begin_layout Itemize
+Parallelism: even in non parallel algorithms
+\end_layout
+
+\begin_layout Itemize
+Predictability: ease speculation
+\end_layout
+
+\begin_layout Itemize
+Adaptivity: acount for unknown parameters
+\end_layout
+
+\begin_layout Itemize
+Specialization: use of hardware features
+\end_layout
+
+\begin_layout Itemize
+Separation of Concerns: make hardware do heavy lifting
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Design decisions
+\series medium
+: Know the system's specifications, can it do out-of order / speculative
+ execution? 
+\emph on
+Dynamic
+\emph default
+ parallelism (superscalar execution) or 
+\emph on
+statically
+\emph default
+ bundled (SIMD or Very long instruction word - VLIW)?
+\end_layout
+
+\begin_layout Paragraph
+More architecture
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Pipeline execution
+\series default
+: 
+\begin_inset Formula $\neq$
+\end_inset
+
+instruction in 
+\begin_inset Formula $\neq$
+\end_inset
+
+stages.
+ Affected by
+\emph on
+ all 3
+\emph default
+ hazards
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Superscalar execution
+\series default
+: 
+\begin_inset Formula $\neq$
+\end_inset
+
+ instructions in same stage.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Out of order
+\series default
+: Exploits expression reordering and better ALU allocation.
+ Suffers from 
+\emph on
+control
+\emph default
+ hazards.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Speculative execution
+\series default
+: Fills pipeline if no instruction is eligible.
+ Addresses 
+\emph on
+control
+\emph default
+ hazard.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SIMD
+\series default
+: Vector registers can perform operation on set of values faster than one
+ by one.
+ Careful about clocking down CPU during that time though.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+VLIW
+\series default
+: Instruction encoding multiple regular instructions.
+\end_layout
+
+\begin_layout Paragraph
+Partial evaluation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Constant evaluation
+\series default
+: When scope allows it.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Lifting / eliminating expensive operations
+\series default
+: Don't do it by writting code for each cases, let the compiler do it (template
+ meta-programming).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+JIT compilation, inlining, symbolic programming.
+\end_layout
+
+\begin_layout Paragraph
+Predicability
+\series medium
+.
+ Very data dependent but code can be quite predicatable.
+ Use 
+\emph on
+predication
+\emph default
+/if-conversion if measure indicates otherwise.
+\end_layout
+
+\begin_layout Paragraph
+CPU in-core parallelism, do it in hardware.
+
+\series medium
+ Compilers try to auto-vectorise, if fail use Intel intrinsics (functions
+ mapped to assembly).
+\end_layout
+
+\begin_layout Paragraph
+Memory allocation
+\series medium
+.
+ Difference between once, eager, and lazy (reallocation).
+\end_layout
+
 \end_body
 \end_document
