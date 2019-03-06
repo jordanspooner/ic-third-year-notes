@@ -1,0 +1,357 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a5paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1.2cm
+\rightmargin 1cm
+\bottommargin 1.2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle empty
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+CO339 Performance Engineering
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Perfomance engineering
+\emph default
+: Techniques applied to ensure the 
+\series bold
+non-functional requirements
+\series default
+ for perfomance.
+ The key is defining a metric (Throughput, energy usage, etc.) and a threshold
+ (target / budget).
+ miuspe ale hting is no
+\end_layout
+
+\begin_layout Paragraph
+Defining a target
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Requirements
+\series default
+:
+\series bold
+ 
+\series default
+Specific (numeric terms), Measurable, Acceptable (garantee success), Realisable,
+ Thorough (covers everything)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Quality of Service (QoS)
+\series default
+: Value of a metric that must hold under certain assumptions / conditions.
+ Can conflict with functional requirements.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Service Level Agreement (SLAs)
+\series default
+: Legal contracts specifying QoS objectives and penalties for violation.
+ Enforced by constant monitoring (but not 
+\emph on
+continuous
+\emph default
+ – cost)
+\end_layout
+
+\begin_layout Paragraph
+Performance Evaluation techniques
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Measuring
+\series default
+: Performed on prototype / final system.
+ Good accuracy, often based on instrumentation.
+ Costly and difficult to perform.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Benchmark
+\series default
+: Apply workload after getting system into a predefined state.
+ Workload generator has to be at least as good as the system being benchmarked.
+ Types of workloads:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Batch (like a query set).
+ Analyse 
+\series bold
+throughput
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Interactive (generate random queries).
+ Analyse 
+\series bold
+latency
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Hybrids (random access in query set).
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Parameters
+\series default
+: 
+\emph on
+System parameters
+\emph default
+ (caches, CPU instruction costs, etc.).
+ 
+\emph on
+Workload parameters
+\emph default
+ (users, available memory, etc.), often continuous.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Statistic
+\series default
+: Aggregate multiple runs with variance to eliminate the noise.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Utilisation
+\series default
+: % of resource that is used to perform this service
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Bottleneck
+\series default
+: The resource with the highest utilisation
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Improving performance
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Goal
+\series default
+: Alternative designs (
+\emph on
+development
+\emph default
+) select best value for parameter (
+\emph on
+tuning
+\emph default
+).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Analytical modeling
+\series default
+: Mathematical relationship between performance parameters and performance
+ metrics.
+ 
+\emph on
+How to model dynamic system with static equations?
+\emph default
+ Fast, allow what-if analysis.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Simulation
+\series default
+: When system is too complex to be understood.
+ Slow experiments.
+\end_layout
+
+\begin_layout Paragraph
+Parameter tuning
+\series medium
+.
+ Find optimal parameter vector to maximise performance metric & minimise
+ the resource consumption.
+ Sometimes means trading the use of expensive / non-scalable resource by
+ using more of others.
+\end_layout
+
+\begin_layout Section
+Performance profiling & tracing
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Profile
+\emph default
+: A graphical or other reprentation charactising the system in terms of
+ the time it spends in certain states.
+ Can be used to identify critical paths, bottlenecks or help tuning.
+\end_layout
+
+\begin_layout Paragraph
+Events
+\series medium
+.
+ A change in the system.
+ Simple (clock tick), complex (cache miss).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Collecting events
+\series default
+.
+ 
+\series bold
+Tracing
+\series default
+ (keep state for every event, high overhead, more information), 
+\series bold
+Sampling
+\series default
+ (keep state in intervals, often time based, inaccurate).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Making a profile
+\series default
+: Aggregating over the events of a specific metric/
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Trace
+\series default
+: Ordered log of every state
+\end_layout
+
+\end_body
+\end_document
