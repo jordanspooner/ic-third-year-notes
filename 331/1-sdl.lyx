@@ -357,6 +357,9 @@ vspace{-0.5cm}
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\emph on
 Threat
 \end_layout
 
@@ -366,6 +369,9 @@ Threat
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\emph on
 Examples
 \end_layout
 
@@ -375,6 +381,9 @@ Examples
 \begin_inset Text
 
 \begin_layout Plain Layout
+
+\series bold
+\emph on
 Mitigation techniques
 \end_layout
 
