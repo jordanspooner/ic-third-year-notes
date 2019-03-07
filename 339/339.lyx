@@ -2191,5 +2191,600 @@ create invalid path
  and are used in tools.
 \end_layout
 
+\begin_layout Section
+Bottlenecks in distributed systems
+\end_layout
+
+\begin_layout Standard
+Answering questions about 
+\series bold
+which resource limits the scalibility
+\series default
+ of the application, perform what-if analysis (how will changes in user
+ requests rates or resource speed impact performance, etc.).
+ 
+\series bold
+Individual resources are affected by system metrics
+\series default
+ (arrival rate, service time, contention).
+ We want to highlight those correlations, and focus on resources being 
+\series bold
+busy
+\series default
+ (at server/tier level or hardware component level) and not so much model
+ 
+\emph on
+contention
+\emph default
+.
+\end_layout
+
+\begin_layout Paragraph
+Service classes
+\end_layout
+
+\begin_layout Itemize
+System offers 
+\begin_inset Formula $C$
+\end_inset
+
+ types of services (
+\series bold
+service class
+\series default
+) using 
+\begin_inset Formula $M$
+\end_inset
+
+ resources (like web pages using a web server and a database).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Demand
+\series default
+: 
+\begin_inset Formula $D_{ic}=k_{ic}S_{ic}$
+\end_inset
+
+ is service time accumulated by class-
+\begin_inset Formula $c$
+\end_inset
+
+ request through its visits to resource 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ On contention/queuing demand is only the effective processing time, not
+ other overheads.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $k_{ic}$
+\end_inset
+
+is average number of calls to resource 
+\begin_inset Formula $i$
+\end_inset
+
+ for class-
+\begin_inset Formula $c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $S_{ic}$
+\end_inset
+
+is mean service time for class-
+\begin_inset Formula $c$
+\end_inset
+
+ on resource 
+\begin_inset Formula $i$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Operational analysis
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Common metrics: 
+\series default
+
+\begin_inset Formula $A_{c}$
+\end_inset
+
+: total number of arriced requests of class 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ 
+\begin_inset Formula $B_{ic}$
+\end_inset
+
+: total time resource 
+\begin_inset Formula $i$
+\end_inset
+
+ is busy because of class-
+\begin_inset Formula $c$
+\end_inset
+
+ request
+\end_layout
+
+\begin_layout Itemize
+Given the 
+\series bold
+oservation period
+\series default
+ 
+\begin_inset Formula $T$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\lambda_{c}=A_{c}/T$
+\end_inset
+
+: 
+\series bold
+average arrival rate
+\series default
+ of class-
+\begin_inset Formula $c$
+\end_inset
+
+ requests
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $U_{ic}=B_{ic}/T$
+\end_inset
+
+: 
+\series bold
+utilisation
+\series default
+ of resource 
+\begin_inset Formula $i$
+\end_inset
+
+ due to class-
+\begin_inset Formula $c$
+\end_inset
+
+ request
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Stable system throughput
+\series default
+: if requests never fail and pending requests are always bounded then 
+\begin_inset Formula $\lambda_{c}$
+\end_inset
+
+equals class-
+\begin_inset Formula $c$
+\end_inset
+
+ 
+\series bold
+throughput 
+\begin_inset Formula $X_{c}$
+\end_inset
+
+
+\series default
+ as 
+\begin_inset Formula $T$
+\end_inset
+
+ grows large.
+ An 
+\series bold
+unstable
+\series default
+ system cannot cope with arrival rate so 
+\begin_inset Formula $\lim_{T\rightarrow\infty}\text{pending}(c)\not\rightarrow0$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+\lambda_{c}=\lim_{T\rightarrow\infty}\frac{A_{c}}{T}=\lim_{T\rightarrow\infty}\frac{\text{completed}(c)+\text{pending}(c)}{T}=\lim_{T\rightarrow\infty}\frac{\text{completed}(c)}{T}=X_{c}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/example-metrics-calculation.png
+	width 75line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Utilisation law
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $D_{ic}=B_{ic}/A_{c}$
+\end_inset
+
+ since 
+\begin_inset Formula $B_{ic}/A_{c}$
+\end_inset
+
+ averages the total processing time of class-
+\begin_inset Formula $c$
+\end_inset
+
+ requestions at resource 
+\begin_inset Formula $i$
+\end_inset
+
+ (by definition 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Relationship between utilisation and demand:
+\begin_inset Formula 
+\[
+U_{ic}=\frac{B_{ic}}{T}=\frac{A_{c}}{T}\frac{B_{ic}}{A_{c}}=\lambda_{c}D_{ic}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+For a system with 
+\begin_inset Formula $C$
+\end_inset
+
+ workload classes, total resource utilisation 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ is:
+\begin_inset Formula 
+\[
+U_{i}=\sum_{c=1}^{C}U_{ic}=\sum_{c=1}^{C}\lambda_{c}D_{ic}=\sum_{c=1}^{C}X_{c}D_{ic}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Example:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/example-utilisation-ubg.png
+	width 98line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Demand estimation from utilisation samples
+\series medium
+.
+ Utilisation law describes a hyperplane with slopes 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+.
+ 
+\series default
+Multivariate linear regression
+\series medium
+ fits hyperplane to sample of 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{c}$
+\end_inset
+
+ (or 
+\begin_inset Formula $X_{c}$
+\end_inset
+
+), 
+\begin_inset Formula $\forall c$
+\end_inset
+
+ returning the demands 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+.
+ The estimated demands are hardware dependent and will change after hardware
+ upgrades.
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck analysis
+\series medium
+.
+ Determine the resource that limits scalability.
+\end_layout
+
+\begin_layout Itemize
+Bottlenecks are 
+\series bold
+oversubsribed resources
+\series default
+ which struggle to complete backlog of pending requests.
+ Often run near 100% utilisation (
+\series bold
+saturation
+\series default
+).
+ Analysis answers:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+As we increase the arrival rates of requests, which resource(s) will saturate
+ first?
+\end_layout
+
+\begin_layout Itemize
+What is the 
+\series bold
+maximum arrival rate
+\series default
+ that the system can sustain under a given request mix?
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+In system with 
+\begin_inset Formula $M$
+\end_inset
+
+ resources we can describe resource usage as the following system of linear
+ equations, where we require 
+\begin_inset Formula $U_{i}\leq1\,\forall i$
+\end_inset
+
+ :
+\begin_inset Formula 
+\[
+U_{i}=\sum_{c=1}^{C}\lambda_{c}D_{ic},\,\,i=1,\dots,M
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Resource 
+\begin_inset Formula $j$
+\end_inset
+
+ can saturate 
+\begin_inset Formula $\iff\exists(\lambda_{1},\dots,\lambda_{C})$
+\end_inset
+
+ such that 
+\begin_inset Formula $U_{j}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Therefore it's possible to build the following 
+\series bold
+LP
+\series default
+ where optimal value over variables 
+\begin_inset Formula $\lambda_{c}$
+\end_inset
+
+ where if the optimal value 
+\begin_inset Formula $U_{j}^{\text{max}}=1$
+\end_inset
+
+ then 
+\begin_inset Formula $j$
+\end_inset
+
+ can saturate.
+\begin_inset Formula 
+\begin{alignat*}{2}
+U_{i} & =\text{maximise} & \sum_{c=1}^{C}\lambda_{c}D_{jc}\\
+ & \text{subject to} & \sum_{c=1}^{C}\lambda_{c}D_{ic}\leq1,\, & i=1,\dots,M\\
+ &  & \lambda_{c}\geq0,\, & c=1,\dots,M
+\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Example
+\series default
+: Assume 
+\begin_inset Formula $C=2$
+\end_inset
+
+ workload classes and 
+\begin_inset Formula $M=4$
+\end_inset
+
+ resources.
+ Each line represents boundary of 
+\begin_inset Formula $U_{i}\leq1$
+\end_inset
+
+ for given 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each point 
+\begin_inset Formula $(\lambda_{1},\lambda_{2})$
+\end_inset
+
+ is a possible arrival rate to the system.
+\end_layout
+
+\begin_layout Itemize
+The shaded region indicates the sustainable arrival rates.
+\end_layout
+
+\begin_layout Itemize
+Server 1 can never become a bottleneck.
+ Never upgrade it!
+\end_layout
+
+\begin_layout Itemize
+Server 2 is the 
+\series bold
+class-1 bottleneck
+\series default
+ (largest demand in class 1).
+\end_layout
+
+\begin_layout Itemize
+Server 3 is the 
+\series bold
+class-2 bottleneck
+\series default
+ (largest demand in class 2).
+\end_layout
+
+\begin_layout Itemize
+Server 4 is a 
+\series bold
+bottleneck only for some arrival rates
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Servers 2,3,4 are thus potential bottlenecks for this system.
+\end_layout
+
+\begin_layout Itemize
+Some 
+\series bold
+mixes
+\series default
+ lead multiple resources to become bottlenecks 
+\series bold
+simultaneously
+\series default
+, e.g., 2 + 3 or 2 + 4
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/lp-graph.png
+	width 70line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck migration
+\series medium
+.
+ If system has single bottleneck, we can upgrade the hardware / scale up
+ VM.
+ But arrival rates change over time (day/night, longer periods, etc.) and
+ thus actually 
+\series default
+show different bottlenecks
+\series medium
+ over time.
+ We require 
+\series default
+adaptive resource management
+\series medium
+ (e.g.
+ in cloud) to cope with transient needs.
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck switches
+\series medium
+.
+ Multiple pototential bottlenecks, it is possible for them to migrate accross
+ resources at the millisecond level (
+\series default
+millibottlenecks
+\series medium
+) which can be invisible to monitoring (
+\begin_inset Formula $10\text{s}+5\text{ms}\approx10\text{s}$
+\end_inset
+
+).
+ They downgrade performance by queueing transactions.
+ A 
+\series default
+symptom
+\series medium
+ is that throughput grows slowly, even if the system is lightly utilised.
+\end_layout
+
 \end_body
 \end_document
