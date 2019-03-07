@@ -1611,7 +1611,6 @@ status open
 
 \begin_layout Plain Layout
 
-\series medium
 
 \backslash
 texttt{TxInjector}
@@ -1804,6 +1803,392 @@ above: we only tested the platform, it's only a metric to evaluate JBA providers
  etc.) and do load testing which allows to simulate load (injectors, browsers)
  and emulate realistic / custom user behaviors (think times, abandonment,
  resume sessions, mix of requests, etc.).
+\end_layout
+
+\begin_layout Section
+User behavior modelling
+\end_layout
+
+\begin_layout Paragraph
+Log file.
+
+\series medium
+ Use tools to automate collection (elasticsearch, Logstash).
+ In distributed systems, logs need to be combined into 
+\series default
+workload traces
+\series medium
+ which organises events that pertain to arrival and service of requests
+ in a 
+\series default
+time series
+\series medium
+.
+ We use those to understand, simulate (what-if) and replay a sequences of
+ events.
+\end_layout
+
+\begin_layout Paragraph
+Common issues in workload traces
+\series medium
+ include 
+\emph on
+privacy
+\emph default
+, 
+\emph on
+inflexibility
+\emph default
+ (analyse effect of specific parameters), 
+\emph on
+noise
+\emph default
+ and 
+\emph on
+overfitting
+\emph default
+ the 
+\series default
+workload models
+\series medium
+ (model to reproduce a trace) we create to the data using 
+\emph on
+Workload characterization
+\emph default
+ (model parameters are fitted to traces to capture their essential characteristi
+cs).
+ We want models to be able to repeat a trace (although non-identically),
+ give us an understanding of the system and, over traces, they present the
+ advantage of always being available (no sysadmin / privacy issues).
+\end_layout
+
+\begin_layout Paragraph*
+User behaviour graph (UBG)
+\series medium
+.
+ Discrete time Markov chains where states are pages / sessions or a service
+ invocation.
+ We use user sessions (the sequence of states a particular user invokes)
+ to determine the transition probabilities.
+ A good fingerprinting of users is essential in web applications to take
+ care of problems like users using multiple browsers, sharing the same IP
+ or later resume of session.
+ We use them to perform 
+\emph on
+simulation
+\emph default
+, 
+\emph on
+analysis
+\emph default
+ of UB, investigate consequences of 
+\emph on
+modification
+\emph default
+ and perform 
+\emph on
+clustering
+\emph default
+ for business analystics.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{ij}=\frac{\text{{number\,of\,requests\,for\,}j \text{{with\,}i \text{as a referer URL}} }}{\sum_{k\in S}\text{number of requests for }k\text{ with }i\text{ as a referer URL}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Properties of UBGs
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Visit ratio
+\series default
+: Average number of visits 
+\begin_inset Formula $V(i)$
+\end_inset
+
+ to state 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ With 
+\emph on
+
+\begin_inset Formula $E$
+\end_inset
+
+
+\emph default
+ the entry state (
+\begin_inset Formula $V(E)=1$
+\end_inset
+
+).
+\begin_inset Formula 
+\[
+V(j)=\sum_{i\in S}V(i)p_{ij}\;\;\forall j\in S\backslash\{E\}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Session length
+\series default
+: Average session length for a user, with 
+\begin_inset Formula $X$
+\end_inset
+
+ the exit state.
+\begin_inset Formula 
+\[
+L=\sum_{i\in S\backslash\{E,X\}}V(i)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Distribution of states
+\series default
+: 
+\begin_inset Formula $\pi^{(n)}(i)$
+\end_inset
+
+: probability of being in state 
+\begin_inset Formula $i$
+\end_inset
+
+ at the 
+\begin_inset Formula $n$
+\end_inset
+
+th invocation (how often user reaches 
+\begin_inset Formula $i$
+\end_inset
+
+ after 
+\begin_inset Formula $n$
+\end_inset
+
+ visits.
+ 
+\begin_inset Formula 
+\[
+\pi^{(n)}=[\pi_{i}^{(n)}|i\in S]\,\,\text{(State probability vector)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\pi^{(0)}=[\pi_{E}^{(0)},\pi_{H}^{(0)},\dots,\pi_{X}^{(0)}]=[1,0,\dots,0]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\pi_{j}^{(n)}=\sum_{i\in S}\pi_{i}^{(n-1)}p_{ij},\,j\in S\,\equiv\pi^{(n)}=\pi^{(n-1)}P\Rightarrow\pi^{(n)}=\pi^{(0)}P^{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Session length distribution: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\pi_{X}^{(n)}$
+\end_inset
+
+ probability of leaving the system in 
+\begin_inset Formula $n$
+\end_inset
+
+ page visits or less.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Rightarrow\pi_{X}^{(n)}-\pi_{X}^{(n-1)}$
+\end_inset
+
+is the probability of completing the session after exactly 
+\begin_inset Formula $n$
+\end_inset
+
+ page requests
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/session-length-distribution.png
+	width 98line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Fitting UBGs from log data
+\end_layout
+
+\begin_layout Itemize
+Define for user 
+\begin_inset Formula $u$
+\end_inset
+
+ the matrix 
+\begin_inset Formula $C_{u}$
+\end_inset
+
+with entry 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+ conts visits to page 
+\begin_inset Formula $j$
+\end_inset
+
+ after visiting 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ Normalise the rows to sum to one to turn into UBG.
+ For 
+\begin_inset Formula $n$
+\end_inset
+
+ pages 
+\begin_inset Formula $C_{u}$
+\end_inset
+
+maps to 
+\series bold
+Euclidean space
+\series default
+ with 
+\begin_inset Formula $n^{2}$
+\end_inset
+
+dimensions.
+\end_layout
+
+\begin_layout Itemize
+Use 
+\series bold
+
+\begin_inset Formula $k$
+\end_inset
+
+-means clustering
+\series default
+ to find clusters equivalent to classes user in this space.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Input: Points in space, number of clusters 
+\begin_inset Formula $k$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Output: coordinates of 
+\begin_inset Formula $k$
+\end_inset
+
+ centroids.
+\end_layout
+
+\begin_layout Itemize
+Initialise centroid positions randomly, repeat until convergence the following:
+ for every point 
+\series bold
+assign to the cluster with nearest centroid
+\series default
+ and for every cluster, 
+\series bold
+recalculate the positions of the centroids
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Nearest is as Euclidean distance: 
+\begin_inset Formula 
+\[
+d(C_{u},C_{v})=\sqrt{\sum_{i=1}^{n}\sum_{j=1}^{n}(C_{u}(i,j)-C_{v}(i,j))^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Centroid position is average coordinates of the points in cluster
+\begin_inset Formula 
+\[
+c(i,j)=\frac{1}{n_{c}}\sum_{u\in\text{cluster}}C_{u}(i,j)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Limitation of UBGs
+\series medium
+ includes that they 
+\series default
+don't include content
+\series medium
+ inside the states (what got searched), 
+\series default
+don't include resource usage
+\series medium
+ and may 
+\series default
+create invalid path 
+\series medium
+(no login for example).
+ Extensions will include creating user classes, conditional actions, data
+ flows, etc.
+ and are used in tools.
 \end_layout
 
 \end_body
