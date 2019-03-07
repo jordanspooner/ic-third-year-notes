@@ -3772,5 +3772,609 @@ resolution IV
  The higher the resolution, the less severe the counfounding is.
 \end_layout
 
+\begin_layout Section*
+Resource scaling
+\end_layout
+
+\begin_layout Standard
+In IT systems running on IaaS clouds, nodes are 
+\series bold
+virtual machines
+\series default
+.
+ Can increase capacity using:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Vertical scaling
+\series default
+: increase or upgrade resource within existing nodes (cores, memory, etc.),
+ called 
+\series bold
+scaling up
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Horizontal scaling
+\series default
+: add nodes to tiers of the application (
+\series bold
+scale out
+\series default
+).
+\end_layout
+
+\begin_layout Itemize
+HS will change the 
+\series bold
+architecture
+\series default
+ whereas VS will just throw more hardware.
+\end_layout
+
+\begin_layout Paragraph*
+Vertical scaling
+\series medium
+.
+ More 
+\series default
+simple and predictable
+\series medium
+ but imply downtime but the node (VM) will need to 
+\series default
+restart
+\series medium
+ (OS can't dynamically upgrade number of cores etc.) even though restarting
+ 
+\series default
+can fail
+\series medium
+.
+ Another limitation is the application might not be able to exploit new
+ resources.
+\end_layout
+
+\begin_layout Standard
+For example, CPU core scaling and 
+\series bold
+Amdhal's law
+\series default
+ (1967).
+ Let 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ be the ecution time for a job running on 
+\begin_inset Formula $n$
+\end_inset
+
+ cores (
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ exectution time on a single core).
+ Then the 
+\series bold
+speedup
+\series default
+ 
+\begin_inset Formula $S_{n}$
+\end_inset
+
+ is limited by the fraction 
+\begin_inset Formula $p$
+\end_inset
+
+ of the job's execution that can be parallelised.
+\begin_inset Formula 
+\[
+S_{n}=\frac{T_{1}}{T_{n}}\approx\frac{T_{1}}{\underbrace{(1-p)T_{1}}_{\text{serial part}}-\underbrace{p\times\nicefrac{T_{1}}{n}}_{\text{parallel part}})}=\frac{1}{(1-p)+\nicefrac{p}{n}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Horizontal scaling
+\series medium
+.
+ Normally doesn't result in downtime (nodes within a tier do not interact
+ with each others, communication should be handled by load balancers).
+ It changes the 
+\series default
+application topology
+\series medium
+, the application needs to adapt which may require 
+\series default
+throttling
+\series medium
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Homogeneous nodes
+\series default
+ make it easier to schedule load balancing, usually 
+\series bold
+Round Robin
+\series default
+ is a good solution.
+ It produces equal arrival rate, makes inter-arrival time between service
+ calls more predicatable, simplifying resource management, and is almost
+ stateless.
+ The 
+\series bold
+two-choice paradigm
+\series default
+ (each tasks querying 2 servers at random and picking the least busy one)
+ provides maybe more flexibility whilst ensuring that the maximum load on
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ nodes is 
+\begin_inset Formula $\Theta(\log\log n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Heterogenous nodes
+\series default
+ makes scheduling way more complex and can exhacerbate queing problems and
+ gives less garantees from 
+\series bold
+two-choice
+\series default
+ for example.
+\end_layout
+
+\begin_layout Paragraph
+Cloud native application
+\series medium
+.
+ Not all applications support HS (centralised components – tiers that cannot
+ scale).
+ 
+\series default
+Cloud native
+\series medium
+ means support for both VS and HS, generally relying on stateless autonomous
+ compute nodes (think perfect containers).
+ 
+\emph on
+Scale unit
+\emph default
+: set of resources that need to be scaled together.
+ Stateless nodes 
+\begin_inset Formula $\not\Rightarrow$
+\end_inset
+
+ stateless app.
+ Can keep user state in different ways: 
+\series default
+cookies
+\series medium
+, state in 
+\series default
+service call parameters
+\series medium
+ (URL parameters), 
+\series default
+sticky session
+\series medium
+ (ping users to node to use local cache/data structures only), otherwise
+ retrieve state from external storage (memcache, cloud storage).
+\end_layout
+
+\begin_layout Paragraph
+Autoscaling
+\series medium
+.
+ Goal is to avoid 
+\emph on
+over/under provisioning
+\emph default
+ ($$ in bills or SLA violations).
+ Application workloads change over time and need continuous adjustment so
+ we scale on demand automatically (usually HS)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Schedule-based
+\series default
+: predictible application can take advantage of the patterns in the daily
+ workload.
+ Fine tuned with data logs, easy to verify with load tests.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Rule-based
+\series default
+: if 
+\begin_inset Formula $V>V_{up}$
+\end_inset
+
+ for 
+\begin_inset Formula $T_{up}$
+\end_inset
+
+ seconds then 
+\series bold
+scale out
+\series default
+ by 
+\begin_inset Formula $N_{out}$
+\end_inset
+
+ nodes and 
+\series bold
+wait for 
+\begin_inset Formula $S_{up}$
+\end_inset
+
+ seconds
+\series default
+.
+ Same the other way, don't forget the wait.
+\end_layout
+
+\begin_layout Paragraph
+Resource throttling
+\series medium
+.
+ Static thresholds (rules) as 
+\series default
+reactive scaling
+\series medium
+ is common but takes time to kick in.
+ While we wait we 
+\series default
+throttle
+\series medium
+ the application to the max previous soft limit of utilisation until scale
+ out has completed.
+ Can be implemented using 
+\series default
+rate limiters
+\series medium
+.
+\end_layout
+
+\begin_layout Paragraph
+Proactive scaling
+\series medium
+.
+ Using 
+\series default
+time series forecasting
+\series medium
+, techniques to decide how many resources to scale in forecasted scenarios
+ based for example on 
+\emph on
+optimisation
+\emph default
+, 
+\emph on
+queuing theory
+\emph default
+ or 
+\emph on
+machine learning
+\emph default
+.
+ MAPE-K control loop is reference (Monitor, Analyze, Planning, Execute,
+ Knowledge – learn, share data accross functions etc.).
+ Implementaion of the analyze phase can be base on arbitrary time series
+ 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+ (e.g.
+ number of jobs arrived in the last period) on which we will try to predict
+ the random component (after applying 
+\series default
+detrending
+\series medium
+ and 
+\series default
+deseasonalisation
+\series medium
+).
+\begin_inset Formula 
+\[
+A_{t}=T_{t}+S_{t}+I_{t},\,\,t=0,1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T_{t}$
+\end_inset
+
+ (
+\series bold
+trend
+\series default
+ component): long-term trend (
+\emph on
+deterministic
+\emph default
+)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $S_{t}$
+\end_inset
+
+ (
+\series bold
+seasonal
+\series default
+ component): periodic changes (
+\emph on
+deterministic
+\emph default
+)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $I_{t}$
+\end_inset
+
+ (
+\series bold
+random
+\series default
+ component): irregular component (
+\emph on
+stochastic
+\emph default
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/time-series-decomposition.png
+	width 70line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Autoregressive models
+\series medium
+ of order 1 (
+\series default
+AR(1)
+\series medium
+) as the stochastic difference equation:
+\begin_inset Formula 
+\[
+A_{t}=c+\phi_{1}A_{t-1}+\epsilon_{t}\,\,\,t=1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A_{t}$
+\end_inset
+
+ is value at time 
+\begin_inset Formula $t$
+\end_inset
+
+, 
+\begin_inset Formula $A_{0}$
+\end_inset
+
+ is given
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\phi_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ are deterministic model parameters
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\epsilon_{t}$
+\end_inset
+
+ is uncorrelated NDR s.t.
+ 
+\begin_inset Formula $E(\epsilon_{t})=0,Var(\epsilon_{t})=\sigma_{\epsilon}^{2}<+\infty$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+At 
+\begin_inset Formula $t$
+\end_inset
+
+, given 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+ we can forecast the expected value of 
+\begin_inset Formula $A_{t+1}$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+E(A_{t+1}|A_{t})= & E(c|A_{t})+\phi_{1}E(A_{t}|A_{t})+E(\epsilon_{t}|A_{t})\\
+= & c+\phi_{1}A_{t}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Fitting the AR(1) model to the data
+\series medium
+ using 
+\series default
+moment matching
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $E(A_{t})=\mu_{t}$
+\end_inset
+
+: mean of the time series at time 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Var(A_{t})=E[(A_{t}-\mu_{t})(A_{t}-\mu_{t})]$
+\end_inset
+
+: variance at time 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $K_{1,t}=E[(A_{t}-\mu_{t})(A_{t-1}-\mu_{t-1})]$
+\end_inset
+
+: lag-1 autocovariance at time 
+\begin_inset Formula $t$
+\end_inset
+
+ (serial correlation)
+\end_layout
+
+\begin_layout Standard
+This assumes 
+\series bold
+stationary 
+\series default
+time-series, meaning that the moments do not depend on 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ i.e.
+ 
+\begin_inset Formula $E(A_{t})=\mu,Var(A_{t})=V,K_{1,t}=K_{1},\,\,\forall t$
+\end_inset
+
+.
+ Using this in the moment statistic equations gives the following equations.
+\begin_inset Formula 
+\[
+\mu=\frac{c}{1-\phi_{1}},\,V=\frac{\sigma_{\epsilon}^{2}}{1-\phi_{1}^{2}},\,K_{1}=V\phi_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Beyond the AR(1) model
+\series medium
+.
+\end_layout
+
+\begin_layout Itemize
+Autoregressive model of order 
+\begin_inset Formula $p$
+\end_inset
+
+ (AR(
+\begin_inset Formula $p$
+\end_inset
+
+))
+\begin_inset Formula 
+\[
+A_{t}=c+\sum_{j=1}^{p}\phi_{j}A_{t-j}+\epsilon_{t},\,\,t=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Moving average model of order 
+\begin_inset Formula $q$
+\end_inset
+
+ (MA(
+\begin_inset Formula $q$
+\end_inset
+
+))
+\begin_inset Formula 
+\[
+A_{t}=\mu+\sum_{i=1}^{q}\theta_{i}\epsilon_{t-i}+\epsilon_{t}\,\,t=1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ARMA(p,q)
+\series default
+:
+\begin_inset Formula 
+\[
+A_{t}=c+\sum_{j=1}^{p}\phi_{j}A_{t-j}+\sum_{i=1}^{q}\theta_{i}\epsilon_{t-i}+\epsilon_{t}\,\,t=1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
