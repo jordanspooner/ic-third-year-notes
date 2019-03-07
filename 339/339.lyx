@@ -2786,5 +2786,991 @@ symptom
  is that throughput grows slowly, even if the system is lightly utilised.
 \end_layout
 
+\begin_layout Section
+Design of experiments
+\end_layout
+
+\begin_layout Paragraph
+Terminology
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Response variable
+\series default
+: Measurement of outcome (
+\emph on
+response time, throughput
+\emph default
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Factor
+\series default
+: Option that affects the response variable
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Level
+\series default
+: Value a factor can take
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Design
+\series default
+: Plan including the number of experiments and values of levels
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Interaction
+\series default
+: Two factors interact if their levels 
+\series bold
+jointly affect the response variable
+\series default
+.
+\end_layout
+
+\begin_layout Paragraph
+Blackbox modeling
+\series medium
+.
+ Analytical models are too error-prone as the system's internal complexity
+ grows so we build models 
+\series default
+agnostic
+\series medium
+ of the internals.
+ We also note we cannot change one factor at a time if factors are interacting
+ which we generally need to run experiments to first determine.
+\end_layout
+
+\begin_layout Paragraph
+Screening response models
+\series medium
+.
+ With factors 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+, we focus on 
+\begin_inset Formula $\epsilon=0$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+y=q_{0}+q_{A}x_{A}+q_{B}x_{B}+q_{AB}x_{A}x_{B}+\epsilon
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $y$
+\end_inset
+
+: response variable
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x_{A},x_{B}$
+\end_inset
+
+: levels of factors 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+, 
+\begin_inset Formula $x_{AB}$
+\end_inset
+
+ interaction of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $q_{0},q_{A},q_{B},q_{AB}$
+\end_inset
+
+: 
+\series bold
+effects
+\series default
+, coefficients explaining the influence of the factors
+\end_layout
+
+\begin_layout Itemize
+With 
+\begin_inset Formula $k$
+\end_inset
+
+ factors, we can scale up:
+\begin_inset Formula 
+\[
+y=q_{0}+\sum_{j}q_{j}x_{j}+\sum_{j,k,j\neq k}q_{jk}x_{j}x_{k}+\sum_{j,k,l,j\neq k\neq l}q_{jkl}x_{j}x_{k}x_{l}+\epsilon
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Design methods
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Full factorial design
+\series default
+: Run every combination and thus indentify most important factors.
+ Delivers max information but limited applicability (expensive).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Fractional factorial design
+\series default
+: A fraction of the experiments of full factorial, so only captures some
+ interactions.
+ Finds optimal results if those unstudied interactions are negligeble.
+ Very applicable and popular.
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Formula $2^{k}$
+\end_inset
+
+ factorial design
+\series medium
+.
+ 
+\begin_inset Formula $k$
+\end_inset
+
+ factors, each having 2 levels.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $y_{i}$
+\end_inset
+
+: response variable in the 
+\begin_inset Formula $i$
+\end_inset
+
+-th experiment (
+\begin_inset Formula $1\leq i\leq2^{k}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x_{f,i}$
+\end_inset
+
+: level of factor 
+\begin_inset Formula $f$
+\end_inset
+
+ in the 
+\begin_inset Formula $i$
+\end_inset
+
+-th experiment
+\end_layout
+
+\begin_layout Paragraph
+Example
+\series medium
+.
+ With 
+\series default
+
+\begin_inset Formula $x_{A}=-1$
+\end_inset
+
+
+\series medium
+ if A = -1, etc.
+\end_layout
+
+\begin_layout Itemize
+We build the system
+\begin_inset Formula 
+\begin{align*}
+y_{1}= & 15=q_{0}-q_{A}-q_{B}+q_{AB}\\
+y_{2}= & 45=q_{0}+q_{A}-q_{B}-q_{AB}\\
+y_{3}= & 25=q_{0}-q_{A}+q_{B}-q_{AB}\\
+y_{4}= & 75=q_{0}+q_{A}+q_{B}+q_{AB}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Which is solved as follows
+\begin_inset Formula 
+\begin{align*}
+q_{0}= & (1/4)(y_{1}+y_{2}+y_{3}+y_{4}) & =40\\
+q_{A}= & (1/4)(-y_{1}+y_{2}-y_{3}+y_{4}) & =20\\
+q_{B}= & (1/4)(-y_{1}-y_{2}+y_{3}+y_{4}) & =10\\
+q_{AB}= & (1/4)(y_{1}-y_{2}-y_{3}+y_{4}) & =5
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Or more easily using the sign table method:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+45
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+75
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y*col/2^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{A}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{B}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{AB}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Interpretation.
+ 
+\series medium
+
+\begin_inset Formula $q_{0}$
+\end_inset
+
+ is global average.
+ 
+\begin_inset Formula $q_{A}$
+\end_inset
+
+ means A affects the average by 
+\begin_inset Formula $\pm q_{A}$
+\end_inset
+
+ (
+\begin_inset Formula $+q_{A}$
+\end_inset
+
+ if A is 1, -1 otherwise) and similar interpretations for 
+\begin_inset Formula $q_{B}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $q_{AB}$
+\end_inset
+
+ (cross average) the interaction affects the average by 
+\begin_inset Formula $\pm q_{AB}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+What does 
+\begin_inset Formula $q_{A}=q_{B}=q_{AB}=0$
+\end_inset
+
+ means?
+\end_layout
+
+\begin_layout Itemize
+What does 
+\begin_inset Formula $q_{A}=q_{B}=0,\,q_{AB}\neq0$
+\end_inset
+
+ means?
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $q_{B}=q_{AB}=0$
+\end_inset
+
+ and fix 
+\begin_inset Formula $c\geq0$
+\end_inset
+
+ what difference does 
+\begin_inset Formula $q_{A}=c$
+\end_inset
+
+ or 
+\begin_inset Formula $q_{A}=-c$
+\end_inset
+
+ have?
+\end_layout
+
+\begin_layout Paragraph
+Allocation of variation
+\series medium
+.
+ Study of the influence of the factors on the response.
+ We will explain the 
+\series default
+variance
+\series medium
+ on the 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ values.
+ We use the 
+\emph on
+Sum of Squares Total
+\emph default
+ (SST), a scaled variance to study impact of factors.
+ We note that 
+\begin_inset Formula $\bar{y}=q_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series medium
+\begin_inset Formula 
+\begin{align*}
+\text{SST}= & \sum_{1\leq i\leq2^{k}}(y_{i}-\bar{y})^{2}\\
+= & \sum_{1\leq i\leq2^{k}}(q_{A}x_{A,i}+q_{B}x_{B,i}+q_{AB}x_{A,i}x_{B,i})^{2}\\
+= & \sum_{1\leq i\leq2^{k}}(q_{A}x_{A,i})^{2}+\sum_{1\leq i\leq2^{k}}(q_{B}x_{B,i})^{2}\\
+ & +\sum_{1\leq i\leq2^{k}}(q_{AB}x_{A,i}x_{B,i})^{2}+\text{product terms}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now using the fact that 
+\begin_inset Formula $x_{A,i}^{2}=x_{B,i}^{2}=1$
+\end_inset
+
+, the fact that the 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ column in the sign table sum to 0 (
+\begin_inset Formula $\sum_{1\leq i\leq2^{k}}x_{A,i}=\sum_{1\leq i\leq2^{k}}x_{B,i}=0$
+\end_inset
+
+ and by orthogonality of the sign table (
+\begin_inset Formula $\sum_{1\leq i\leq2^{k}}x_{A,i}x_{B,i}=0)$
+\end_inset
+
+ we get that the product terms simplify to zero.
+\begin_inset Formula 
+\[
+\Rightarrow\text{SST}=q_{A}^{2}\sum_{1\leq i\leq2^{k}}x_{A,i}^{2}+q_{B}^{2}\sum_{1\leq i\leq2^{k}}x_{B,i}^{2}+q_{AB}^{2}\sum_{1\leq i\leq2^{k}}(x_{A,i}x_{B,i})^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And due to the squaring, the sums are equivalent to 
+\begin_inset Formula $\sum_{1\leq i\leq2^{k}}1=2^{k}$
+\end_inset
+
+.
+ With 
+\begin_inset Formula $k=2$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\text{SST}=4(q_{A}^{2}+q_{B}^{2}+q_{AB}^{2})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can build 
+\begin_inset Formula $\text{SSA}=4q_{A}^{2},\,\text{SSB}=4q_{B}^{2},\,\text{SSAB}=4q_{AB}^{2}$
+\end_inset
+
+ the variation explained by 
+\begin_inset Formula $A$
+\end_inset
+
+, 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $AB$
+\end_inset
+
+ respectively.
+ And the ratios 
+\begin_inset Formula $\text{SSA}/\text{SST}$
+\end_inset
+
+,
+\begin_inset Formula $\text{SSB}/\text{SST}$
+\end_inset
+
+,
+\begin_inset Formula $\text{SSAB}/\text{SST}$
+\end_inset
+
+ show the percentage of variation explained by each factor.
+ A higher percentage being considered more important
+\end_layout
+
+\begin_layout Paragraph*
+General 
+\begin_inset Formula $2^{k}$
+\end_inset
+
+ designs
+\series medium
+.
+ The results can be generalised under higher order operations like
+\begin_inset Formula 
+\begin{align*}
+SST= & \,8(q_{A}+q_{B}+q_{C}+q_{AB}+q_{BC}+q_{AC}+q_{ABC})\\
+= & \,(\text{SSA}+\text{SSB}+\text{SSC})+(\text{SSAB}+\text{SSBC}+\text{SSAC})+\text{SSABC}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Fractional 
+\begin_inset Formula $2^{k-p}$
+\end_inset
+
+designs
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $2^{k}$
+\end_inset
+
+ requires 
+\series bold
+too many experiments
+\series default
+.
+ We could decompose the problem with smaller subproblems with just a few
+ interacting factors but can create issues.
+\end_layout
+
+\begin_layout Itemize
+Adopt 
+\begin_inset Formula $2^{k-p}$
+\end_inset
+
+ design with 
+\begin_inset Formula $p$
+\end_inset
+
+ controlling the precision 
+\series bold
+assuming interaction among the factos are sparse
+\series default
+ and we can guess which ones they are.
+ So we can replace interacting terms by other factors (
+\begin_inset Formula $q_{AB}x_{A}x_{B}\rightarrow q_{C}x_{C}$
+\end_inset
+
+).
+
+\series bold
+ However ignoring interactions can bias the 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ values!
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Resolution of a fractional design
+\series default
+: Confounding means 
+\begin_inset Formula $C$
+\end_inset
+
+ above is dependent on 
+\begin_inset Formula $AB$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/confounding-1.png
+	width 48line%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/confounding-2.png
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Here, column 
+\begin_inset Formula $D=ABC$
+\end_inset
+
+ (1st and 3rd order - resolution 4).
+ Can compute list of confoundings algorithmically (note that pointwise multiplic
+ation of a column with itself will result in a vector of 1s):
+\begin_inset Formula 
+\[
+D=ABC\Rightarrow D\circ D=A\circ ABC\Rightarrow I=ABCD
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The minimum of the sum of the orders of the counfoudings (the minimum of
+ the 
+\series bold
+resolutions
+\series default
+) means our design has a 
+\series bold
+resolution IV
+\series default
+ (in roman literals).
+ The higher the resolution, the less severe the counfounding is.
+\end_layout
+
 \end_body
 \end_document
