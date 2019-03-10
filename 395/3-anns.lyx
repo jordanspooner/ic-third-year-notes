@@ -1,0 +1,1283 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamerposter
+\begin_preamble
+% You can select your theme here. Any beamer theme without a sidebar should work:
+\usetheme{Rochester}
+% Note, however, that only dedicated beamerposter themes also generate
+% a suitable poster title automatically (we do this manually, see the notes
+% in the document). 
+% Dedicated beamerposter themes are available at 
+% http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php
+
+% Here you can set the options (note that the example content is made for the given setup. 
+% With different orientation or poster size, the content probably won't fit on the poster):
+\PassOptionsToPackage{%
+   orientation=landscape, % possible: portrait, landscape
+    size=a4,% possible: a0b, a0, a1, a2, a3, a4, custom (with width=<val>,height=<val>)
+    scale=1.625,% scaling of fonts
+    debug% give verbose warnings and error messages
+}{beamerposter}
+
+% This produces a grid which might be useful when positioning things
+%\beamertemplategridbackground[0.5cm]
+%\setbeamertemplate{background canvas}[vertical shading][bottom=gray,top=white]
+\setlength{\belowdisplayskip}{3pt} \setlength{\belowdisplayshortskip}{3pt}
+\setlength{\abovedisplayskip}{3pt} \setlength{\abovedisplayshortskip}{3pt}
+\end_preamble
+\options final
+\use_default_options false
+\begin_modules
+multicol
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Artificial Neural Networks
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 1
+use_makebox 0
+width "80col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset VSpace -1.25cm
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% Output title
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+LARGE
+\backslash
+textcolor{white}{
+\backslash
+textbf{
+\backslash
+inserttitle}}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace -0.75cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Columns
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+t, totalwidth=
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+1
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+.32
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Feed-forward networks
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+A 
+\series bold
+neuron
+\series default
+ calculates 
+\begin_inset Formula $y=f(\boldsymbol{w}^{T}\boldsymbol{x}+b)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Weights
+\series default
+ 
+\begin_inset Formula $\boldsymbol{w}$
+\end_inset
+
+ create a custom combination of inputs 
+\begin_inset Formula $\boldsymbol{x}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Bias
+\series default
+ 
+\begin_inset Formula $\boldsymbol{b}$
+\end_inset
+
+ acts like a learnable threshold.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+Perceptron
+\series default
+ is an algorithm to update weights:
+\begin_inset Formula 
+\[
+\boldsymbol{w}_{i}\leftarrow\boldsymbol{w}_{i}+\alpha\left(\boldsymbol{y}-f\left(\boldsymbol{w}\cdot\boldsymbol{x}+b\right)\right)\times\boldsymbol{x}_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+A 
+\series bold
+layer
+\series default
+ is many neurons, each with their own weights (the activation layer may
+ be separated from linear transform):
+\begin_inset Formula 
+\[
+\boldsymbol{y}=f(\boldsymbol{z})=f\left(\boldsymbol{W}^{T}\boldsymbol{x}+\boldsymbol{b}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+A 
+\series bold
+network
+\series default
+ is made up of chained layers:
+\begin_inset Formula 
+\[
+\boldsymbol{A}^{(l)}=f^{(l)}\left(\boldsymbol{Z}^{(l)}\right)=f^{(l)}\left(\boldsymbol{W}^{(l)}\times\boldsymbol{A}^{(l-1)}+\boldsymbol{b}^{(l)}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Backpropagation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+Compute all examples at once: 
+\begin_inset Formula $\boldsymbol{Z}=\boldsymbol{XW}+\boldsymbol{B}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each row of 
+\begin_inset Formula $\boldsymbol{X}$
+\end_inset
+
+ is an example, each col a feature.
+\end_layout
+
+\begin_layout Itemize
+Each row of 
+\begin_inset Formula $\boldsymbol{W}$
+\end_inset
+
+ is a feature, each col a neuron.
+\end_layout
+
+\begin_layout Itemize
+Each row of 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+ is a copy for each example, each col a neuron.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+\begin_inset Formula 
+\[
+\frac{\partial Loss}{\partial\boldsymbol{W}^{(L)}}=\frac{\partial Loss}{\partial\boldsymbol{A}^{(L)}}\cdot\frac{\partial\boldsymbol{A}^{(L)}}{\partial\boldsymbol{Z}^{(L)}}\cdot\frac{\partial\boldsymbol{Z}^{(L)}}{\partial\boldsymbol{W}^{(L)}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+For each linear layer:
+\begin_inset Formula 
+\[
+\frac{\partial\boldsymbol{Z}}{\partial\boldsymbol{X}}=\boldsymbol{W}^{T}\qquad\frac{\partial\boldsymbol{Z}}{\partial\boldsymbol{W}}=\boldsymbol{X}^{T}\qquad\frac{\partial\boldsymbol{Z}}{\partial\boldsymbol{B}}=\boldsymbol{1}^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Stochastic gradient descent
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Many extensions such as 
+\series bold
+learning rate decay
+\series default
+ (
+\begin_inset Formula $\alpha\leftarrow\alpha d$
+\end_inset
+
+).
+\begin_inset Formula 
+\[
+W\leftarrow W-\alpha\frac{\partial L}{\partial W}
+\]
+
+\end_inset
+
+Often done in 
+\series bold
+batches
+\series default
+ (
+\begin_inset Formula $\approx32$
+\end_inset
+
+) of examples at a time:
+\end_layout
+
+\begin_layout Enumerate
+Load 
+\begin_inset Formula $N\times D$
+\end_inset
+
+ matrix of examples, shuffle them.
+\end_layout
+
+\begin_layout Enumerate
+Split into 
+\begin_inset Formula $N/B$
+\end_inset
+
+ batches: 
+\begin_inset Formula $B\times D$
+\end_inset
+
+ matrices.
+\end_layout
+
+\begin_layout Enumerate
+Compute forward pass one batch a a time, then do backpropagation and update
+ weights.
+\end_layout
+
+\begin_layout Standard
+One 
+\series bold
+epoch
+\series default
+ is one full run over training data.
+\end_layout
+
+\end_deeper
+\begin_layout Column
+.34
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset VSpace -0.5em
+\end_inset
+
+
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="4">
+<features booktabs="true" tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="17col%">
+<column alignment="center" valignment="top" width="12col%">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Output layer activation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Desired outputs
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size footnotesize
+Loss
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\emph on
+Regression
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Linear
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Real
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Mean squared error
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\emph on
+Binary
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Sigmoid
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+0 or 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Binary cross entropy
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\emph on
+Multi-class
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Softmax
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+One-hot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Categorical cross entropy
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+\emph on
+Multi-label
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Sigmoid
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+0s and 1s
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Binary cross entropy
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace -1em
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Initialising weights
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Zeros.
+
+\series default
+ Commonly used for the bias.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Normal.
+
+\series default
+ From the distribution 
+\begin_inset Formula $W\sim N\left(\mu,\sigma^{2}\right)$
+\end_inset
+
+.
+ Random can be unlucky—outputs can vanish or explode.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Xavier/Glorot uniform.
+
+\series default
+ Where 
+\begin_inset Formula $n_{J}$
+\end_inset
+
+ is number of inputs and 
+\begin_inset Formula $n_{j+1}$
+\end_inset
+
+ is number of ouptuts:
+\begin_inset Formula 
+\[
+W\sim U\left[-\frac{\sqrt{6}}{\sqrt{n_{j}+n_{j+1}}},-\frac{\sqrt{6}}{\sqrt{n_{j}+n_{j+1}}}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Activation functions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Linear/Identity.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Sigmoid/logistic.
+
+\series default
+ 
+\begin_inset Formula $\frac{1}{1+e^{-x}}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $f'\left(x\right)=f(x)\left(1-f(x)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Tanh.
+
+\series default
+ 
+\begin_inset Formula $\frac{2}{1+e^{-2x}}-1$
+\end_inset
+
+.
+ 
+\begin_inset Formula $f'\left(x\right)=1-f^{2}(x)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Softmax.
+
+\series default
+ 
+\begin_inset Formula $\frac{2}{1+e^{-2x}}-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+ReLU.
+
+\series default
+ Often used for hidden layers.
+ Doesn't suffer from 
+\series bold
+vanishing gradient problem
+\series default
+ but allows non-linearity.
+\begin_inset Formula 
+\[
+\begin{cases}
+x & \text{if \ensuremath{x>0}}\\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Loss functions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Mean squared error.
+ 
+\series default
+
+\begin_inset Formula $\frac{1}{d}\sum_{j}^{d}\left(a_{j}^{(i)}-y_{j}^{(i)}\right)^{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Binary cross entropy.
+
+\series default
+ Same as categorical with 
+\begin_inset Formula $k=2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Categorical cross entropy.
+
+\series default
+ Provides nice convergence properties when using sigmoid activation function.
+\begin_inset Formula 
+\[
+-\sum_{k}y_{k}^{(i)}\log\left(a_{k}^{(i)}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Column
+.3
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Preprocessing
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Encoding
+\series default
+ data.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Continuous.
+
+\series default
+ Consider converting into discrete domain.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Discrete.
+
+\series default
+ May need to 
+\series bold
+one-hot
+\series default
+ encode.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Data augmentation.
+
+\series default
+ E.g.
+ introducing noise, blurring/flipping images, using synonyms.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Normalisation/feature scaling.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Min-max scaling.
+
+\series default
+ 
+\begin_inset Formula $\boldsymbol{X}'=\frac{\boldsymbol{X}-\boldsymbol{X}_{min}}{\boldsymbol{X}_{max}-\boldsymbol{X}_{min}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Z-normalisation.
+
+\series default
+ 
+\begin_inset Formula $\boldsymbol{X}'=\frac{\boldsymbol{X}-\mu}{\sigma}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Feature engineering.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Evaluation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Underfitting.
+
+\series default
+ Network may not have enough capacity to learn.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Increase number of units and/or hidden layers.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Overfitting.
+
+\series default
+ Too much capacity to learn.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Best solution: get more data!
+\end_layout
+
+\begin_layout Itemize
+Decrease number of units and/or hidden layer.
+\end_layout
+
+\begin_layout Itemize
+Consider early stopping, based on validation data.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Block
+
+\series bold
+Regularisation.
+
+\series default
+ Decay weights towards 0 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ reduces capacity to learn.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+L1 regularisation.
+ 
+\series default
+Produces sparse weights (
+\series bold
+feature selection
+\series default
+).
+\begin_inset Formula 
+\[
+J(\theta)=Loss(Y,A)+\boxed{\lambda\sum_{w}\left|w\right|}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+L2 regularisation.
+ 
+\series default
+Ensures smoothness.
+\begin_inset Formula 
+\[
+J(\theta)=Loss(Y,A)+\boxed{\lambda\sum_{w}w^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+Dropout.
+ 
+\series default
+Reduces inter-dependency between neurons accross layers (as if we are training
+ smaller networks within a larger one).
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+With probability 
+\begin_inset Formula $p$
+\end_inset
+
+ set the output of a neuron to 0.
+\end_layout
+
+\begin_layout Itemize
+Only applied at training time.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+May need more epochs to train.
+\end_layout
+
+\begin_layout Itemize
+May have to scale activations in production.
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Columns
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{100cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_body
+\end_document

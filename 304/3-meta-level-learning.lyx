@@ -197,7 +197,7 @@ linewidth
 
 \begin_deeper
 \begin_layout Column
-.32
+.35
 \begin_inset ERT
 status open
 
@@ -213,553 +213,12 @@ linewidth
 
 \end_layout
 
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Learning paradigms
-\end_layout
-
-\end_inset
-
-
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Learning from interpretations.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Examples are interpretations (sets of facts).
-\end_layout
-
-\begin_layout Itemize
-Find 
-\begin_inset Formula $H$
-\end_inset
-
- for which examples are models.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Learning fromn entailment.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Examples are postive/negative ground facts.
-\end_layout
-
-\begin_layout Itemize
-Find 
-\begin_inset Formula $H$
-\end_inset
-
- s.t.
- 
-\begin_inset Formula $B\cup H\vDash e^{+}$
-\end_inset
-
-and 
-\begin_inset Formula $B\cup H\not\vDash e^{-}$
-\end_inset
-
- for all examples.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Columns
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-ILP for concept learning
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
 \begin_layout Block
 \begin_inset Argument 2
 status collapsed
 
 \begin_layout Plain Layout
-Version-space learning: candidate elimination algorithm
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Start with sets 
-\begin_inset Formula $G$
-\end_inset
-
- (most general) and 
-\begin_inset Formula $S$
-\end_inset
-
- (most specific).
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-For each positive example 
-\begin_inset Formula $e^{+}$
-\end_inset
-
-:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Eliminate hypotheses in 
-\begin_inset Formula $G$
-\end_inset
-
- that don't cover 
-\begin_inset Formula $e^{+}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-Generalise hypotheses in 
-\begin_inset Formula $S$
-\end_inset
-
- that don't cover 
-\begin_inset Formula $e^{+}$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-For each negative example 
-\begin_inset Formula $e^{-}$
-\end_inset
-
-:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Eliminate hypotheses in 
-\begin_inset Formula $S$
-\end_inset
-
- that cover 
-\begin_inset Formula $e^{-}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-Specialise hypotheses in 
-\begin_inset Formula $G$
-\end_inset
-
- that cover 
-\begin_inset Formula $e^{-}$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Generatlity
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Used to guide search.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Of definite clauses.
-
-\series default
- 
-\begin_inset Formula $C\succcurlyeq D$
-\end_inset
-
- (
-\begin_inset Formula $C$
-\end_inset
-
- more general than 
-\begin_inset Formula $D$
-\end_inset
-
-) iff 
-\begin_inset Formula $C\vDash D$
-\end_inset
-
-.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-\begin_inset Formula $C$
-\end_inset
-
-
-\series bold
- subsumes
-\series default
- 
-\begin_inset Formula $D$
-\end_inset
-
- iff 
-\begin_inset Formula $C\theta\subseteq D$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-If 
-\begin_inset Formula $C$
-\end_inset
-
- subsumes 
-\begin_inset Formula $D$
-\end_inset
-
-, then 
-\begin_inset Formula $C\succcurlyeq D$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Itemize
-
-\series bold
-Of hypthoeses.
-
-\series default
- 
-\begin_inset Formula $h\succcurlyeq h'$
-\end_inset
-
- iff 
-\begin_inset Formula $c(h,E^{+})\supseteq c(h',E^{+})$
-\end_inset
-
-.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-\begin_inset Formula $h$
-\end_inset
-
- 
-\series bold
-subsumes
-\series default
- 
-\begin_inset Formula $h'$
-\end_inset
-
- iff 
-\begin_inset Formula $\exists c\in H$
-\end_inset
-
- s.t.
- 
-\begin_inset Formula $c$
-\end_inset
-
- subsumes 
-\begin_inset Formula $c'$
-\end_inset
-
- 
-\begin_inset Formula $\forall c'\in h'$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-If 
-\begin_inset Formula $h$
-\end_inset
-
- subsumes 
-\begin_inset Formula $h'$
-\end_inset
-
-, then 
-\begin_inset Formula $h\succcurlyeq h'$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Quality criterion
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-In absence of noise, hypothesis should be:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Complete.
- 
-\series default
-
-\begin_inset Formula $B\cup H\vDash e_{i}^{+}\quad\forall e_{i}^{+}\in E^{+}$
-\end_inset
-
-.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Otherwise, 
-\emph on
-generalise
-\emph default
-...
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Consistent.
- 
-\series default
-
-\begin_inset Formula $B\cup H\not\vDash e_{i}^{-}\quad\forall e_{i}^{-}\in E^{-}$
-\end_inset
-
-.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Otherwise, 
-\emph on
-specialise
-\emph default
-...
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-For noisy examples, use a scoring function.
-\end_layout
-
-\end_deeper
-\begin_layout Block
-
-\end_layout
-
-\begin_layout Column
-.32
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-linewidth
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-General to specific traversal (top-down)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Shapiro's 
-\begin_inset Formula $\rho$
-\end_inset
-
- operator.
-
-\series default
- Add a literal to body of clause, or apply a substitution.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-Specific to general traversal (bottom-up)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-Plotkin's least general generalisation.
-\end_layout
-
-\begin_layout Enumerate
-Muggleton's inverse resolution.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Plotkin's least general generalisation
+TopLog
 \end_layout
 
 \end_inset
@@ -769,524 +228,15 @@ Plotkin's least general generalisation
 
 \begin_deeper
 \begin_layout Enumerate
-\begin_inset Formula $lgg$
-\end_inset
-
- of terms:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-\begin_inset Formula $lgg(a,b)=X$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-\begin_inset Formula $lgg(f(X),g(Z))=W$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-\begin_inset Formula $lgg(f(a,b,a),f(c,c,c))=f(X,Y,X)$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-\begin_inset Formula $lgg$
-\end_inset
-
- of literals:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-\begin_inset Formula $lgg(p(t_{1},\dots,t_{n}),p(t_{1}^{'},\dots,t_{n}^{'}))$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-\begin_inset Formula $lgg$
-\end_inset
-
- of clauses:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-\begin_inset Formula $lgg(c_{1},c_{2})=\{lgg(l_{1},l_{2})\:|\:l_{1}\in c_{1},l_{2}\in c_{2}\}$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-PROGOL
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-Language bias
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Use 
-\series bold
-mode declarations
-\series default
- to define language of hypothesis.
+Add a top-theory.
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
-\begin_inset Formula $modeh(r,s)$
-\end_inset
-
- and 
-\begin_inset Formula $modeb(r,b)$
-\end_inset
-
- indicates predicates that can appear in head / body of learned rule.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Recall.
-
-\series default
- How many times predicate can occur.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Scheme.
-
-\series default
- Ground atom with predicate name and placemakers with types.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-\begin_inset Formula $+$
-\end_inset
-
-: input, 
-\begin_inset Formula $-$
-\end_inset
-
-: output, 
-\begin_inset Formula $\#$
-\end_inset
-
-: constant.
-\end_layout
-
-\end_deeper
-\end_deeper
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-Inverse entailment
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Formula $B,H\vDash E$
-\end_inset
-
- iff 
-\begin_inset Formula $B,\lnot E\vDash\lnot H$
-\end_inset
-
-.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Find 
-\begin_inset Formula $\lnot Bot\left(B,e^{+}\right)$
-\end_inset
-
-: conjunction of ground literals entailed by 
-\begin_inset Formula $B\land\lnot e^{+}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-Find the 
-\series bold
-bottom set
-\series default
-: 
-\begin_inset Formula $ground(h_{\bot})=Bot\left(B,e^{+}\right)$
-\end_inset
-
- by negating result.
-\end_layout
-
-\begin_layout Enumerate
-Lift to unground clause 
-\begin_inset Formula $h_{\bot}$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Block
-\begin_inset Formula $H$
-\end_inset
-
- is derived by 
-\series bold
-bottom generalisation
-\series default
- iff 
-\begin_inset Formula $H\succcurlyeq Bot(B,e^{+})$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Column
-.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-linewidth
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-PROGOL5
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-Non-observation predicate learning
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-To learn about concepts different from observed predicate, extend the background
- knowledge with contrapositives:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-\begin_inset Formula $p\leftarrow q,r$
-\end_inset
-
- is equivalent to 
-\begin_inset Formula $non\_q\leftarrow non\_p,r$
-\end_inset
-
- and 
-\begin_inset Formula $non\_r\leftarrow non\_p,q$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-PROGOL5 algorithm
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Select a 
-\series bold
-seed example
-\series default
- 
-\begin_inset Formula $e\in E^{+}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-Construct 
-\series bold
-start set
-\series default
- to give head of hypothesis:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Augment background knowledge with contrapositives and negated seed example.
-\end_layout
-
-\begin_layout Enumerate
-Execute SLD query for negation of each 
-\begin_inset Formula $modeh$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Incomplete.
-
-\series default
- Only works if head predicate used once.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Construct 
-\series bold
-bottom set
-\series default
- to derive body atoms.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Search.
-
-\series default
- Compute compressed hypothesis 
-\begin_inset Formula $H$
-\end_inset
-
- such that:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset Formula $H$
-\end_inset
-
- subsumes the ground bottom clause.
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset Formula $H$
-\end_inset
-
- is in the language bias.
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset Formula $B\cup E^{+}\cup E^{-}\cup H$
-\end_inset
-
- is consistent.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-Add 
-\begin_inset Formula $H$
-\end_inset
-
- to 
-\begin_inset Formula $B$
-\end_inset
-
- and continue with next 
-\begin_inset Formula $e\in E^{+}$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-HAIL
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-Kernel set instead of start set
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset VSpace -0.75cm
-\end_inset
-
-
+Each head predicate mapped to start clause:
 \begin_inset Formula 
 \[
-Kernel(B,e^{+})=\left\{ \Delta|B\cup\Delta\vDash e^{+}\right\} \cup\left\{ \lnot b|B\cup\lnot e^{+}\vDash b\right\} 
+head\_predicate(X)\leftarrow\$body(X)
 \]
 
 \end_inset
@@ -1294,29 +244,162 @@ Kernel(B,e^{+})=\left\{ \Delta|B\cup\Delta\vDash e^{+}\right\} \cup\left\{ \lnot
 
 \end_layout
 
+\begin_layout Enumerate
+Add body predicates for non-terminals:
+\begin_inset Formula 
+\[
+\$body(X)\leftarrow
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\$body(X)\leftarrow body\_predicate(X),\$body(X)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compute hypotheses.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Consider a positive example and compute SLD derivation.
+\end_layout
+
+\begin_layout Enumerate
+Extract hypotheses.
+\end_layout
+
+\begin_layout Enumerate
+Calculate coverage.
+\end_layout
+
+\end_deeper
+\end_deeper
 \begin_layout Block
-\begin_inset Formula $H$
-\end_inset
 
- is derived by 
 \series bold
-kernel set subsumption
-\series default
- iff 
-\begin_inset Formula $H\succcurlyeq K$
-\end_inset
-
-.
+Advantages.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Sound and complete.
- 
-\begin_inset Formula $B\cup H\vDash e$
+Can compute recursive logic programs.
+\end_layout
+
+\begin_layout Itemize
+Multi-clause learning (unlike Progol5).
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+Disadvantages.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Limited to definite logic programs.
+\end_layout
+
+\begin_layout Itemize
+Cannot learn from negative examples.
+\end_layout
+
+\begin_layout Itemize
+Mainly tailored for OPL.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\end_layout
+
+\begin_layout Column
+.63
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
 \end_inset
 
-.
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Flex Bold
+status open
+
+\begin_layout Plain Layout
+
+\size large
+Top-down abductive learning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Representing modes as data structures
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Label each mode with an identifier.
+\end_layout
+
+\begin_layout Enumerate
+Number the different variables in a rule, left to right.
+\end_layout
+
+\begin_layout Enumerate
+Each rule translated into list of 
+\begin_inset Formula $\left\langle id,consts,inputs\right\rangle $
+\end_inset
+
+ tuples, where inputs is a list of numbers from step 2.
 \end_layout
 
 \end_deeper
@@ -1332,7 +415,7 @@ Sound and complete.
 status open
 
 \begin_layout Plain Layout
-Performing the inductive search with abduction
+Abductive top-theory
 \end_layout
 
 \end_inset
@@ -1341,76 +424,80 @@ Performing the inductive search with abduction
 \end_layout
 
 \begin_deeper
-\begin_layout Enumerate
-For each rule 
-\begin_inset Formula $a_{i}\leftarrow d_{i1},\dots,d_{ik}\in K$
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../img/tal.png
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+TAL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Given a learning task 
+\begin_inset Formula $\left\langle B,E,M,IC\right\rangle $
 \end_inset
 
 :
 \end_layout
 
-\begin_deeper
 \begin_layout Enumerate
-Add to 
-\begin_inset Formula $T$
+Generate a top theory 
+\begin_inset Formula $T_{M}$
 \end_inset
 
-, 
-\begin_inset Formula $a\leftarrow use(i,0),try(i,1,X_{i1}),\dots,try(i,k,X_{ik})$
-\end_inset
-
-.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-For each clause 
-\begin_inset Formula $d_{ij}$
-\end_inset
-
- in the rule bodies
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Add to 
-\begin_inset Formula $T$
-\end_inset
-
-, 
-\begin_inset Formula $try(i,j,X_{ij})\leftarrow use(i,j),d_{ij}$
+ based on 
+\begin_inset Formula $M$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Enumerate
-Add to 
-\begin_inset Formula $T$
+Perform task 
+\begin_inset Formula $\left\langle B\cup T_{M},rule(.),IC\right\rangle $
 \end_inset
 
-, 
-\begin_inset Formula $try(i,j,X_{ij})\leftarrow not\:use(i,j)$
-\end_inset
-
-.
+ with goal as all examples.
 \end_layout
 
-\end_deeper
 \begin_layout Enumerate
-Solve abductive task: 
-\begin_inset Formula $B=B\cup T$
-\end_inset
-
-, 
-\begin_inset Formula $\Delta=\{use\}$
-\end_inset
-
-, 
-\begin_inset Formula $IC=\emptyset$
-\end_inset
-
-.
+Generate hypothesis from aducibles.
 \end_layout
 
 \end_deeper

@@ -210,47 +210,12 @@ linewidth
 
 \end_layout
 
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Assumptions
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-
-\end_layout
-
 \begin_layout Block
 \begin_inset Argument 2
 status collapsed
 
 \begin_layout Plain Layout
-Timing
+Uniform consensus
 \end_layout
 
 \end_inset
@@ -262,439 +227,90 @@ Timing
 \begin_layout Enumerate
 
 \series bold
-Synchronous.
+S: Validity.
 
 \series default
- Upper bound on process delays, delivery.
+ Processes decide only on values that were proposed.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-Asynchronous.
+S: Integrity.
 
 \series default
- Processes and communication can take arbitrary time, no physical clocks.
+ Processes decide on at most one value.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-Partially synchronous.
+L: Termination.
 
 \series default
- E.g.
- eventually synchronous.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Process failures
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-
-\series bold
-Correct
-\series default
- processes do not crash.
+ Each process eventually decides.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-Fail-stop.
+S: Uniform agreement.
 
 \series default
- Crash can be reliabely detected by other processes.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Fail-noisy.
-
-\series default
- Detection can take time.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Fail-silent
-\series default
- Cannot be detected.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Fail-recovery.
-
-\series default
- Process can recorver.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Abstractions
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Perfect links (PL)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-L: Reliable delivery.
-
-\series default
- For correct processes, every sent message is eventually delivered.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-S: No duplication.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-S: No creation.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Perfect failure detector (P)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Use PL to exchange heartbeat messages with timeout.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-L: Strong completeness.
-
-\series default
- Every crashed process eventually permanently detected.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-S: Strong accuracy.
-
-\series default
- A process is detected only if it has crashed.
+ No two processes decide on different values.
 \end_layout
 
 \end_deeper
 \begin_layout Block
-\begin_inset Formula $\Diamond$
-\end_inset
-
-P increases timeout on each detection and instead guarantees:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
 
 \series bold
-L: Eventual strong accuracy
-\series default
-—eventually no correct process is detected.
-\end_layout
-
-\end_deeper
-\begin_layout Column
-.32
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-linewidth
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Broadcasting
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-Best effort broadcast (BEB)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Uses PL.
- Sends 
-\begin_inset Formula $O(N)$
-\end_inset
-
- messages.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-L: Validity.
+Regular consensus.
 
 \series default
- Every correct process eventually delivers broadcasted message.
-\end_layout
-
-\begin_layout Enumerate
-
+ Instead has the property 
 \series bold
-S: No duplication.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-S: No creation.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Reliable broadcast (RB)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Extends BEB, adding:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-L: Agreement.
-
+S: Agreement
 \series default
- If a 
+ (no two 
 \emph on
 correct
 \emph default
- process delivers a message, all correct processes deliver it.
+ processes decide different values).
 \end_layout
 
 \begin_layout Standard
+\begin_inset Separator plain
+\end_inset
 
-\series bold
-Implementation.
 
-\series default
- Save all received messages and:
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
 
-\series bold
-Eager RB.
+\begin_layout Plain Layout
+Primary backup
+\end_layout
 
-\series default
- Re-broadcast messages on first receive.
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+One of two servers is the leader and makes decisions.
 \end_layout
 
 \begin_deeper
-\begin_layout Enumerate
-1 step if sender is correct, 
-\begin_inset Formula $O(N)$
-\end_inset
-
- in worst case.
+\begin_layout Itemize
+Detect crashes using a timeout.
 \end_layout
 
-\begin_layout Enumerate
-Sends 
-\begin_inset Formula $O(N^{2})$
-\end_inset
-
- messages.
+\begin_layout Itemize
+Works if system is synchrous.
 \end_layout
 
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Lazy RB.
-
-\series default
- Use P and resend all messages from crashed processes.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-1 step if sender is correct, 
-\begin_inset Formula $O(N)$
-\end_inset
-
- in worst case.
-\end_layout
-
-\begin_layout Enumerate
-Sends 
-\begin_inset Formula $O(N)$
-\end_inset
-
- messages in best case , 
-\begin_inset Formula $O(N^{2})$
-\end_inset
-
- in worst.
-\end_layout
-
-\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -708,7 +324,7 @@ Sends
 status collapsed
 
 \begin_layout Plain Layout
-Uniform reliable broadcast (URB)
+Rotating leaders
 \end_layout
 
 \end_inset
@@ -717,53 +333,250 @@ Uniform reliable broadcast (URB)
 \end_layout
 
 \begin_layout Block
-Problem: delivering a message and crashing can still cause inconsistent
- state.
+
+\series bold
+\begin_inset Formula $\Diamond$
+\end_inset
+
+synchronous.
+
+\series default
+ Messages take upto 
+\begin_inset Formula $mT$
+\end_inset
+
+ most of the time, but sometimes take longer.
+ Time taken is bounded.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each round has a leader.
+\end_layout
+
+\begin_layout Itemize
+Length of rounds set to be long enough to send all messages.
+\end_layout
+
+\begin_layout Itemize
+Eventually messages take 
+\begin_inset Formula $<mT$
+\end_inset
+
+ and a choice is made.
+\end_layout
+
+\end_deeper
+\begin_layout Column
+.32
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Paxos
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Leader 
+\series bold
+consults
+\series default
+ witnesses and asks for their most recent values.
+\end_layout
+
+\begin_layout Enumerate
+Leader selects most recent value and 
+\series bold
+proposes
+\series default
+ it.
+\end_layout
+
+\begin_layout Enumerate
+All servers 
+\series bold
+accept
+\series default
+ proposed value.
+\end_layout
+
+\begin_layout Enumerate
+Leader sends 
+\series bold
+decision
+\series default
+ to all servers.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+A deided value must have been accepted by a majority.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Rounds can have differen durations—can be made longer to give servers enough
+ time.
+\end_layout
+
+\begin_layout Itemize
+Servers don't need to be synchronised—messages from old rounds can be ignored
+ and slow servers asked to catch up.
+\end_layout
+
+\begin_layout Itemize
+In a synchronous system, consensus is achieved 
+\emph on
+in the first round
+\emph default
+.
+ No consult phase required.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Lamport's basic Paxos
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Each component has a:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Proposer.
+
+\series default
+ Proposes values to be decided.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Acceptor.
+
+\series default
+ Conditionally accepts proposed values.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Learners.
+
+\series default
+ Learns accepted values and processes them.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+Decides a single value over possibly many rounds:
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
 
 \series bold
-L: Uniform agreement.
+Prepare-Promise phase.
+\end_layout
 
-\series default
- If any process delivers a message, all correct processes deliver it.
+\begin_deeper
+\begin_layout Enumerate
+Proposer increments its proposal num and asks acceptors to not accept less
+ than its PN.
+\end_layout
+
+\begin_layout Enumerate
+Acceptors reply with highest PN it has accepted.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Accept-Accepted phase.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Proposer waits until promises accepted from majority of acceptors.
+\end_layout
+
+\begin_layout Enumerate
+Asks acceptors to accept value with proposal PN—either the highest proposed
+ value, or its own if there is no proposed val.
+\end_layout
+
+\begin_layout Enumerate
+Acceptor accepts value if it has not made higher promise.
+\end_layout
+
+\begin_layout Enumerate
+Acceptors reply with highest PN it has acepted.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Proposer retries if higher value accepted by an acceptor, else tell learners.
 \end_layout
 
 \end_deeper
 \begin_layout Block
-
-\series bold
-Majority-Ack URB.
-
-\series default
- Deliver only after message BEB-delivered by quorum of processes.
+Can livelock if proposers continually outbid PNs before they have time to
+ get their values accepted.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Correct if 
-\begin_inset Formula $N>2f$
-\end_inset
-
-.
+Add delay before retries.
 \end_layout
 
 \begin_layout Itemize
-Requires two steps and 
-\begin_inset Formula $O(N^{2})$
-\end_inset
-
- messages in best case.
-\end_layout
-
-\begin_layout Itemize
-Requires 
-\begin_inset Formula $N+1$
-\end_inset
-
- messages in worst case.
+Have a distinguished proposer (
+\series bold
+leader
+\series default
+).
 \end_layout
 
 \end_deeper
@@ -788,28 +601,36 @@ linewidth
 
 \end_layout
 
-\end_deeper
-\begin_layout Columns
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+FLP impossibility result
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Consenus cannot be solved in a purely asynchronous system where processes
+ can crash.
 \begin_inset VSpace medskip
 \end_inset
 
 
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Ordering
-\end_layout
-
+\end_deeper
+\begin_layout Block
+Assume there is an algorithm 
+\begin_inset Formula $A$
 \end_inset
 
-
+ that solves the consensus problem.
 \end_layout
 
 \begin_layout Standard
@@ -824,189 +645,108 @@ Ordering
 status collapsed
 
 \begin_layout Plain Layout
-FIFO reliable broadcast (FRB)
+\begin_inset Formula $A$
+\end_inset
+
+ has an initial bivalent configuration
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Block
-Maintain sequence numbers.
- Keep a list of pending messages.
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
+Assume all initial configurations are univalent.
+\end_layout
 
-\series bold
-FIFO delivery.
-
-\series default
- If a process broadcasts 
-\begin_inset Formula $M1$
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $C_{K}$
 \end_inset
 
- before 
-\begin_inset Formula $M2$
+ be the config with the first 
+\begin_inset Formula $K$
 \end_inset
 
- then all correct processes deliver 
-\begin_inset Formula $M1$
+ processe1s having 1 as their input bit, the rest having 0.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $C_{0}$
 \end_inset
 
- before 
-\begin_inset Formula $M2$
+ must be 0-valent (by validity).
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $C_{N}$
 \end_inset
 
-.
+ must be 1-valent (by validity).
+\end_layout
+
+\begin_layout Enumerate
+There must be some 
+\begin_inset Formula $C_{K-1}$
+\end_inset
+
+ 0-valent and 
+\begin_inset Formula $C_{K}$
+\end_inset
+
+ 1-valent.
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Causal order reliable broadcast (CRB)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-
-\series bold
-Causal order.
-
-\series default
- 
-\begin_inset Formula $M1\rightarrow M2$
-\end_inset
-
- if:
-\end_layout
-
-\begin_deeper
 \begin_layout Enumerate
-
-\series bold
-FIFO order.
-
-\series default
- Process broadcasts 
-\begin_inset Formula $M1$
-\end_inset
-
- then 
-\begin_inset Formula $M2$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Local order.
-
-\series default
- Process delivers 
-\begin_inset Formula $M1$
-\end_inset
-
- then broadcasts 
-\begin_inset Formula $M2$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Transitivity.
-
-\series default
- There is an 
-\begin_inset Formula $M3$
-\end_inset
-
- s.t.
- 
-\begin_inset Formula $M1\rightarrow M3$
+Now consider 
+\begin_inset Formula $\sigma_{K-1}$
 \end_inset
 
  and 
-\begin_inset Formula $M3\rightarrow M2$
+\begin_inset Formula $\sigma_{K}$
 \end_inset
 
-.
-\end_layout
+ starting from 
+\begin_inset Formula $C_{K}$
+\end_inset
 
-\end_deeper
-\begin_layout Block
-Every message carrys causally past messages.
+ and 
+\begin_inset Formula $C_{K-1}$
+\end_inset
+
+ respectively, in which 
+\begin_inset Formula $P_{K}$
+\end_inset
+
+ crashes immediately.
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
-
-\series bold
-Causal delivery.
-
-\series default
- If a process delivers 
-\begin_inset Formula $M2$
+\begin_inset Formula $\sigma_{K-1}$
 \end_inset
 
- it must have already delivered every 
-\begin_inset Formula $M1$
+ and 
+\begin_inset Formula $\sigma_{K}$
 \end_inset
 
- s.t.
- 
-\begin_inset Formula $M1\rightarrow M2$
+ are indistinguishable from each other and hence must decide the same value.
+\end_layout
+
+\begin_layout Enumerate
+But 
+\begin_inset Formula $C_{K-1}$
 \end_inset
 
-.
-\end_layout
+ is 0-valent and 
+\begin_inset Formula $C_{K}$
+\end_inset
 
-\begin_layout Standard
-Message size grows linearly.
- Need to keep track of past messages.
-\end_layout
-
-\begin_layout Itemize
-Use 
-\series bold
-vector clocks
-\series default
-.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Each message sent with a sequence number.
-\end_layout
-
-\begin_layout Itemize
-Keep track of number of messages received from each process.
- 
-\end_layout
-
-\begin_layout Itemize
-Compare sequence number with vector clock.
+ is 1-valent—contradiction.
 \end_layout
 
 \end_deeper
@@ -1023,50 +763,183 @@ Compare sequence number with vector clock.
 status collapsed
 
 \begin_layout Plain Layout
-Total order broadcast (TOURB)
+\begin_inset Formula $A$
+\end_inset
+
+ may forever remain in a bivalent config
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Block
-Equivalent to the consensus problem.
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
-
-\series bold
-Uniform total order.
-
-\series default
- If a correct process delivers 
-\begin_inset Formula $M1$
-\end_inset
-
- before 
-\begin_inset Formula $M2$
-\end_inset
-
-, then no correct process delivers 
-\begin_inset Formula $M2$
-\end_inset
-
- before 
-\begin_inset Formula $M1$
+Start from a bivalent config 
+\begin_inset Formula $C$
 \end_inset
 
 .
 \end_layout
 
+\begin_layout Enumerate
+Consider an event 
+\begin_inset Formula $E=\left(P,M\right)$
+\end_inset
+
+ applicable to 
+\begin_inset Formula $C$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Assume that every config reached after applying 
+\begin_inset Formula $E$
+\end_inset
+
+ is univalent.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Consider two neighboring configurations 
+\begin_inset Formula $C_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+, reachable from 
+\begin_inset Formula $C$
+\end_inset
+
+ without 
+\begin_inset Formula $E$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $C_{1}=E'\left(C_{0}\right)$
+\end_inset
+
+ for some 
+\begin_inset Formula $E'=\left(P',M'\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $D_{0}=E(C_{0})$
+\end_inset
+
+ 0-valent and 
+\begin_inset Formula $D_{1}=E\left(C_{1}\right)$
+\end_inset
+
+ 1-valent.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Case 1.
+ 
+\begin_inset Formula $P\neq P'$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Then 
+\begin_inset Formula $D_{1}=E'\left(D_{0}\right)$
+\end_inset
+
+, but since 
+\begin_inset Formula $D_{0}$
+\end_inset
+
+ is 0-valent, every successor of 
+\begin_inset Formula $D_{1}$
+\end_inset
+
+ must be 0-valent—contradiction.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Case 2.
+ 
+\begin_inset Formula $P=P'$
+\end_inset
+
+.
+ Then consider a deciding schedule 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ from 
+\begin_inset Formula $C_{0}$
+\end_inset
+
+ in which 
+\begin_inset Formula $P$
+\end_inset
+
+ does not participate.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $G=\sigma(C_{0})$
+\end_inset
+
+ be the univalent config reached.
+\end_layout
+
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $F_{0}=\sigma\left(D_{0}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $F_{1}=\sigma\left(D_{1}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Then 
+\begin_inset Formula $E\left(G\right)=F_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $E\left(E'\left(G\right)\right)=F_{1}$
+\end_inset
+
+.
+ Hence 
+\begin_inset Formula $G$
+\end_inset
+
+ is bivalent—contradiction.
+\end_layout
+
 \end_deeper
 \end_deeper
-\begin_layout Columns
+\begin_layout Block
 
 \end_layout
 
+\end_deeper
 \begin_layout Columns
 \begin_inset ERT
 status open

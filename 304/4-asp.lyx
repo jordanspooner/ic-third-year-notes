@@ -1,0 +1,1120 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamerposter
+\begin_preamble
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+
+% You can select your theme here. Any beamer theme without a sidebar should work:
+\usetheme{Rochester}
+% Note, however, that only dedicated beamerposter themes also generate
+% a suitable poster title automatically (we do this manually, see the notes
+% in the document). 
+% Dedicated beamerposter themes are available at 
+% http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php
+
+% Here you can set the options (note that the example content is made for the given setup. 
+% With different orientation or poster size, the content probably won't fit on the poster):
+\PassOptionsToPackage{%
+   orientation=landscape, % possible: portrait, landscape
+    size=a4,% possible: a0b, a0, a1, a2, a3, a4, custom (with width=<val>,height=<val>)
+    scale=1.625,% scaling of fonts
+    debug% give verbose warnings and error messages
+}{beamerposter}
+
+% This produces a grid which might be useful when positioning things
+%\beamertemplategridbackground[0.5cm]
+%\setbeamertemplate{background canvas}[vertical shading][bottom=gray,top=white]
+\end_preamble
+\options final
+\use_default_options false
+\begin_modules
+multicol
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Learning Answer Set Programs
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\posexamples}{e_{1}^{+},\dots,e_{n}^{+}}
+{e_{1}^{+},\dots,e_{n}^{+}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\negexamples}{e_{1}^{-},\dots,e_{m}^{-}}
+{e_{1}^{-},\dots,e_{m}^{-}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 1
+use_makebox 0
+width "80col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset VSpace -1.25cm
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% Output title
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+LARGE
+\backslash
+textcolor{white}{
+\backslash
+textbf{
+\backslash
+inserttitle}}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace -0.75cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Columns
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+t, totalwidth=
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+1
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+.32
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Semantics of ASP
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+Safety
+\series default
+.
+ Every variable in a rule must occur in positive body.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Relevant grounding
+\series default
+ 
+\begin_inset Formula $ground(P)$
+\end_inset
+
+ of 
+\series bold
+
+\begin_inset Formula $P$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Incrementally add ground instances of rules in 
+\begin_inset Formula $P$
+\end_inset
+
+ s.t.
+ every atom in positive body occurs in the head of a rule in 
+\begin_inset Formula $ground(P)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Reduct
+\series default
+ 
+\begin_inset Formula $P^{X}$
+\end_inset
+
+ of 
+\begin_inset Formula $P$
+\end_inset
+
+ with respect to 
+\begin_inset Formula $X$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+For each choice rule 
+\begin_inset Formula $R$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If head is satisfied, replace with 
+\begin_inset Formula $h\rightarrow body(R)$
+\end_inset
+
+ for each 
+\begin_inset Formula $h$
+\end_inset
+
+ in the aggregate in 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Otherwise, replace head with 
+\begin_inset Formula $\bot$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Remove rules whose body contains negation of an atom in 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Remove negation from any remaining rules.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Least Herbrand model
+\series default
+ 
+\begin_inset Formula $M(P)$
+\end_inset
+
+ of definite logic program 
+\begin_inset Formula $P$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Must be a 
+\emph on
+model
+\emph default
+—every rule is satisfied.
+\end_layout
+
+\begin_layout Itemize
+Mus be 
+\emph on
+minimal
+\emph default
+—no subset is a model.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Formula $X$
+\end_inset
+
+ is an 
+\series bold
+answer set
+\series default
+ of 
+\begin_inset Formula $P$
+\end_inset
+
+ iff 
+\begin_inset Formula $X=M\left(ground(P)^{X}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Brave entailment.
+
+\series default
+ 
+\begin_inset Formula $P\vDash_{b}a$
+\end_inset
+
+ iff there is at least one answer set 
+\begin_inset Formula $A\in AS\left(P\right)$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Formula $a\in A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Cautious entailment.
+
+\series default
+ 
+\begin_inset Formula $P\vDash_{c}a$
+\end_inset
+
+ iff for every answer set 
+\begin_inset Formula $A\in AS\left(P\right)$
+\end_inset
+
+, 
+\begin_inset Formula $a\in A$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+Optimisation statements.
+
+\series default
+ 
+\begin_inset Formula $\#minimise[a_{1}=w_{1},\dots,a_{n}=w_{n}]$
+\end_inset
+
+.
+ An answer set 
+\begin_inset Formula $A$
+\end_inset
+
+ of 
+\begin_inset Formula $P$
+\end_inset
+
+ is optimal if 
+\begin_inset Formula $\sum_{a_{i}\in A}w_{i}$
+\end_inset
+
+ is minimised.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Brave and cautious induction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Brave induction.
+
+\series default
+ 
+\begin_inset Formula $H$
+\end_inset
+
+ is a solution of 
+\begin_inset Formula $ILP_{b}\left(\left\langle B,E^{+},E^{-}\right\rangle \right)$
+\end_inset
+
+ iff there exists an answer set 
+\begin_inset Formula $A$
+\end_inset
+
+ of 
+\begin_inset Formula $B\cup H$
+\end_inset
+
+ s.t.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\forall e\in E^{+}.\:e\in A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\forall e\in E^{-}.\:e\notin A$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Cautious induction.
+
+\series default
+ 
+\begin_inset Formula $H$
+\end_inset
+
+ is a solution of 
+\begin_inset Formula $ILP_{c}\left(\left\langle B,E^{+},E^{-}\right\rangle \right)$
+\end_inset
+
+ iff:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $B\cup H$
+\end_inset
+
+ is satisfiable (has at least one answer set).
+\end_layout
+
+\begin_layout Itemize
+Every answer set of 
+\begin_inset Formula $B\cup H$
+\end_inset
+
+ covers all positive and no negative examples.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Block
+
+\end_layout
+
+\begin_layout Column
+.32
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Flex Bold
+status open
+
+\begin_layout Plain Layout
+
+\size large
+ASPAL
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Skeleton rules
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+Skeleton rules
+\series default
+ 
+\begin_inset Formula $S_{M}$
+\end_inset
+
+ given mode declarations 
+\begin_inset Formula $M$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+Head atom constructed from 
+\begin_inset Formula $modeh$
+\end_inset
+
+ with variables 
+\begin_inset Formula $V1,V2,\dots$
+\end_inset
+
+ and constatns 
+\begin_inset Formula $C1,C2,\dots$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Each body atom constructed from 
+\begin_inset Formula $modeb$
+\end_inset
+
+ by:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Replacing input variables with 
+\begin_inset Formula $V1,V2,\dots$
+\end_inset
+
+ which occur in the head or in the output of another atom.
+\end_layout
+
+\begin_layout Itemize
+Replcaing constants with 
+\begin_inset Formula $C1,C2,\dots$
+\end_inset
+
+ that do not occur elsewhere.
+\end_layout
+
+\begin_layout Itemize
+Replacing output variables with 
+\begin_inset Formula $V1,V2,\dots$
+\end_inset
+
+ that do not occur elsewhere.
+\end_layout
+
+\begin_layout Itemize
+Number of occurrences must not exceed recall.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Each variable 
+\begin_inset Formula $V_{i}$
+\end_inset
+
+ has an extra atom for its type.
+ No variable takes two types.
+\end_layout
+
+\begin_layout Enumerate
+Number of literals in the body (excluding types) 
+\begin_inset Formula $\leq L_{max}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Number of variables (excluding 
+\begin_inset Formula $C$
+\end_inset
+
+'s) 
+\begin_inset Formula $\leq V_{max}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Add a 
+\begin_inset Formula $rule(id,C_{1},C_{2},\dots)$
+\end_inset
+
+ predicate to each rule in 
+\begin_inset Formula $S_{M}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+ASPAL meta-encoding
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+For a brave induction task 
+\begin_inset Formula $\left\langle B,E^{+},E^{-}\right\rangle $
+\end_inset
+
+ and set of mode declarations 
+\begin_inset Formula $M$
+\end_inset
+
+, the 
+\series bold
+ASPAL meta-encoding
+\series default
+ consists of:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+(Unchanged) 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+For each rule 
+\begin_inset Formula $R\in S_{M}$
+\end_inset
+
+, add
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $head(R)\leftarrow body(R),rule(id,C_{1},\dots,C_{n})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+For examples, add:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $goal\leftarrow e_{1}^{+},\dots,e_{n}^{+},\text{not }e_{1}^{-},\dots,\text{not }e_{m}^{-}.$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\leftarrow\text{not }goal.$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+For all instances of rules in 
+\begin_inset Formula $S_{M}$
+\end_inset
+
+, add:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $0\{meta(R_{1}),\dots meta(R_{n})\}n.$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\#minimise[meta(R_{1})=\left|R_{1}\right|,\dots meta(R_{n})=\left|R_{n}\right|].$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $meta(R_{i})$
+\end_inset
+
+ is a ground 
+\begin_inset Formula $rule$
+\end_inset
+
+ predicate.
+\end_layout
+
+\begin_layout Itemize
+A rule's length is the number of literals excluding types.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Block
+The optimal answer sets correspond to optimal brave inductive solutions.
+\end_layout
+
+\begin_layout Column
+.32
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Flex Bold
+status open
+
+\begin_layout Plain Layout
+
+\size large
+ILASP
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+Learning from answer sets
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+A 
+\series bold
+partial interpretation
+\series default
+ is a pair of sets of atoms 
+\begin_inset Formula $\left\langle e^{inc},e^{exc}\right\rangle $
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $I$
+\end_inset
+
+ 
+\series bold
+extends
+\series default
+ a partial interpretation iff 
+\begin_inset Formula $e^{inc}\subseteq I\text{ and }e^{exc}\cap I=\emptyset$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+LAS.
+
+\series default
+ 
+\begin_inset Formula $H$
+\end_inset
+
+ is a solution to 
+\begin_inset Formula $IP_{LAS}\left(\left\langle B,S_{M},E^{+},E^{-}\right\rangle \right)$
+\end_inset
+
+ iff:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $H\subseteq S_{M}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\forall e^{+}\in E^{+}.\;\exists A\in AS\left(B\cup H\right).\ A\text{ extends }e^{+}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\forall e^{-}\in E^{-}.\;\lnot\exists A\in AS\left(B\cup H\right).\ A\text{ extends }e^{-}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+Relationship to brave/cautious induction:
+\end_layout
+
+\begin_layout Block
+\begin_inset Formula 
+\begin{multline*}
+ILP_{b}\left(\left\langle B,\left\{ \posexamples\right\} ,\left\{ \negexamples\right\} \right\rangle \right)\\
+\equiv ILP_{LAS}\left(\left\langle B,\left\{ \left\langle \left\{ \posexamples\right\} ,\left\{ \negexamples\right\} \right\rangle \right\} ,\emptyset\right\rangle \right)
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Formula 
+\begin{multline*}
+ILP_{c}\left(\left\langle B,\left\{ \posexamples\right\} ,\left\{ \negexamples\right\} \right\rangle \right)\\
+\equiv ILP_{LAS}\left(\left\langle \begin{array}{c}
+B,\\
+\left\{ \left\langle \emptyset,\emptyset\right\rangle \right\} ,\\
+\left\{ \begin{array}{c}
+\left\langle \emptyset,\left\{ e_{1}^{+}\right\} \right\rangle ,\dots,\left\langle \emptyset,\left\{ e_{n}^{+}\right\} \right\rangle ,\\
+\left\langle \left\{ e_{1}^{-}\right\} ,\emptyset\right\rangle ,\dots,\left\langle \left\{ e_{m}^{-}\right\} ,\emptyset\right\rangle 
+\end{array}\right\} 
+\end{array}\right\rangle \right)
+\end{multline*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status open
+
+\begin_layout Plain Layout
+ILASP2i
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Considers 
+\series bold
+relevant examples.
+\end_layout
+
+\begin_layout Enumerate
+Choose an example not covered by the current hypothesis.
+ Add it to a set of relevant examples.
+\end_layout
+
+\begin_layout Enumerate
+Use ILASP2 to find a hypothesis (from scratch) which covers the current
+ set of relevant exaples.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Columns
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{100cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_body
+\end_document

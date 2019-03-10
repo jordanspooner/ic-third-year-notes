@@ -98,10 +98,7 @@ multicol
 \begin_body
 
 \begin_layout Title
-\begin_inset Formula $k$
-\end_inset
-
--Nearest Neighbours and Decision Trees
+Evaluation
 \end_layout
 
 \begin_layout Frame
@@ -197,256 +194,6 @@ linewidth
 
 \begin_deeper
 \begin_layout Column
-.32
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-linewidth
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Machine Learning
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Three main approaches
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Supervised learning.
-
-\series default
- Learn a mapping from features to labels, given a training set of labelled
- data.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Unsupervisd learning.
-
-\series default
- Discover an underlying structure within data (e.g.
- dimensionality reduction / clustering).
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Reinforcement learning.
-
-\series default
- Find which action to take to maximise received rewards.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Agent is given a 
-\series bold
-reward value
-\series default
-, not a solution.
-\end_layout
-
-\begin_layout Itemize
-Feedback is often delayed.
-\end_layout
-
-\begin_layout Itemize
-Data is sequential, time matters.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-\begin_inset Graphics
-	filename ../img/spaces.png
-	width 90col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-The label space
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Categorical.
-
-\series default
- Variables from some finite set (classification / pattern recognition problems).
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Real-valued scalar.
-
-\series default
- Regression / function approximation problems.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Ordinal regression.
-
-\series default
- Label space has a natural ordering 
-\begin_inset Formula $\implies$
-\end_inset
-
- problem can be approximated by regression problem, then discretised.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Lazy vs eager learning
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Lazy learning.
-
-\series default
- Save data, only generalise when a request is made (e.g.
- 
-\begin_inset Formula $k$
-\end_inset
-
--NN).
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Eager learning.
-
-\series default
- Construct general, explicit description of target function (e.g.
- decision trees).
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Better memory efficiency.
-\end_layout
-
-\begin_layout Itemize
-Usually lower query time.
-\end_layout
-
-\begin_layout Itemize
-Tends to deal better with noise.
-\end_layout
-
-\begin_layout Itemize
-Unable to provide good local approximations.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Column
 .34
 \begin_inset ERT
 status open
@@ -465,10 +212,305 @@ linewidth
 
 \begin_layout Block
 \begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Confusion matrices
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+Multiple classes: define one class as positive, and all others negative.
+\end_layout
+
+\begin_layout Block
+\begin_inset Float table
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features booktabs="true" tabularvalignment="middle" tabularwidth="95col%">
+<column alignment="center" valignment="top" width="30col%">
+<column alignment="center" valignment="top" width="25col%">
+<column alignment="center" valignment="top" width="25col%">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+Positive predicted
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+Negative predicted
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+Positive actual
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $TP$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FN$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+Negative actual
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $FP$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $TN$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Performance metrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+
+\series bold
+\emph on
+Per class:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Recall.
+
+\series default
+ Probability of positive example being classified positive.
+\begin_inset Formula 
+\[
+\frac{TP}{TP+FN}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+High recall, low precision: most positive examples correctly recognised
+ but many false negatives.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Precision.
+
+\series default
+ Probability of example classified positive being positive.
+\begin_inset Formula 
+\[
+\frac{TP}{TP+FP}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+High precision, low recall: most examples predicted to be positive are,
+ but we miss many of them.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+F-measure.
+
+\series default
+ Weighted harmonic mean of precision and recall.
+\begin_inset Formula 
+\[
+F_{\alpha}=(1+\alpha^{2})\frac{\text{Precision}*\text{Recall}}{\alpha^{2}*\text{Precision}+\text{Recall}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+\emph on
+Over all classes:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Classification rate.
+
+\series default
+ Probability of correct classification.
+\begin_inset Formula 
+\[
+\frac{TP+TN}{TP+TN+FP+FN}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Unweighted average recall.
+
+\series default
+ Mean of recalls for each class.
+\end_layout
+
+\end_deeper
+\begin_layout Column
+.32
+\begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-Main problems
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Regression tasks
 \end_layout
 
 \end_inset
@@ -480,57 +522,27 @@ Main problems
 \begin_layout Enumerate
 
 \series bold
-Classification.
+Mean squared error.
 
 \series default
- (Supervised/Unsupervised) Predict a label for unknown sample.
+ 
+\begin_inset Formula $\frac{1}{N}\sum_{i=1}^{N}\left(Y_{i}-\hat{Y}_{i}\right)^{2}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
-Regression.
+Root mean squared error.
 
 \series default
- (Supervised) Approximate an unknown function.
-\end_layout
+ 
+\begin_inset Formula $\sqrt{\text{MSE}}$
+\end_inset
 
-\begin_layout Enumerate
-
-\series bold
-Clustering.
-
-\series default
- (Unsupervised) Group data into similar clusters.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Dimensionality reduction.
-
-\series default
- (Unsupervised) Reduce dimensionality of observed data.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Density estimation.
-
-\series default
- (Unsupervised) Estimate the underlying probability density function of
- observed data.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Policy search.
-
-\series default
- (Reinforcement) Find which action an agent should take to maximise its
- rewards.
+.
 \end_layout
 
 \end_deeper
@@ -541,6 +553,57 @@ Policy search.
 
 \end_layout
 
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Unbalanced test sets
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+CR can be misleading, UAR is helpful.
+\end_layout
+
+\begin_layout Itemize
+Can be useful to 
+\series bold
+normalise
+\series default
+ confusion matrix.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Divide by total number of examples per class.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Block
+Solutions:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Upsample minority classes.
+\end_layout
+
+\begin_layout Enumerate
+Downsample majority classes.
+\end_layout
+
+\begin_layout Enumerate
+Weight examples from minority classes.
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Columns
 \begin_inset VSpace medskip
@@ -557,10 +620,7 @@ status open
 \begin_layout Plain Layout
 
 \size large
-\begin_inset Formula $k$
-\end_inset
-
--Nearest Neighbours
+Parameter tuning and performance estimation
 \end_layout
 
 \end_inset
@@ -568,9 +628,25 @@ status open
 
 \end_layout
 
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Holdout
+\end_layout
+
 \end_inset
 
 
@@ -578,89 +654,27 @@ status open
 
 \begin_deeper
 \begin_layout Standard
-Consider 
-\begin_inset Formula $k$
-\end_inset
-
- nearest neighbours and assign class in the majority.
+Split your dataset into training/validation/test.
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
+Train models on the training set.
+\end_layout
 
+\begin_layout Enumerate
+Select the best one based on the validation set.
+\end_layout
+
+\begin_layout Enumerate
+Perform final evaluation on the (
 \emph on
-k
+unseen
 \emph default
--NN can be 
-\series bold
-slow
-\series default
- for large datasets 
-\begin_inset Formula $\implies$
-\end_inset
-
-use a 
-\begin_inset Formula $k$
-\end_inset
-
--d tree / locality-sensitive hashing.
+) test set.
 \end_layout
 
-\begin_layout Itemize
-
-\series bold
-Curse of dimensionality.
-
-\series default
- For high-dimensional feature spaces, nearest neighbours may be far away!
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Influence of 
-\begin_inset Formula $k$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Small 
-\begin_inset Formula $k$
-\end_inset
-
-:
-\series default
- good resolution but sensitive to noise.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Large 
-\begin_inset Formula $k$
-\end_inset
-
-:
-\series default
- poor resolution but robust to noise.
+\begin_layout Enumerate
+Train production model on entire dataset with optimal parameters.
 \end_layout
 
 \end_deeper
@@ -676,11 +690,7 @@ Large
 status collapsed
 
 \begin_layout Plain Layout
-Distance-weighted 
-\begin_inset Formula $k$
-\end_inset
-
--NN
+Cross Validation
 \end_layout
 
 \end_inset
@@ -689,71 +699,34 @@ Distance-weighted
 \end_layout
 
 \begin_deeper
-\begin_layout Itemize
-
-\series bold
-Global / local methods.
-
-\series default
- Global 
-\begin_inset Formula $\implies$
-\end_inset
-
- 
+\begin_layout Standard
+Divide dataset into 
 \begin_inset Formula $k$
 \end_inset
 
- is the number of observed instances.
+ non-overlapping folds.
 \end_layout
 
-\begin_layout Itemize
-Distance-weighted 
-\begin_inset Formula $k$
-\end_inset
+\begin_layout Enumerate
+Estimate performance using train/validation/test folds
+\end_layout
 
--NN is robust to noisy training data.
+\begin_deeper
+\begin_layout Enumerate
+Choose the best model for each validation fold.
+\end_layout
+
+\begin_layout Enumerate
+Average performance metrics over all test folds.
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
+\begin_layout Enumerate
+Estimate optimal set of parameters (just train/validation).
 \end_layout
 
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Formula $k$
-\end_inset
-
--NN for regression
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Instead of using class in majority, use average value.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Locally weighted regression.
-
-\series default
- Use weighted average value of 
-\begin_inset Formula $k$
-\end_inset
-
--nearest neighbours.
+\begin_layout Enumerate
+Train production model on entire dataset with optimal parameters.
 \end_layout
 
 \end_deeper
@@ -790,7 +763,7 @@ status open
 \begin_layout Plain Layout
 
 \size large
-Decision Trees
+Overfitting
 \end_layout
 
 \end_inset
@@ -807,195 +780,55 @@ Decision Trees
 \end_layout
 
 \begin_deeper
-\begin_layout Standard
-Approximate discrete classification with tree of if-then rules.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Algorithm
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Search for a split point.
-\end_layout
-
-\begin_layout Enumerate
-Split dataset according to that point.
-\end_layout
-
-\begin_layout Enumerate
-Repeat on subsets.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Finding a split point
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Use a statistical test.
- 
-\series bold
-ID3 
-\series default
-maximises
-\series bold
- 
-\series default
-information gain.
-\end_layout
-
-\begin_deeper
 \begin_layout Itemize
 
 \series bold
-Information gain.
+Overfitting.
 
 \series default
- Difference between initial entropy and weighted average entropy of produced
- subsets.
+ Good performance on training data, poor generalisation to other data.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Formula 
-\[
-G\left(q\right)=H\left(\text{dataset}\right)-\left(\frac{\left|\text{subsetA}\right|}{\left|\text{dataset}\right|}H\left(\text{subsetA}\right)+\dots\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Block
-Split point:
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Ordered values.
-
-\series default
- Consider points between two examples 
-\series bold
-in sorted order
-\series default
- with different classifications.
- Create two branches.
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Symbolic values.
-
-\series default
- Create as many branches as there are different values for the feature.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Information entropy
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Formula 
-\[
-H\left(V\right)=-\sum_{k}P\left(v_{k}\right)\log_{2}P\left(v_{k}\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status collapsed
-
-\begin_layout Plain Layout
-Overfitting
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Use 
-\series bold
-pruning
-\series default
- to avoid overfitting.
-\end_layout
-
-\begin_deeper
 \begin_layout Itemize
-Using 
+
 \series bold
-validation dataset
+Underfitting.
+
 \series default
-, recursively check nodes above leaves and prune if accuracy would improve.
+ Poor performance on training data, poor generalisation to other data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Causes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Unrepresentative training set.
+\end_layout
+
+\begin_layout Enumerate
+Model too complex.
+\end_layout
+
+\begin_layout Enumerate
+Learning performed for too long.
 \end_layout
 
 \end_deeper
@@ -1011,7 +844,7 @@ validation dataset
 status collapsed
 
 \begin_layout Plain Layout
-Regression trees
+Solutions
 \end_layout
 
 \end_inset
@@ -1019,15 +852,125 @@ Regression trees
 
 \end_layout
 
-\begin_layout Block
-Each leaf has a linear function instead of a single class.
+\begin_deeper
+\begin_layout Enumerate
+Get more data.
 \end_layout
 
+\begin_layout Enumerate
+Use the right level of complexity (use a validation set).
+\end_layout
+
+\begin_layout Enumerate
+Early stopping (use a validation set).
+\end_layout
+
+\end_deeper
 \end_deeper
 \begin_layout Columns
+\begin_inset VSpace medskip
+\end_inset
+
 
 \end_layout
 
+\begin_deeper
+\begin_layout Standard
+\begin_inset Flex Bold
+status open
+
+\begin_layout Plain Layout
+
+\size large
+Confidence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Confidence intervals
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+For a sample 
+\begin_inset Formula $S$
+\end_inset
+
+ with 
+\begin_inset Formula $n\geq30$
+\end_inset
+
+ elements, the true error lies in the interval
+\begin_inset Formula 
+\[
+\text{error}_{S}\left(h\right)\pm Z_{N}\sqrt{\frac{\text{error}_{S}\left(h\right)\times\left(1-\text{error}_{S}\left(h\right)\right)}{n}}
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $N\%$
+\end_inset
+
+ confidence.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Comparing algorithms
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Compare two sets of observations using a statistical test (e.g.
+ T-test).
+\end_layout
+
+\begin_layout Enumerate
+Performance difference between algorithms is statistically significant if
+ p-value 
+\begin_inset Formula $<0.05$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
 \begin_layout Columns
 \begin_inset ERT
 status open

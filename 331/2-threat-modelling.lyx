@@ -101,7 +101,7 @@ multicol
 \begin_body
 
 \begin_layout Title
-Security Development Lifecycle
+Threat Modelling
 \end_layout
 
 \begin_layout Frame
@@ -197,7 +197,7 @@ linewidth
 
 \begin_deeper
 \begin_layout Column
-.63
+.6
 \begin_inset ERT
 status open
 
@@ -257,30 +257,6 @@ columnwidth
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Threat Modelling
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
 \begin_layout Enumerate
 Model the system.
 \end_layout
@@ -795,7 +771,7 @@ vspace{-0.25cm}
 \end_layout
 
 \begin_layout Column
-.33
+.38
 \begin_inset ERT
 status open
 
@@ -937,13 +913,6 @@ Accept.
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
 \end_deeper
 \begin_layout Columns
 \begin_inset VSpace medskip
@@ -960,7 +929,7 @@ status open
 \begin_layout Plain Layout
 
 \size large
-Malware and Passwords
+Penetration testing
 \end_layout
 
 \end_inset
@@ -968,157 +937,207 @@ Malware and Passwords
 
 \end_layout
 
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
+\begin_layout Enumerate
 
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-Malware
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-Used for 
 \series bold
-data theft
+Pre-engagment.
+
 \series default
-, 
-\series bold
-spam
-\series default
-, 
-\series bold
-DDOS
-\series default
-, 
-\series bold
-brute force
-\series default
-, 
-\series bold
-ad
-\series default
- attacks.
+ Define scope, sign contract.
 \end_layout
 
-\begin_layout Itemize
-Blacklist phishing / malware sites.
-\end_layout
-
-\begin_layout Itemize
-Use antivirus to check for known signatures.
-\end_layout
-
-\begin_layout Itemize
-Education: avoid direct installs.
-\end_layout
-
-\begin_layout Itemize
-Update / patch known vulnerabilites.
-\end_layout
-
-\begin_layout Itemize
-Use firewalls / intrusion detection system.
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-\begin_inset Argument 2
-status open
-
-\begin_layout Plain Layout
-Passwords
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
+\begin_layout Enumerate
 
 \series bold
-Limitations:
-\series default
- difficult to remember, online dictionary attacks.
-\end_layout
-
-\begin_layout Block
-\begin_inset VSpace medskip
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-
-\series bold
-Best practices:
+Intelligence gathering.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Ensure long, random-looking passwords.
+
+\series bold
+Passive.
+
+\series default
+ Aim to build a DFD/architectural diagram.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Avoid interaction with target.
 \end_layout
 
 \begin_layout Itemize
-Store 
+Look for public information (
 \series bold
-salted
+blog posts
 \series default
- (time-consuming) 
+, 
 \series bold
-hashes
+caches
 \series default
-.
-\end_layout
-
-\begin_layout Itemize
-Failure should be for user-password 
+, 
 \series bold
-pair
+source code
 \series default
-.
-\end_layout
-
-\begin_layout Itemize
-Slow / block multiple requests for IP / username.
+, 
+\series bold
+protocols
+\series default
+, 
+\series bold
+DNS info
+\series default
+, 
+\series bold
+Google hacking
+\series default
+).
 \end_layout
 
 \end_deeper
-\end_deeper
-\begin_layout Columns
+\begin_layout Itemize
 
+\series bold
+Active.
+
+\series default
+ E.g.
+ 
+\series bold
+contact target
+\series default
+, 
+\family typewriter
+dig
+\family default
+, 
+\family typewriter
+traceroute
+\family default
+, check if emails bounce, 
+\series bold
+network scanning
+\series default
+ (host discovery, port scanning, OS fingerprinting).
 \end_layout
 
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Threat modelling.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Vulnerability analysis
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Unpatched systems.
+
+\series default
+ Search CVE database, automated scans.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Patched systems.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Source code—code review by hand or use static analysis tools.
+\end_layout
+
+\begin_layout Itemize
+Use educated guesses/fuzz input.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Obtain credentials.
+
+\series default
+ Identify password policies, default passwords, offline dictionary attack
+ on hashes.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Exploitation.
+
+\series default
+ Use identified vulnerabilities.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Post-exploitation.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Try EoP.
+
+\series default
+ Pass-the-hash/exploit application that runs as root.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Steal data.
+
+\series default
+ Steal interesting files, install keylogger.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Pivot.
+
+\series default
+ Exploit other targets on LAN.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Maintain access.
+
+\series default
+ Open backdoors, create new accounts.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Manipulate logs.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Reporting.
+\end_layout
+
+\end_deeper
 \begin_layout Columns
 \begin_inset ERT
 status open
