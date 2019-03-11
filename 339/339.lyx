@@ -1,0 +1,4587 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass paper
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a5paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1.2cm
+\rightmargin 1cm
+\bottommargin 1.2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle empty
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+CO339 Performance Engineering
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Perfomance engineering
+\emph default
+: Techniques applied to ensure the 
+\series bold
+non-functional requirements
+\series default
+ for perfomance.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Success
+\emph default
+: Metric (Throughput, energy usage, etc.) and a threshold (target / budget).
+\end_layout
+
+\begin_layout Paragraph
+Defining a target
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Requirements
+\series default
+:
+\series bold
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+S
+\series default
+pecific (numeric terms)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+M
+\series default
+easurable
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+cceptable (guarantee success)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+R
+\series default
+ealisable
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+T
+\series default
+horough (covers everything)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Quality of Service (QoS) objective
+\series default
+: 
+\series bold
+Statistical property
+\series default
+ of a 
+\series bold
+metric
+\series default
+ that must hold under certain 
+\series bold
+assumptions / conditions
+\series default
+.
+ Can conflict with functional requirements.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Service Level Agreement (SLAs)
+\series default
+: Legal contracts specifying 
+\series bold
+QoS objectives
+\series default
+ and 
+\series bold
+penalties
+\series default
+ for violation.
+ Enforced by monitoring (but not 
+\emph on
+continuous
+\emph default
+ monitoring– cost)
+\end_layout
+
+\begin_layout Paragraph
+Performance Evaluation techniques: Measuring, Analytical modeling, Simulation
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Measuring
+\series default
+: Performed on prototype / final system.
+ Good accuracy.
+ Often based on instrumentation.
+ Costly and difficult - need to measure system on different environments
+ (setups & data).
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Run benchmark
+\series default
+: Get system into predefined state, then apply workload.
+ Types of workloads:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Batch (like a query set).
+ Analyse 
+\series bold
+throughput
+\series default
+.
+\end_layout
+
+\begin_layout Enumerate
+Interactive (randomly generate query).
+ Analyse 
+\series bold
+latency
+\series default
+.
+ Workload generator must be at least as good as the system being benchmarked.
+\end_layout
+
+\begin_layout Enumerate
+Hybrids (random query from predefined work set).
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+With parameters
+\series default
+: 
+\emph on
+System parameters
+\emph default
+ (caches, CPU instruction costs, etc.).
+ 
+\emph on
+Workload parameters
+\emph default
+ (users, available memory, etc.), often continuous.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Perform statistics
+\series default
+: Aggregate multiple runs to eliminate the noise.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Utilisation
+\series default
+: % of resource that is used to perform a service
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Bottleneck
+\series default
+: The resource with the highest utilisation
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Analytical modeling
+\series default
+: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Goal
+\series default
+: Improve performance by comparing alternative designs (
+\emph on
+development
+\emph default
+) OR selecting best value for a parameter (
+\emph on
+tuning
+\emph default
+).
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Analytical model
+\series default
+: Mathematical relationship between parameters and metrics.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Models dynamic system with 
+\series bold
+static equations
+\series default
+\emph on
+.
+
+\emph default
+ Fast, allows what-if analysis.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Parameter tuning
+\series medium
+: Find the vector in the parameter space that either minimises the resource
+ consumption OR maximises a performance metric.
+ Sometimes requires a trade off: reduce use of expensive / non-scalable
+ resource by using more of a cheap one.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Simulation
+\series default
+: Dynamic.
+ Used when system is too complex to be understood.
+ Slow experiments.
+\end_layout
+
+\begin_layout Section
+Performance profiling & tracing
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Profile
+\series default
+: A graphical or other representation characterising the system in terms
+ of the time it spends in certain states.
+ Can be used to identify critical paths, bottlenecks or help tuning.
+\end_layout
+
+\begin_layout Paragraph
+Event
+\series medium
+.
+ A change in the system.
+ Simple (clock tick), complex (cache miss).
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Collecting events:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Event-based/ Event counting
+\series default
+: count events on occurence
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tracing
+\series default
+: keep state for every event (high overhead, more information)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sampling
+\series default
+: keep state in intervals (inaccurate, non-deterministic)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Indirect
+\series default
+: count events that dominate others
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Making a profile
+\series default
+: Aggregate over the events of a specific metric.
+ (Global or broken down by some other event)
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Trace
+\series default
+: Ordered collection of all events and their state.
+ 
+\end_layout
+
+\begin_layout Standard
+E.g.
+ stack call tracing: events are entering/leaving function, event state is
+ the function stack.
+ Make into profile: aggregate into flame graph.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/event-classification-fixed.png
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Use reference cycles as a proxy metric for time.
+\end_layout
+
+\begin_layout Standard
+N.B.
+ Any event can be used to define intervals(cache misses, network requetss
+ etc.)
+\end_layout
+
+\begin_layout Standard
+Interval resolution is discrete but time is continuous.
+ Can lead to 
+\series bold
+quantization errors
+\series default
+/biases (e.g.
+ costs attributed to wrong instruction).
+\end_layout
+
+\begin_layout Paragraph
+Collecting events
+\series medium
+.
+ Want detailed and accurate measurements whilst limiting the perturbation
+ in the system.
+ Could collect with software (OS, library, compiler(instrumentation)), hardware
+ (counter) or creating an emulator.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Instrumentation
+\series default
+: Augment program with event logging code.
+ No need for hardware support & very flexible.
+ High overhead & high perturbation.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Manual
+\series default
+: printf logging.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
++ Fine control, no special hardware or compiler needs
+\end_layout
+
+\begin_layout Itemize
+- Disabled for release builds, needs recompilation, overhead for implementation
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Automatic
+\series default
+: source level (script puts logging into your code) OR binary level (compiler
+ supported injecting of logging into your binaries)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
++ Offload expertise to expert
+\end_layout
+
+\begin_layout Itemize
+- Less control, need compiler support.
+ 
+\end_layout
+
+\begin_layout Itemize
+Binary level instrumentation is static/dynamic:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Static: simple, portable, can see instrumentation from reading your binary
+\end_layout
+
+\begin_layout Itemize
+Dynamic(read/write source code while in memory): no recompilation, can be
+ performed on running process/ JiT-compiled code
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Performance counters
+\series default
+.
+ Software (application specific/OS level packets, context switch).
+ Hardware (Often buggy and poorly documented).
+\end_layout
+
+\begin_layout Paragraph
+CPU architecture
+\end_layout
+
+\begin_layout Itemize
+Hardware are designed for certain classes of programs and full of hacks
+ so optimisation isn't as easy as just making programs with less instructions
+ and instead we have a 400 pages long Intel architectures optimisation ref
+ manual.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Pipelined execution
+\series default
+: Instructions at different stages are executed in parallel on the CPU.
+ A 
+\series bold
+control hazard
+\series default
+ means the pipeline is unfilled because next intruction is conditional.
+ N.B.
+ CPUs stall on control dependencies.
+\end_layout
+
+\begin_layout Itemize
+CPU execution: in-order (when one instruction stalls, all those after are
+ also stalled); out-of-order (instructions can jump others); super-scale
+ execution (multiple pipelines)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Caches
+\series default
+: 
+\begin_inset Quotes eld
+\end_inset
+
+Hot
+\begin_inset Quotes erd
+\end_inset
+
+ non-programmable memory.
+ Organised in a hierarchy of increasing size.
+\end_layout
+
+\begin_layout Standard
+CPU Memory Access Latencies(depending on locality)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/cache-locality.png
+	width 43page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+CPU Memory Access Latencies(depending on hot data set size)
+\end_layout
+
+\begin_layout Standard
+L1 capacity 32Kb; L2 capacity 4Mb.
+ Graph shapes caused by different cache replacement strategies.
+ L1 probably uses LRU.
+ Different strategy may give smaller CPU memory access latency but take
+ longer to calculate next cache line to evict so not worth the trade off.
+ L2 strategy is better than LRU (less sharp jump in access time).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/hot-dataset.png
+	width 43page%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+N.B.
+ CPUs stall on data access.
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck analysis on CPU.
+ 
+\series medium
+Consists of checking micro-ops status.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/cpu_pipeline_explained.png
+	width 90text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/bottleneck_analysis_detailed.png
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Applied performance modeling
+\end_layout
+
+\begin_layout Paragraph
+System modeling.
+
+\series medium
+ Encompases 
+\emph on
+hardware
+\emph default
+, 
+\emph on
+code
+\emph default
+, 
+\emph on
+data
+\emph default
+/
+\emph on
+input
+\emph default
+ to get profile.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Numerical/experimental models
+\series default
+: Easy to get if system exists.
+ Provides limited insights (not instructive nor interpretable outside of
+ the context and so generalises poorly) and requires lots of experimental
+ data.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Analytical models
+\series default
+: System doesn't need to exist, what-if analysis.
+ It requires extensive validation and grows very complex to handle edge
+ cases.
+\end_layout
+
+\begin_layout Paragraph
+System parameters
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a General Purpose Register of the CPU
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access Latency of the Level 1 Cache (with processing time)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity of a General Purpose Register of the CPU
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a cache line of the Level 1 cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access Latency of the Level 2 Cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity of the Level 1 Cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a cache line of the Level 2 cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Access Latency of the main memory
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity of the Level 2 Cache
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $B_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a Memory Page
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Lookup time in the Page Table
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $C_{3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Number of Memory Pages in the TLB times Page size
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Static analysis
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+extern int* input; extern size_t N; extern size_t stride;
+\end_layout
+
+\begin_layout Plain Layout
+
+int sum = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+for (size_t i = 0; i < N; i+= stride) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	sum += input[stride];
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Formula $s=\text{{stride}}$
+\end_inset
+
+, 
+\begin_inset Formula $T_{mem}=\sum_{i=0}^{3}I_{i}\times\min(1,\frac{{s}}{B_{i}})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dynamic systems and state
+\series default
+.
+ Stochastical models, in particular markov chains.
+\end_layout
+
+\begin_layout Paragraph
+Modeling memory access
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Parameters
+\series default
+: 
+\begin_inset Formula $R_{n}$
+\end_inset
+
+ number of stored tuples, 
+\begin_inset Formula $R_{w}$
+\end_inset
+
+(size of tuple in words).
+ 
+\begin_inset Formula $||R||$
+\end_inset
+
+ (size of region) is product of length and width.
+ 
+\begin_inset Formula $u$
+\end_inset
+
+ is number of word read in each access.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Composition
+\series default
+: 
+\begin_inset Formula $P_{1}\oplus P_{2}$
+\end_inset
+
+ Serial execution of 
+\begin_inset Formula $P_{1}$
+\end_inset
+
+,
+\begin_inset Formula $P_{2}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $P_{1}\odot P_{2}$
+\end_inset
+
+ concurrent execution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+// uniform random data, 1024 values
+\end_layout
+
+\begin_layout Plain Layout
+
+extern struct{int a; int b; int c;}* input1;
+\end_layout
+
+\begin_layout Plain Layout
+
+extern int* input2; // random data, 64 values
+\end_layout
+
+\begin_layout Plain Layout
+
+int sum = 0; for(size_t i = 0; i < inputSize; i++) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	sum += input2[input1[i].a] >> 4;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\text{{s\_trav}(R.w = 3, u =1, R.n=1024)\odot\text{{rr\_acc}(R.w=1, u=1, R.n=64, r=1024)}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Assumptions
+\series medium
+.
+ Assume distribution and independence of the input.
+ Assume independent parallelism (cache contention etc.
+ not discussed).
+ Can't model noise.
+\end_layout
+
+\begin_layout Section
+CPU efficient code
+\end_layout
+
+\begin_layout Paragraph
+Metrics
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Wall time
+\series default
+ is ultimate goal when Cycles Per Instructions is more of a parameter.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Stall cycles
+\series default
+ can be good but can miss the bigger picture, but help reduce:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Control
+\emph default
+ hazards: stalls due to data-dependent flow
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Structural
+\emph default
+ hazards: stalls due to CPU's features
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Data
+\emph default
+ hazards: stalls due to operands not being there on time.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+CPU efficiency
+\series default
+: proxy metrics
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Work-efficiency: Don't waste cycles
+\end_layout
+
+\begin_layout Itemize
+Simplicity: Fewer instructions for less resource utilisation
+\end_layout
+
+\begin_layout Itemize
+Parallelism: even in non parallel algorithms
+\end_layout
+
+\begin_layout Itemize
+Predictability: ease speculation
+\end_layout
+
+\begin_layout Itemize
+Adaptivity: acount for unknown parameters
+\end_layout
+
+\begin_layout Itemize
+Specialization: use of hardware features
+\end_layout
+
+\begin_layout Itemize
+Separation of Concerns: make hardware do heavy lifting
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Design decisions
+\series medium
+: Know the system's specifications, can it do out-of order / speculative
+ execution? 
+\emph on
+Dynamic
+\emph default
+ parallelism (superscalar execution) or 
+\emph on
+statically
+\emph default
+ bundled (SIMD or Very long instruction word - VLIW)?
+\end_layout
+
+\begin_layout Paragraph
+More architecture
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Pipeline execution
+\series default
+: 
+\begin_inset Formula $\neq$
+\end_inset
+
+instruction in 
+\begin_inset Formula $\neq$
+\end_inset
+
+stages.
+ Affected by
+\emph on
+ all 3
+\emph default
+ hazards
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Superscalar execution
+\series default
+: 
+\begin_inset Formula $\neq$
+\end_inset
+
+ instructions in same stage.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Out of order
+\series default
+: Exploits expression reordering and better ALU allocation.
+ Suffers from 
+\emph on
+control
+\emph default
+ hazards.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Speculative execution
+\series default
+: Fills pipeline if no instruction is eligible.
+ Addresses 
+\emph on
+control
+\emph default
+ hazard.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+SIMD
+\series default
+: Vector registers can perform operation on set of values faster than one
+ by one.
+ Careful about clocking down CPU during that time though.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+VLIW
+\series default
+: Instruction encoding multiple regular instructions.
+\end_layout
+
+\begin_layout Paragraph
+Partial evaluation
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Constant evaluation
+\series default
+: When scope allows it.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Lifting / eliminating expensive operations
+\series default
+: Don't do it by writting code for each cases, let the compiler do it (template
+ meta-programming).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+JIT compilation, inlining, symbolic programming.
+\end_layout
+
+\begin_layout Paragraph
+Predicability
+\series medium
+.
+ Very data dependent but code can be quite predicatable.
+ Use 
+\emph on
+predication
+\emph default
+/if-conversion if measure indicates otherwise.
+\end_layout
+
+\begin_layout Paragraph
+CPU in-core parallelism, do it in hardware.
+
+\series medium
+ Compilers try to auto-vectorise, if fail use Intel intrinsics (functions
+ mapped to assembly).
+\end_layout
+
+\begin_layout Section
+Memory efficient code
+\end_layout
+
+\begin_layout Paragraph
+Data hazards
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cache misses
+\series default
+, the three Cs (plus 
+\emph on
+coherence
+\emph default
+ across cores)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+Compulsory
+\emph default
+: first access of the cache line
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Capacity
+\emph default
+: Discarded value and retrived later
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Conflict
+\emph default
+: Direct map and set-associative block-placement strategy
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Causes for data stalls (type) and solutions:
+\end_layout
+
+\begin_layout Itemize
+Non compulsory 
+\emph on
+cache miss
+\emph default
+ (
+\series bold
+capacity bound
+\series default
+): Reduce hot dataset size
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Popular cache replacement strategy is 
+\series bold
+LRU
+\series default
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+can cause 
+\series bold
+thrashing
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tile loops
+\series default
+ to decrease hot dataset size.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\emph on
+Fully utilised memory bus
+\emph default
+ (
+\series bold
+bandwidth bound
+\series default
+): Increase cache-line utilisation
+\end_layout
+
+\begin_layout Itemize
+Otherwise compulsory misses (
+\series bold
+latency bound
+\series default
+): Prefetch
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{void 
+\backslash
+_
+\backslash
+_buildin
+\backslash
+_prefetch(const void *addr, $...$);}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Virtual memory (hardware optimise to reduce latency)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Address translation
+\series default
+: CPU deals in virtual addresses.
+ Addresses in cache are 
+\emph on
+virtually indexed
+\emph default
+ and 
+\emph on
+physically tagged
+\emph default
+ (VIPT).
+ Translation Lookaside Buffer (
+\emph on
+TLB
+\emph default
+) caches translations, page fault is interupt.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Memory allocation
+\series medium
+.
+ Difference between once, eager, and lazy (reallocation) is caused by 
+\series bold
+Copy on Write
+\series medium
+.
+\end_layout
+
+\begin_layout Itemize
+What happens when a prefetch causes a TLB miss (
+\series bold
+page fault
+\series default
+) ? Fetching page should cause OS interupt (resolve synonyms by page colouring,
+ set up CoW etc.) so shouldn't prefetch.
+\end_layout
+
+\begin_layout Paragraph*
+Multicore effect and coherance.
+
+\series medium
+ 
+\emph on
+MESI
+\emph default
+ to coordinate caches in QPI (Intel quickpath interconnect).
+ Cache lines can cause false sharing (writing to same line but different
+ addresses), slowdown of 
+\begin_inset Formula $\approx0.85T$
+\end_inset
+
+x where 
+\begin_inset Formula $T$
+\end_inset
+
+ is number of cores.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/mesi.png
+	width 45page%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/false-sharing.png
+	width 45line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Load Testing
+\end_layout
+
+\begin_layout Paragraph
+Benchmarks v.
+ micro-benchmarks
+\end_layout
+
+\begin_layout Itemize
+Benchmarks are complex tests against a 
+\emph on
+reference
+\emph default
+ workload (
+\series bold
+realistic
+\series default
+).
+ Assess business purposes, highlights hardware limitations, and certify
+ performance.
+\end_layout
+
+\begin_layout Itemize
+Micro-benchmarks are 
+\series bold
+short
+\series default
+ tests designed to help optimise a critical part.
+\end_layout
+
+\begin_layout Paragraph
+Standart industry benchmarks
+\series medium
+.
+ From non-profits (TPC, SPEC).
+ Should be 
+\series default
+repeatable
+\series medium
+, 
+\series default
+interpretable
+\series medium
+, 
+\series default
+comparable
+\series medium
+, 
+\series default
+vendor-neural
+\series medium
+, 
+\series default
+transparent
+\series medium
+ and well documented.
+ Examples include:
+\end_layout
+
+\begin_layout Itemize
+SPEC: CPU2006 (integer and floating-point ops), jbb2015 (multitier Java
+ app), Cloud_IaaS (Map reduce, cassandra), etc.
+\end_layout
+
+\begin_layout Itemize
+TPC: -C (database transactions), -H (analytical queries), -DS (Big data
+ – Hadoop/Spark), etc.
+\end_layout
+
+\begin_layout Paragraph
+Specjbb2015
+\series medium
+.
+ Evaluates performance and scalability of 
+\emph on
+environments
+\emph default
+ for Java business applications (here a fake supermaket).
+ In addition to the fake app, includes a simulator that will scale the workload
+ injection, and a monitor to generate reports with key metrics.
+ It is made of three parts the backend (fake app), the 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{TxInjector}
+\end_layout
+
+\end_inset
+
+s and one Controller to coordinate the first two.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Controller
+\series default
+: Synchronise start/stop of the load injectors, coordinates benchmarking
+ phases, 
+\series bold
+dispaches work to load injectors
+\series default
+, send heartbeats to 
+\series bold
+detect failure
+\series default
+ and recover, collects aggregates and 
+\series bold
+stores the test results
+\series default
+.
+ Also configures the backend agents that manage the fake application.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Load injectors
+\series default
+: Each controls a 
+\series bold
+thread pool
+\series default
+ where each thread issues requests and waits for replies.
+ Threads are separated by 
+\series bold
+think time
+\series default
+ before being issued.
+ Uses java 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+texttt{nio}
+\end_layout
+
+\end_inset
+
+ for concurrent I/O.
+ 
+\series bold
+Report results
+\series default
+ to coordinator.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Execution phases
+\series default
+: Search High Bound Injection Rate (
+\emph on
+HBIR
+\emph default
+) 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Response Troughput (
+\emph on
+RT
+\emph default
+) curve building 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Validation 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Profiling (statistical data) 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+rightarrow$
+\end_layout
+
+\end_inset
+
+ Reporter (.html).
+ During 
+\emph on
+RT
+\emph default
+ curve building, observe transient and steady phases.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/rt-specjbb.png
+	width 80line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Reported metrics
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\emph on
+max-jOPS
+\emph default
+: maximum sustainable injection rate, above which the system does not convergenc
+e to steady-state within 90s
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+critical-jOPS
+\emph default
+: mean of injection rates of first failure and of last success of SLA (99th
+ percentile on response time)
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Load testing
+\series medium
+.
+
+\series default
+ Limitations of benchmarks 
+\series medium
+above: we only tested the platform, it's only a metric to evaluate JBA providers.
+ Creating a test workload for an arbitrary application can be done by either
+ customising benchmark or using a customable testing tool (JMeter, Selenium,
+ etc.) and do load testing which allows to simulate load (injectors, browsers)
+ and emulate realistic / custom user behaviors (think times, abandonment,
+ resume sessions, mix of requests, etc.).
+\end_layout
+
+\begin_layout Section
+User behavior modelling
+\end_layout
+
+\begin_layout Paragraph
+Log file.
+
+\series medium
+ Use tools to automate collection (elasticsearch, Logstash).
+ In distributed systems, logs need to be combined into 
+\series default
+workload traces
+\series medium
+ which organises events that pertain to arrival and service of requests
+ in a 
+\series default
+time series
+\series medium
+.
+ We use those to understand, simulate (what-if) and replay a sequences of
+ events.
+\end_layout
+
+\begin_layout Paragraph
+Common issues in workload traces
+\series medium
+ include 
+\emph on
+privacy
+\emph default
+, 
+\emph on
+inflexibility
+\emph default
+ (analyse effect of specific parameters), 
+\emph on
+noise
+\emph default
+ and 
+\emph on
+overfitting
+\emph default
+ the 
+\series default
+workload models
+\series medium
+ (model to reproduce a trace) we create to the data using 
+\emph on
+Workload characterization
+\emph default
+ (model parameters are fitted to traces to capture their essential characteristi
+cs).
+ We want models to be able to repeat a trace (although non-identically),
+ give us an understanding of the system and, over traces, they present the
+ advantage of always being available (no sysadmin / privacy issues).
+\end_layout
+
+\begin_layout Paragraph*
+User behaviour graph (UBG)
+\series medium
+.
+ Discrete time Markov chains where states are pages / sessions or a service
+ invocation.
+ We use user sessions (the sequence of states a particular user invokes)
+ to determine the transition probabilities.
+ A good fingerprinting of users is essential in web applications to take
+ care of problems like users using multiple browsers, sharing the same IP
+ or later resume of session.
+ We use them to perform 
+\emph on
+simulation
+\emph default
+, 
+\emph on
+analysis
+\emph default
+ of UB, investigate consequences of 
+\emph on
+modification
+\emph default
+ and perform 
+\emph on
+clustering
+\emph default
+ for business analystics.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{ij}=\frac{\text{{number\,of\,requests\,for\,}j \text{{with\,}i \text{as a referer URL}} }}{\sum_{k\in S}\text{number of requests for }k\text{ with }i\text{ as a referer URL}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Properties of UBGs
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Visit ratio
+\series default
+: Average number of visits 
+\begin_inset Formula $V(i)$
+\end_inset
+
+ to state 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ With 
+\emph on
+
+\begin_inset Formula $E$
+\end_inset
+
+
+\emph default
+ the entry state (
+\begin_inset Formula $V(E)=1$
+\end_inset
+
+).
+\begin_inset Formula 
+\[
+V(j)=\sum_{i\in S}V(i)p_{ij}\;\;\forall j\in S\backslash\{E\}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Session length
+\series default
+: Average session length for a user, with 
+\begin_inset Formula $X$
+\end_inset
+
+ the exit state.
+\begin_inset Formula 
+\[
+L=\sum_{i\in S\backslash\{E,X\}}V(i)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Distribution of states
+\series default
+: 
+\begin_inset Formula $\pi^{(n)}(i)$
+\end_inset
+
+: probability of being in state 
+\begin_inset Formula $i$
+\end_inset
+
+ at the 
+\begin_inset Formula $n$
+\end_inset
+
+th invocation (how often user reaches 
+\begin_inset Formula $i$
+\end_inset
+
+ after 
+\begin_inset Formula $n$
+\end_inset
+
+ visits.
+ 
+\begin_inset Formula 
+\[
+\pi^{(n)}=[\pi_{i}^{(n)}|i\in S]\,\,\text{(State probability vector)}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\pi^{(0)}=[\pi_{E}^{(0)},\pi_{H}^{(0)},\dots,\pi_{X}^{(0)}]=[1,0,\dots,0]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\pi_{j}^{(n)}=\sum_{i\in S}\pi_{i}^{(n-1)}p_{ij},\,j\in S\,\equiv\pi^{(n)}=\pi^{(n-1)}P\Rightarrow\pi^{(n)}=\pi^{(0)}P^{n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Session length distribution: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\pi_{X}^{(n)}$
+\end_inset
+
+ probability of leaving the system in 
+\begin_inset Formula $n$
+\end_inset
+
+ page visits or less.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Rightarrow\pi_{X}^{(n)}-\pi_{X}^{(n-1)}$
+\end_inset
+
+is the probability of completing the session after exactly 
+\begin_inset Formula $n$
+\end_inset
+
+ page requests
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/session-length-distribution.png
+	width 98line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Fitting UBGs from log data
+\end_layout
+
+\begin_layout Itemize
+Define for user 
+\begin_inset Formula $u$
+\end_inset
+
+ the matrix 
+\begin_inset Formula $C_{u}$
+\end_inset
+
+with entry 
+\begin_inset Formula $(i,j)$
+\end_inset
+
+ conts visits to page 
+\begin_inset Formula $j$
+\end_inset
+
+ after visiting 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ Normalise the rows to sum to one to turn into UBG.
+ For 
+\begin_inset Formula $n$
+\end_inset
+
+ pages 
+\begin_inset Formula $C_{u}$
+\end_inset
+
+maps to 
+\series bold
+Euclidean space
+\series default
+ with 
+\begin_inset Formula $n^{2}$
+\end_inset
+
+dimensions.
+\end_layout
+
+\begin_layout Itemize
+Use 
+\series bold
+
+\begin_inset Formula $k$
+\end_inset
+
+-means clustering
+\series default
+ to find clusters equivalent to classes user in this space.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Input: Points in space, number of clusters 
+\begin_inset Formula $k$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Output: coordinates of 
+\begin_inset Formula $k$
+\end_inset
+
+ centroids.
+\end_layout
+
+\begin_layout Itemize
+Initialise centroid positions randomly, repeat until convergence the following:
+ for every point 
+\series bold
+assign to the cluster with nearest centroid
+\series default
+ and for every cluster, 
+\series bold
+recalculate the positions of the centroids
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+Nearest is as Euclidean distance: 
+\begin_inset Formula 
+\[
+d(C_{u},C_{v})=\sqrt{\sum_{i=1}^{n}\sum_{j=1}^{n}(C_{u}(i,j)-C_{v}(i,j))^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Centroid position is average coordinates of the points in cluster
+\begin_inset Formula 
+\[
+c(i,j)=\frac{1}{n_{c}}\sum_{u\in\text{cluster}}C_{u}(i,j)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Limitation of UBGs
+\series medium
+ includes that they 
+\series default
+don't include content
+\series medium
+ inside the states (what got searched), 
+\series default
+don't include resource usage
+\series medium
+ and may 
+\series default
+create invalid path 
+\series medium
+(no login for example).
+ Extensions will include creating user classes, conditional actions, data
+ flows, etc.
+ and are used in tools.
+\end_layout
+
+\begin_layout Section
+Bottlenecks in distributed systems
+\end_layout
+
+\begin_layout Standard
+Answering questions about 
+\series bold
+which resource limits the scalibility
+\series default
+ of the application, perform what-if analysis (how will changes in user
+ requests rates or resource speed impact performance, etc.).
+ 
+\series bold
+Individual resources are affected by system metrics
+\series default
+ (arrival rate, service time, contention).
+ We want to highlight those correlations, and focus on resources being 
+\series bold
+busy
+\series default
+ (at server/tier level or hardware component level) and not so much model
+ 
+\emph on
+contention
+\emph default
+.
+\end_layout
+
+\begin_layout Paragraph
+Service classes
+\end_layout
+
+\begin_layout Itemize
+System offers 
+\begin_inset Formula $C$
+\end_inset
+
+ types of services (
+\series bold
+service class
+\series default
+) using 
+\begin_inset Formula $M$
+\end_inset
+
+ resources (like web pages using a web server and a database).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Demand
+\series default
+: 
+\begin_inset Formula $D_{ic}=k_{ic}S_{ic}$
+\end_inset
+
+ is service time accumulated by class-
+\begin_inset Formula $c$
+\end_inset
+
+ request through its visits to resource 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ On contention/queuing demand is only the effective processing time, not
+ other overheads.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $k_{ic}$
+\end_inset
+
+is average number of calls to resource 
+\begin_inset Formula $i$
+\end_inset
+
+ for class-
+\begin_inset Formula $c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $S_{ic}$
+\end_inset
+
+is mean service time for class-
+\begin_inset Formula $c$
+\end_inset
+
+ on resource 
+\begin_inset Formula $i$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Paragraph
+Operational analysis
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Common metrics: 
+\series default
+
+\begin_inset Formula $A_{c}$
+\end_inset
+
+: total number of arriced requests of class 
+\begin_inset Formula $c$
+\end_inset
+
+.
+ 
+\begin_inset Formula $B_{ic}$
+\end_inset
+
+: total time resource 
+\begin_inset Formula $i$
+\end_inset
+
+ is busy because of class-
+\begin_inset Formula $c$
+\end_inset
+
+ request
+\end_layout
+
+\begin_layout Itemize
+Given the 
+\series bold
+oservation period
+\series default
+ 
+\begin_inset Formula $T$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\lambda_{c}=A_{c}/T$
+\end_inset
+
+: 
+\series bold
+average arrival rate
+\series default
+ of class-
+\begin_inset Formula $c$
+\end_inset
+
+ requests
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $U_{ic}=B_{ic}/T$
+\end_inset
+
+: 
+\series bold
+utilisation
+\series default
+ of resource 
+\begin_inset Formula $i$
+\end_inset
+
+ due to class-
+\begin_inset Formula $c$
+\end_inset
+
+ request
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Stable system throughput
+\series default
+: if requests never fail and pending requests are always bounded then 
+\begin_inset Formula $\lambda_{c}$
+\end_inset
+
+equals class-
+\begin_inset Formula $c$
+\end_inset
+
+ 
+\series bold
+throughput 
+\begin_inset Formula $X_{c}$
+\end_inset
+
+
+\series default
+ as 
+\begin_inset Formula $T$
+\end_inset
+
+ grows large.
+ An 
+\series bold
+unstable
+\series default
+ system cannot cope with arrival rate so 
+\begin_inset Formula $\lim_{T\rightarrow\infty}\text{pending}(c)\not\rightarrow0$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+\lambda_{c}=\lim_{T\rightarrow\infty}\frac{A_{c}}{T}=\lim_{T\rightarrow\infty}\frac{\text{completed}(c)+\text{pending}(c)}{T}=\lim_{T\rightarrow\infty}\frac{\text{completed}(c)}{T}=X_{c}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/example-metrics-calculation.png
+	width 75line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Utilisation law
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $D_{ic}=B_{ic}/A_{c}$
+\end_inset
+
+ since 
+\begin_inset Formula $B_{ic}/A_{c}$
+\end_inset
+
+ averages the total processing time of class-
+\begin_inset Formula $c$
+\end_inset
+
+ requestions at resource 
+\begin_inset Formula $i$
+\end_inset
+
+ (by definition 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Relationship between utilisation and demand:
+\begin_inset Formula 
+\[
+U_{ic}=\frac{B_{ic}}{T}=\frac{A_{c}}{T}\frac{B_{ic}}{A_{c}}=\lambda_{c}D_{ic}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+For a system with 
+\begin_inset Formula $C$
+\end_inset
+
+ workload classes, total resource utilisation 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ is:
+\begin_inset Formula 
+\[
+U_{i}=\sum_{c=1}^{C}U_{ic}=\sum_{c=1}^{C}\lambda_{c}D_{ic}=\sum_{c=1}^{C}X_{c}D_{ic}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Example:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/example-utilisation-ubg.png
+	width 98line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Demand estimation from utilisation samples
+\series medium
+.
+ Utilisation law describes a hyperplane with slopes 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+.
+ 
+\series default
+Multivariate linear regression
+\series medium
+ fits hyperplane to sample of 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{c}$
+\end_inset
+
+ (or 
+\begin_inset Formula $X_{c}$
+\end_inset
+
+), 
+\begin_inset Formula $\forall c$
+\end_inset
+
+ returning the demands 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+.
+ The estimated demands are hardware dependent and will change after hardware
+ upgrades.
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck analysis
+\series medium
+.
+ Determine the resource that limits scalability.
+\end_layout
+
+\begin_layout Itemize
+Bottlenecks are 
+\series bold
+oversubsribed resources
+\series default
+ which struggle to complete backlog of pending requests.
+ Often run near 100% utilisation (
+\series bold
+saturation
+\series default
+).
+ Analysis answers:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+As we increase the arrival rates of requests, which resource(s) will saturate
+ first?
+\end_layout
+
+\begin_layout Itemize
+What is the 
+\series bold
+maximum arrival rate
+\series default
+ that the system can sustain under a given request mix?
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+In system with 
+\begin_inset Formula $M$
+\end_inset
+
+ resources we can describe resource usage as the following system of linear
+ equations, where we require 
+\begin_inset Formula $U_{i}\leq1\,\forall i$
+\end_inset
+
+ :
+\begin_inset Formula 
+\[
+U_{i}=\sum_{c=1}^{C}\lambda_{c}D_{ic},\,\,i=1,\dots,M
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Resource 
+\begin_inset Formula $j$
+\end_inset
+
+ can saturate 
+\begin_inset Formula $\iff\exists(\lambda_{1},\dots,\lambda_{C})$
+\end_inset
+
+ such that 
+\begin_inset Formula $U_{j}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Therefore it's possible to build the following 
+\series bold
+LP
+\series default
+ where optimal value over variables 
+\begin_inset Formula $\lambda_{c}$
+\end_inset
+
+ where if the optimal value 
+\begin_inset Formula $U_{j}^{\text{max}}=1$
+\end_inset
+
+ then 
+\begin_inset Formula $j$
+\end_inset
+
+ can saturate.
+\begin_inset Formula 
+\begin{alignat*}{2}
+U_{i} & =\text{maximise} & \sum_{c=1}^{C}\lambda_{c}D_{jc}\\
+ & \text{subject to} & \sum_{c=1}^{C}\lambda_{c}D_{ic}\leq1,\, & i=1,\dots,M\\
+ &  & \lambda_{c}\geq0,\, & c=1,\dots,M
+\end{alignat*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Example
+\series default
+: Assume 
+\begin_inset Formula $C=2$
+\end_inset
+
+ workload classes and 
+\begin_inset Formula $M=4$
+\end_inset
+
+ resources.
+ Each line represents boundary of 
+\begin_inset Formula $U_{i}\leq1$
+\end_inset
+
+ for given 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $D_{ic}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Each point 
+\begin_inset Formula $(\lambda_{1},\lambda_{2})$
+\end_inset
+
+ is a possible arrival rate to the system.
+\end_layout
+
+\begin_layout Itemize
+The shaded region indicates the sustainable arrival rates.
+\end_layout
+
+\begin_layout Itemize
+Server 1 can never become a bottleneck.
+ Never upgrade it!
+\end_layout
+
+\begin_layout Itemize
+Server 2 is the 
+\series bold
+class-1 bottleneck
+\series default
+ (largest demand in class 1).
+\end_layout
+
+\begin_layout Itemize
+Server 3 is the 
+\series bold
+class-2 bottleneck
+\series default
+ (largest demand in class 2).
+\end_layout
+
+\begin_layout Itemize
+Server 4 is a 
+\series bold
+bottleneck only for some arrival rates
+\series default
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Servers 2,3,4 are thus potential bottlenecks for this system.
+\end_layout
+
+\begin_layout Itemize
+Some 
+\series bold
+mixes
+\series default
+ lead multiple resources to become bottlenecks 
+\series bold
+simultaneously
+\series default
+, e.g., 2 + 3 or 2 + 4
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/lp-graph.png
+	width 70line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck migration
+\series medium
+.
+ If system has single bottleneck, we can upgrade the hardware / scale up
+ VM.
+ But arrival rates change over time (day/night, longer periods, etc.) and
+ thus actually 
+\series default
+show different bottlenecks
+\series medium
+ over time.
+ We require 
+\series default
+adaptive resource management
+\series medium
+ (e.g.
+ in cloud) to cope with transient needs.
+\end_layout
+
+\begin_layout Paragraph
+Bottleneck switches
+\series medium
+.
+ Multiple pototential bottlenecks, it is possible for them to migrate accross
+ resources at the millisecond level (
+\series default
+millibottlenecks
+\series medium
+) which can be invisible to monitoring (
+\begin_inset Formula $10\text{s}+5\text{ms}\approx10\text{s}$
+\end_inset
+
+).
+ They downgrade performance by queueing transactions.
+ A 
+\series default
+symptom
+\series medium
+ is that throughput grows slowly, even if the system is lightly utilised.
+\end_layout
+
+\begin_layout Section
+Design of experiments
+\end_layout
+
+\begin_layout Paragraph
+Terminology
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Response variable
+\series default
+: Measurement of outcome (
+\emph on
+response time, throughput
+\emph default
+)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Factor
+\series default
+: Option that affects the response variable
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Level
+\series default
+: Value a factor can take
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Design
+\series default
+: Plan including the number of experiments and values of levels
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Interaction
+\series default
+: Two factors interact if their levels 
+\series bold
+jointly affect the response variable
+\series default
+.
+\end_layout
+
+\begin_layout Paragraph
+Blackbox modeling
+\series medium
+.
+ Analytical models are too error-prone as the system's internal complexity
+ grows so we build models 
+\series default
+agnostic
+\series medium
+ of the internals.
+ We also note we cannot change one factor at a time if factors are interacting
+ which we generally need to run experiments to first determine.
+\end_layout
+
+\begin_layout Paragraph
+Screening response models
+\series medium
+.
+ With factors 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+, we focus on 
+\begin_inset Formula $\epsilon=0$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+y=q_{0}+q_{A}x_{A}+q_{B}x_{B}+q_{AB}x_{A}x_{B}+\epsilon
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $y$
+\end_inset
+
+: response variable
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x_{A},x_{B}$
+\end_inset
+
+: levels of factors 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+, 
+\begin_inset Formula $x_{AB}$
+\end_inset
+
+ interaction of 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $q_{0},q_{A},q_{B},q_{AB}$
+\end_inset
+
+: 
+\series bold
+effects
+\series default
+, coefficients explaining the influence of the factors
+\end_layout
+
+\begin_layout Itemize
+With 
+\begin_inset Formula $k$
+\end_inset
+
+ factors, we can scale up:
+\begin_inset Formula 
+\[
+y=q_{0}+\sum_{j}q_{j}x_{j}+\sum_{j,k,j\neq k}q_{jk}x_{j}x_{k}+\sum_{j,k,l,j\neq k\neq l}q_{jkl}x_{j}x_{k}x_{l}+\epsilon
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Design methods
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Full factorial design
+\series default
+: Run every combination and thus indentify most important factors.
+ Delivers max information but limited applicability (expensive).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Fractional factorial design
+\series default
+: A fraction of the experiments of full factorial, so only captures some
+ interactions.
+ Finds optimal results if those unstudied interactions are negligeble.
+ Very applicable and popular.
+\end_layout
+
+\begin_layout Paragraph
+\begin_inset Formula $2^{k}$
+\end_inset
+
+ factorial design
+\series medium
+.
+ 
+\begin_inset Formula $k$
+\end_inset
+
+ factors, each having 2 levels.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $y_{i}$
+\end_inset
+
+: response variable in the 
+\begin_inset Formula $i$
+\end_inset
+
+-th experiment (
+\begin_inset Formula $1\leq i\leq2^{k}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $x_{f,i}$
+\end_inset
+
+: level of factor 
+\begin_inset Formula $f$
+\end_inset
+
+ in the 
+\begin_inset Formula $i$
+\end_inset
+
+-th experiment
+\end_layout
+
+\begin_layout Paragraph
+Example
+\series medium
+.
+ With 
+\series default
+
+\begin_inset Formula $x_{A}=-1$
+\end_inset
+
+
+\series medium
+ if A = -1, etc.
+\end_layout
+
+\begin_layout Itemize
+We build the system
+\begin_inset Formula 
+\begin{align*}
+y_{1}= & 15=q_{0}-q_{A}-q_{B}+q_{AB}\\
+y_{2}= & 45=q_{0}+q_{A}-q_{B}-q_{AB}\\
+y_{3}= & 25=q_{0}-q_{A}+q_{B}-q_{AB}\\
+y_{4}= & 75=q_{0}+q_{A}+q_{B}+q_{AB}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Which is solved as follows
+\begin_inset Formula 
+\begin{align*}
+q_{0}= & (1/4)(y_{1}+y_{2}+y_{3}+y_{4}) & =40\\
+q_{A}= & (1/4)(-y_{1}+y_{2}-y_{3}+y_{4}) & =20\\
+q_{B}= & (1/4)(-y_{1}-y_{2}+y_{3}+y_{4}) & =10\\
+q_{AB}= & (1/4)(y_{1}-y_{2}-y_{3}+y_{4}) & =5
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Or more easily using the sign table method:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+I
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+B
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+15
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+45
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+75
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $y*col/2^{2}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{A}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{B}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=q_{AB}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Interpretation.
+ 
+\series medium
+
+\begin_inset Formula $q_{0}$
+\end_inset
+
+ is global average.
+ 
+\begin_inset Formula $q_{A}$
+\end_inset
+
+ means A affects the average by 
+\begin_inset Formula $\pm q_{A}$
+\end_inset
+
+ (
+\begin_inset Formula $+q_{A}$
+\end_inset
+
+ if A is 1, -1 otherwise) and similar interpretations for 
+\begin_inset Formula $q_{B}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $q_{AB}$
+\end_inset
+
+ (cross average) the interaction affects the average by 
+\begin_inset Formula $\pm q_{AB}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+What does 
+\begin_inset Formula $q_{A}=q_{B}=q_{AB}=0$
+\end_inset
+
+ means?
+\end_layout
+
+\begin_layout Itemize
+What does 
+\begin_inset Formula $q_{A}=q_{B}=0,\,q_{AB}\neq0$
+\end_inset
+
+ means?
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $q_{B}=q_{AB}=0$
+\end_inset
+
+ and fix 
+\begin_inset Formula $c\geq0$
+\end_inset
+
+ what difference does 
+\begin_inset Formula $q_{A}=c$
+\end_inset
+
+ or 
+\begin_inset Formula $q_{A}=-c$
+\end_inset
+
+ have?
+\end_layout
+
+\begin_layout Paragraph
+Allocation of variation
+\series medium
+.
+ Study of the influence of the factors on the response.
+ We will explain the 
+\series default
+variance
+\series medium
+ on the 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ values.
+ We use the 
+\emph on
+Sum of Squares Total
+\emph default
+ (SST), a scaled variance to study impact of factors.
+ We note that 
+\begin_inset Formula $\bar{y}=q_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series medium
+\begin_inset Formula 
+\begin{align*}
+\text{SST}= & \sum_{1\leq i\leq2^{k}}(y_{i}-\bar{y})^{2}\\
+= & \sum_{1\leq i\leq2^{k}}(q_{A}x_{A,i}+q_{B}x_{B,i}+q_{AB}x_{A,i}x_{B,i})^{2}\\
+= & \sum_{1\leq i\leq2^{k}}(q_{A}x_{A,i})^{2}+\sum_{1\leq i\leq2^{k}}(q_{B}x_{B,i})^{2}\\
+ & +\sum_{1\leq i\leq2^{k}}(q_{AB}x_{A,i}x_{B,i})^{2}+\text{product terms}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now using the fact that 
+\begin_inset Formula $x_{A,i}^{2}=x_{B,i}^{2}=1$
+\end_inset
+
+, the fact that the 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ column in the sign table sum to 0 (
+\begin_inset Formula $\sum_{1\leq i\leq2^{k}}x_{A,i}=\sum_{1\leq i\leq2^{k}}x_{B,i}=0$
+\end_inset
+
+ and by orthogonality of the sign table (
+\begin_inset Formula $\sum_{1\leq i\leq2^{k}}x_{A,i}x_{B,i}=0)$
+\end_inset
+
+ we get that the product terms simplify to zero.
+\begin_inset Formula 
+\[
+\Rightarrow\text{SST}=q_{A}^{2}\sum_{1\leq i\leq2^{k}}x_{A,i}^{2}+q_{B}^{2}\sum_{1\leq i\leq2^{k}}x_{B,i}^{2}+q_{AB}^{2}\sum_{1\leq i\leq2^{k}}(x_{A,i}x_{B,i})^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And due to the squaring, the sums are equivalent to 
+\begin_inset Formula $\sum_{1\leq i\leq2^{k}}1=2^{k}$
+\end_inset
+
+.
+ With 
+\begin_inset Formula $k=2$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\text{SST}=4(q_{A}^{2}+q_{B}^{2}+q_{AB}^{2})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can build 
+\begin_inset Formula $\text{SSA}=4q_{A}^{2},\,\text{SSB}=4q_{B}^{2},\,\text{SSAB}=4q_{AB}^{2}$
+\end_inset
+
+ the variation explained by 
+\begin_inset Formula $A$
+\end_inset
+
+, 
+\begin_inset Formula $B$
+\end_inset
+
+ and 
+\begin_inset Formula $AB$
+\end_inset
+
+ respectively.
+ And the ratios 
+\begin_inset Formula $\text{SSA}/\text{SST}$
+\end_inset
+
+,
+\begin_inset Formula $\text{SSB}/\text{SST}$
+\end_inset
+
+,
+\begin_inset Formula $\text{SSAB}/\text{SST}$
+\end_inset
+
+ show the percentage of variation explained by each factor.
+ A higher percentage being considered more important
+\end_layout
+
+\begin_layout Paragraph*
+General 
+\begin_inset Formula $2^{k}$
+\end_inset
+
+ designs
+\series medium
+.
+ The results can be generalised under higher order operations like
+\begin_inset Formula 
+\begin{align*}
+SST= & \,8(q_{A}+q_{B}+q_{C}+q_{AB}+q_{BC}+q_{AC}+q_{ABC})\\
+= & \,(\text{SSA}+\text{SSB}+\text{SSC})+(\text{SSAB}+\text{SSBC}+\text{SSAC})+\text{SSABC}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Fractional 
+\begin_inset Formula $2^{k-p}$
+\end_inset
+
+designs
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $2^{k}$
+\end_inset
+
+ requires 
+\series bold
+too many experiments
+\series default
+.
+ We could decompose the problem with smaller subproblems with just a few
+ interacting factors but can create issues.
+\end_layout
+
+\begin_layout Itemize
+Adopt 
+\begin_inset Formula $2^{k-p}$
+\end_inset
+
+ design with 
+\begin_inset Formula $p$
+\end_inset
+
+ controlling the precision 
+\series bold
+assuming interaction among the factos are sparse
+\series default
+ and we can guess which ones they are.
+ So we can replace interacting terms by other factors (
+\begin_inset Formula $q_{AB}x_{A}x_{B}\rightarrow q_{C}x_{C}$
+\end_inset
+
+).
+
+\series bold
+ However ignoring interactions can bias the 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ values!
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Resolution of a fractional design
+\series default
+: Confounding means 
+\begin_inset Formula $C$
+\end_inset
+
+ above is dependent on 
+\begin_inset Formula $AB$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/confounding-1.png
+	width 48line%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/confounding-2.png
+	width 48line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Here, column 
+\begin_inset Formula $D=ABC$
+\end_inset
+
+ (1st and 3rd order - resolution 4).
+ Can compute list of confoundings algorithmically (note that pointwise multiplic
+ation of a column with itself will result in a vector of 1s):
+\begin_inset Formula 
+\[
+D=ABC\Rightarrow D\circ D=A\circ ABC\Rightarrow I=ABCD
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The minimum of the sum of the orders of the counfoudings (the minimum of
+ the 
+\series bold
+resolutions
+\series default
+) means our design has a 
+\series bold
+resolution IV
+\series default
+ (in roman literals).
+ The higher the resolution, the less severe the counfounding is.
+\end_layout
+
+\begin_layout Section*
+Resource scaling
+\end_layout
+
+\begin_layout Standard
+In IT systems running on IaaS clouds, nodes are 
+\series bold
+virtual machines
+\series default
+.
+ Can increase capacity using:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Vertical scaling
+\series default
+: increase or upgrade resource within existing nodes (cores, memory, etc.),
+ called 
+\series bold
+scaling up
+\series default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Horizontal scaling
+\series default
+: add nodes to tiers of the application (
+\series bold
+scale out
+\series default
+).
+\end_layout
+
+\begin_layout Itemize
+HS will change the 
+\series bold
+architecture
+\series default
+ whereas VS will just throw more hardware.
+\end_layout
+
+\begin_layout Paragraph*
+Vertical scaling
+\series medium
+.
+ More 
+\series default
+simple and predictable
+\series medium
+ but imply downtime but the node (VM) will need to 
+\series default
+restart
+\series medium
+ (OS can't dynamically upgrade number of cores etc.) even though restarting
+ 
+\series default
+can fail
+\series medium
+.
+ Another limitation is the application might not be able to exploit new
+ resources.
+\end_layout
+
+\begin_layout Standard
+For example, CPU core scaling and 
+\series bold
+Amdhal's law
+\series default
+ (1967).
+ Let 
+\begin_inset Formula $T_{n}$
+\end_inset
+
+ be the ecution time for a job running on 
+\begin_inset Formula $n$
+\end_inset
+
+ cores (
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ exectution time on a single core).
+ Then the 
+\series bold
+speedup
+\series default
+ 
+\begin_inset Formula $S_{n}$
+\end_inset
+
+ is limited by the fraction 
+\begin_inset Formula $p$
+\end_inset
+
+ of the job's execution that can be parallelised.
+\begin_inset Formula 
+\[
+S_{n}=\frac{T_{1}}{T_{n}}\approx\frac{T_{1}}{\underbrace{(1-p)T_{1}}_{\text{serial part}}-\underbrace{p\times\nicefrac{T_{1}}{n}}_{\text{parallel part}})}=\frac{1}{(1-p)+\nicefrac{p}{n}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Horizontal scaling
+\series medium
+.
+ Normally doesn't result in downtime (nodes within a tier do not interact
+ with each others, communication should be handled by load balancers).
+ It changes the 
+\series default
+application topology
+\series medium
+, the application needs to adapt which may require 
+\series default
+throttling
+\series medium
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Homogeneous nodes
+\series default
+ make it easier to schedule load balancing, usually 
+\series bold
+Round Robin
+\series default
+ is a good solution.
+ It produces equal arrival rate, makes inter-arrival time between service
+ calls more predicatable, simplifying resource management, and is almost
+ stateless.
+ The 
+\series bold
+two-choice paradigm
+\series default
+ (each tasks querying 2 servers at random and picking the least busy one)
+ provides maybe more flexibility whilst ensuring that the maximum load on
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ nodes is 
+\begin_inset Formula $\Theta(\log\log n)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Heterogenous nodes
+\series default
+ makes scheduling way more complex and can exhacerbate queing problems and
+ gives less garantees from 
+\series bold
+two-choice
+\series default
+ for example.
+\end_layout
+
+\begin_layout Paragraph
+Cloud native application
+\series medium
+.
+ Not all applications support HS (centralised components – tiers that cannot
+ scale).
+ 
+\series default
+Cloud native
+\series medium
+ means support for both VS and HS, generally relying on stateless autonomous
+ compute nodes (think perfect containers).
+ 
+\emph on
+Scale unit
+\emph default
+: set of resources that need to be scaled together.
+ Stateless nodes 
+\begin_inset Formula $\not\Rightarrow$
+\end_inset
+
+ stateless app.
+ Can keep user state in different ways: 
+\series default
+cookies
+\series medium
+, state in 
+\series default
+service call parameters
+\series medium
+ (URL parameters), 
+\series default
+sticky session
+\series medium
+ (ping users to node to use local cache/data structures only), otherwise
+ retrieve state from external storage (memcache, cloud storage).
+\end_layout
+
+\begin_layout Paragraph
+Autoscaling
+\series medium
+.
+ Goal is to avoid 
+\emph on
+over/under provisioning
+\emph default
+ ($$ in bills or SLA violations).
+ Application workloads change over time and need continuous adjustment so
+ we scale on demand automatically (usually HS)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Schedule-based
+\series default
+: predictible application can take advantage of the patterns in the daily
+ workload.
+ Fine tuned with data logs, easy to verify with load tests.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Rule-based
+\series default
+: if 
+\begin_inset Formula $V>V_{up}$
+\end_inset
+
+ for 
+\begin_inset Formula $T_{up}$
+\end_inset
+
+ seconds then 
+\series bold
+scale out
+\series default
+ by 
+\begin_inset Formula $N_{out}$
+\end_inset
+
+ nodes and 
+\series bold
+wait for 
+\begin_inset Formula $S_{up}$
+\end_inset
+
+ seconds
+\series default
+.
+ Same the other way, don't forget the wait.
+\end_layout
+
+\begin_layout Paragraph
+Resource throttling
+\series medium
+.
+ Static thresholds (rules) as 
+\series default
+reactive scaling
+\series medium
+ is common but takes time to kick in.
+ While we wait we 
+\series default
+throttle
+\series medium
+ the application to the max previous soft limit of utilisation until scale
+ out has completed.
+ Can be implemented using 
+\series default
+rate limiters
+\series medium
+.
+\end_layout
+
+\begin_layout Paragraph
+Proactive scaling
+\series medium
+.
+ Using 
+\series default
+time series forecasting
+\series medium
+, techniques to decide how many resources to scale in forecasted scenarios
+ based for example on 
+\emph on
+optimisation
+\emph default
+, 
+\emph on
+queuing theory
+\emph default
+ or 
+\emph on
+machine learning
+\emph default
+.
+ MAPE-K control loop is reference (Monitor, Analyze, Planning, Execute,
+ Knowledge – learn, share data accross functions etc.).
+ Implementaion of the analyze phase can be base on arbitrary time series
+ 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+ (e.g.
+ number of jobs arrived in the last period) on which we will try to predict
+ the random component (after applying 
+\series default
+detrending
+\series medium
+ and 
+\series default
+deseasonalisation
+\series medium
+).
+\begin_inset Formula 
+\[
+A_{t}=T_{t}+S_{t}+I_{t},\,\,t=0,1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $T_{t}$
+\end_inset
+
+ (
+\series bold
+trend
+\series default
+ component): long-term trend (
+\emph on
+deterministic
+\emph default
+)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $S_{t}$
+\end_inset
+
+ (
+\series bold
+seasonal
+\series default
+ component): periodic changes (
+\emph on
+deterministic
+\emph default
+)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $I_{t}$
+\end_inset
+
+ (
+\series bold
+random
+\series default
+ component): irregular component (
+\emph on
+stochastic
+\emph default
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename img/time-series-decomposition.png
+	width 70line%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Autoregressive models
+\series medium
+ of order 1 (
+\series default
+AR(1)
+\series medium
+) as the stochastic difference equation:
+\begin_inset Formula 
+\[
+A_{t}=c+\phi_{1}A_{t-1}+\epsilon_{t}\,\,\,t=1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $A_{t}$
+\end_inset
+
+ is value at time 
+\begin_inset Formula $t$
+\end_inset
+
+, 
+\begin_inset Formula $A_{0}$
+\end_inset
+
+ is given
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\phi_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $c$
+\end_inset
+
+ are deterministic model parameters
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\epsilon_{t}$
+\end_inset
+
+ is uncorrelated NDR s.t.
+ 
+\begin_inset Formula $E(\epsilon_{t})=0,Var(\epsilon_{t})=\sigma_{\epsilon}^{2}<+\infty$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+At 
+\begin_inset Formula $t$
+\end_inset
+
+, given 
+\begin_inset Formula $A_{t}$
+\end_inset
+
+ we can forecast the expected value of 
+\begin_inset Formula $A_{t+1}$
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+E(A_{t+1}|A_{t})= & E(c|A_{t})+\phi_{1}E(A_{t}|A_{t})+E(\epsilon_{t}|A_{t})\\
+= & c+\phi_{1}A_{t}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Fitting the AR(1) model to the data
+\series medium
+ using 
+\series default
+moment matching
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $E(A_{t})=\mu_{t}$
+\end_inset
+
+: mean of the time series at time 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Var(A_{t})=E[(A_{t}-\mu_{t})(A_{t}-\mu_{t})]$
+\end_inset
+
+: variance at time 
+\begin_inset Formula $t$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $K_{1,t}=E[(A_{t}-\mu_{t})(A_{t-1}-\mu_{t-1})]$
+\end_inset
+
+: lag-1 autocovariance at time 
+\begin_inset Formula $t$
+\end_inset
+
+ (serial correlation)
+\end_layout
+
+\begin_layout Standard
+This assumes 
+\series bold
+stationary 
+\series default
+time-series, meaning that the moments do not depend on 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ i.e.
+ 
+\begin_inset Formula $E(A_{t})=\mu,Var(A_{t})=V,K_{1,t}=K_{1},\,\,\forall t$
+\end_inset
+
+.
+ Using this in the moment statistic equations gives the following equations.
+\begin_inset Formula 
+\[
+\mu=\frac{c}{1-\phi_{1}},\,V=\frac{\sigma_{\epsilon}^{2}}{1-\phi_{1}^{2}},\,K_{1}=V\phi_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Beyond the AR(1) model
+\series medium
+.
+\end_layout
+
+\begin_layout Itemize
+Autoregressive model of order 
+\begin_inset Formula $p$
+\end_inset
+
+ (AR(
+\begin_inset Formula $p$
+\end_inset
+
+))
+\begin_inset Formula 
+\[
+A_{t}=c+\sum_{j=1}^{p}\phi_{j}A_{t-j}+\epsilon_{t},\,\,t=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Moving average model of order 
+\begin_inset Formula $q$
+\end_inset
+
+ (MA(
+\begin_inset Formula $q$
+\end_inset
+
+))
+\begin_inset Formula 
+\[
+A_{t}=\mu+\sum_{i=1}^{q}\theta_{i}\epsilon_{t-i}+\epsilon_{t}\,\,t=1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ARMA(p,q)
+\series default
+:
+\begin_inset Formula 
+\[
+A_{t}=c+\sum_{j=1}^{p}\phi_{j}A_{t-j}+\sum_{i=1}^{q}\theta_{i}\epsilon_{t-i}+\epsilon_{t}\,\,t=1,\dots
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
