@@ -1,0 +1,1121 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamerposter
+\begin_preamble
+% You can select your theme here. Any beamer theme without a sidebar should work:
+\usetheme{Rochester}
+% Note, however, that only dedicated beamerposter themes also generate
+% a suitable poster title automatically (we do this manually, see the notes
+% in the document). 
+% Dedicated beamerposter themes are available at 
+% http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php
+
+% Here you can set the options (note that the example content is made for the given setup. 
+% With different orientation or poster size, the content probably won't fit on the poster):
+\PassOptionsToPackage{%
+   orientation=landscape, % possible: portrait, landscape
+    size=a4,% possible: a0b, a0, a1, a2, a3, a4, custom (with width=<val>,height=<val>)
+    scale=1.625,% scaling of fonts
+    debug% give verbose warnings and error messages
+}{beamerposter}
+
+% This produces a grid which might be useful when positioning things
+%\beamertemplategridbackground[0.5cm]
+%\setbeamertemplate{background canvas}[vertical shading][bottom=gray,top=white]
+\setlength{\belowdisplayskip}{3pt} \setlength{\belowdisplayshortskip}{3pt}
+\setlength{\abovedisplayskip}{3pt} \setlength{\abovedisplayshortskip}{3pt}
+\end_preamble
+\options final
+\use_default_options false
+\begin_modules
+multicol
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Unsupervised Learning and Evolutionary Algorithms
+\end_layout
+
+\begin_layout Frame
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\noindent
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 1
+use_makebox 0
+width "80col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset VSpace -1.25cm
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% Output title
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+LARGE
+\backslash
+textcolor{white}{
+\backslash
+textbf{
+\backslash
+inserttitle}}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace -0.75cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Columns
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+t, totalwidth=
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+1
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Column
+.32
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Flex Bold
+status open
+
+\begin_layout Plain Layout
+
+\size large
+Unsupervised learning
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $k$
+\end_inset
+
+-means
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Select a number of clusters, 
+\begin_inset Formula $k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Randomly place 
+\begin_inset Formula $k$
+\end_inset
+
+ centroids.
+\end_layout
+
+\begin_layout Enumerate
+Assign each datapoint to the nearest centroid.
+\end_layout
+
+\begin_layout Enumerate
+Move each centroid to the mean of all datapoints assigned to it.
+\end_layout
+
+\begin_layout Enumerate
+Repeat until convergence.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+Elbow method
+\series default
+ for choosing 
+\begin_inset Formula $k$
+\end_inset
+
+ considers:
+\begin_inset Formula 
+\[
+\text{score}=\frac{1}{K}\sum_{1}^{K}\text{mean distance of assigned datapoints}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "25col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Advantages.
+\end_layout
+
+\begin_layout Itemize
+Simple.
+\end_layout
+
+\begin_layout Itemize
+Efficient 
+\begin_inset Formula $O\left(tkn\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Popular.
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "70col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Drawbacks.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $k$
+\end_inset
+
+ must be defined.
+\end_layout
+
+\begin_layout Itemize
+Must be a definition for the mean.
+\end_layout
+
+\begin_layout Itemize
+Sensitive to initialisation.
+ Finds a local optimum.
+\end_layout
+
+\begin_layout Itemize
+Sensitive to outliers.
+\end_layout
+
+\begin_layout Itemize
+Cannot discover clusters which are not hyper-ellipsoids.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+
+\series bold
+Applications.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Vector quantisation.
+
+\series default
+ E.g.
+ for image compression.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Feature learning.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Distribution fitting
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+Model using Gaussian distribution
+\begin_inset Formula 
+\[
+N\left(\boldsymbol{x}|\boldsymbol{\mu},\boldsymbol{\Sigma}\right)=\frac{1}{\sqrt{\left(2\pi\right)^{D}\left|\boldsymbol{\Sigma}\right|}}\:e^{-\frac{1}{2}\left(\boldsymbol{x}-\boldsymbol{\mu}\right)^{T}\boldsymbol{\Sigma}^{-1}\left(\boldsymbol{x}-\boldsymbol{\mu}\right)}
+\]
+
+\end_inset
+
+Parameters should be selected to maximise likelihood
+\begin_inset Formula 
+\[
+\boldsymbol{\mu}=\frac{1}{N}\sum_{n=0}^{N}\boldsymbol{x}_{n}\qquad\qquad\boldsymbol{\Sigma}=\frac{1}{N}\sum_{n=0}^{N}\left(\boldsymbol{x}_{n}-\boldsymbol{\mu}\right)\left(\boldsymbol{x}_{n}-\boldsymbol{\mu}\right)^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Column
+.32
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\series bold
+GMM-EM
+\series default
+ shares disadvantages with 
+\begin_inset Formula $k$
+\end_inset
+
+-means, but allows:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Probabilities.
+
+\series default
+ Generates clusters with probabilites.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Soft clusters.
+
+\series default
+ Performs soft assignment in the E-step.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Non-spherical clusters.
+
+\series default
+ Allows non-isotropic distances to centroids.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Mixture models
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+Combine several models
+\begin_inset Formula 
+\[
+p\left(\boldsymbol{x}\right)=\sum_{k=1}^{K}\pi_{k}p_{k}\left(\boldsymbol{x}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\pi_{k}$
+\end_inset
+
+ is the weight of the 
+\begin_inset Formula $k$
+\end_inset
+
+th model, weights sum to 1.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Measure goodness of fit using 
+\series bold
+negative log likelihood
+\series default
+
+\begin_inset Formula 
+\[
+\mathscr{L}=-\log p\left(\boldsymbol{X}|\text{\theta}\right)=\sum_{n=1}^{N}\log\left(p\left(\boldsymbol{x}_{n}|\theta\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Choose 
+\begin_inset Formula $K$
+\end_inset
+
+ which minimises 
+\series bold
+Bayesian information criterion
+\series default
+
+\begin_inset Formula 
+\[
+BIC\left(K\right)=\underbrace{\mathscr{L}\left(K\right)}_{\text{encourages fitting}}+\underbrace{\frac{P\left(K\right)}{2}\log N}_{\text{penalises complexity}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Expectation maximisation algorithm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Iterative approach to finding parameters for mixture models.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Expectation step.
+
+\series default
+ Compute responsibilities of each model for each datapoint
+\begin_inset Formula 
+\[
+r_{nk}=\frac{\pi_{k}p_{k}\left(x_{n}\right)}{\sum_{j=1}^{K}\pi_{j}p_{j}\left(x_{n}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Maximisation step.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Update mean of each mixture component
+\begin_inset Formula 
+\[
+\boldsymbol{\mu}_{k}=\frac{1}{N_{k}}\sum_{n=1}^{N}r_{nk}\boldsymbol{x}_{n}\qquad\qquad\text{where \ensuremath{N_{k}=\sum_{n=1}^{N}r_{nk}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Update covariance of each mixture component
+\begin_inset Formula 
+\[
+\boldsymbol{\Sigma}_{k}=\frac{1}{N_{k}}\sum_{n=1}^{N}r_{nk}\left(\boldsymbol{x}_{n}-\boldsymbol{\mu}_{k}\right)\left(\boldsymbol{x}_{n}-\boldsymbol{\mu}_{k}\right)^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Repeat until convergence (either of parameters, or likelihood).
+\end_layout
+
+\end_deeper
+\begin_layout Column
+.32
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+linewidth
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset VSpace -49pt
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "111.1col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "6pt"
+separation "0pt"
+shadowsize "4pt"
+framecolor "white"
+backgroundcolor "white"
+status collapsed
+
+\begin_layout Plain Layout
+
+\series bold
+\size large
+Evolutionary algorithms
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+Reinforcement learning.
+
+\series default
+ An optimisation algorithm for black-box functions.
+\end_layout
+
+\begin_layout Enumerate
+Initially random 
+\series bold
+population of solutions
+\series default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Genotypes
+\series default
+ represent different 
+\series bold
+phenotypes
+\series default
+.
+\end_layout
+
+\begin_layout Enumerate
+Performance measured by a 
+\series bold
+fitness function
+\series default
+.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Fittest individuals
+\series default
+ given chance to reproduce.
+\end_layout
+
+\begin_layout Plain Layout
+Have good 
+\series bold
+exploration capabilities
+\series default
+ and easy to 
+\series bold
+parallelise
+\series default
+, but may be 
+\series bold
+slow
+\series default
+ compared to GD.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Defining an evolutionary algorithm
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Fitness function
+\series default
+.
+ Represents problem to be solved.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Maximum of function must correspond to solution.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Genotype and pheontype.
+
+\series default
+ E.g.
+ a binary string...
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Selection operator.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Biased roulette wheel.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Assign each individual a probability 
+\begin_inset Formula $p_{i}=\frac{f_{i}}{\sum_{j=1}^{n}f_{j}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Compute the cumulative probability 
+\begin_inset Formula $q_{i}=\sum_{j=1}^{i}p_{j}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Randomly generate a number between 0 and 1 and select corresponding individual.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Tournament.
+
+\series default
+ Generate parents by:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Randomly draw some individuals from the population.
+\end_layout
+
+\begin_layout Enumerate
+Select the best of the individuals.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Elitism.
+
+\series default
+ Keep approximately 10% of the best individuals in each generation.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Cross-over operator.
+
+\series default
+ Combine traits of parents.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+E.g.
+ choose a random split point and combine substrings.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Mutation operator.
+ 
+\series default
+Explore nearby solutions.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+E.g.
+ for each bit of the genotype, generate a random 
+\begin_inset Formula $r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Flip the bit if 
+\begin_inset Formula $r<m$
+\end_inset
+
+.
+ Usually 
+\begin_inset Formula $m=1/\text{size of genotype}$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Hyper-parameters.
+
+\series default
+ E.g.
+ population size, 
+\begin_inset Formula $m$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Evolutionary strategies
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Approach for real numbers.
+ E.g.
+ 
+\begin_inset Formula $\left(\mu+\lambda\right)$
+\end_inset
+
+-ES:
+\end_layout
+
+\begin_layout Enumerate
+Randomly generate population of 
+\begin_inset Formula $\mu+\lambda$
+\end_inset
+
+ individuals.
+\end_layout
+
+\begin_layout Enumerate
+Evaluate population, select 
+\begin_inset Formula $\mu$
+\end_inset
+
+ best individuals, 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Generate 
+\begin_inset Formula $\lambda(\approx5\mu)$
+\end_inset
+
+ children, 
+\begin_inset Formula $y_{i}=x_{i}+N\left(0,\sigma\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+New population consists of parents and children.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+\begin_inset Formula $\sigma$
+\end_inset
+
+ must be selected carefully:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\sigma$
+\end_inset
+
+ too large: quickly finds solution, unable to refine it.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\sigma$
+\end_inset
+
+ too small: slow and affected by local optimums.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+Add 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ to genotype: 
+\begin_inset Formula $\sigma_{i}=\sigma_{j}e^{\tau_{0}N\left(0,1\right)}$
+\end_inset
+
+ with learning rate
+\begin_inset Formula 
+\[
+\tau_{0}\approx1/\sqrt{\text{dimension of genotype}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Columns
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{100cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_body
+\end_document
