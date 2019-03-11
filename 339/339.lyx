@@ -109,9 +109,15 @@ Perfomance engineering
 non-functional requirements
 \series default
  for perfomance.
- The key is defining a metric (Throughput, energy usage, etc.) and a threshold
- (target / budget).
- miuspe ale hting is no
+ 
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Success
+\emph default
+: Metric (Throughput, energy usage, etc.) and a threshold (target / budget).
 \end_layout
 
 \begin_layout Paragraph
@@ -126,17 +132,68 @@ Requirements
 :
 \series bold
  
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+S
 \series default
-Specific (numeric terms), Measurable, Acceptable (garantee success), Realisable,
- Thorough (covers everything)
+pecific (numeric terms)
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Quality of Service (QoS)
+M
 \series default
-: Value of a metric that must hold under certain assumptions / conditions.
+easurable
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+cceptable (guarantee success)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+R
+\series default
+ealisable
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+T
+\series default
+horough (covers everything)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Quality of Service (QoS) objective
+\series default
+: 
+\series bold
+Statistical property
+\series default
+ of a 
+\series bold
+metric
+\series default
+ that must hold under certain 
+\series bold
+assumptions / conditions
+\series default
+.
  Can conflict with functional requirements.
 \end_layout
 
@@ -145,40 +202,50 @@ Quality of Service (QoS)
 \series bold
 Service Level Agreement (SLAs)
 \series default
-: Legal contracts specifying QoS objectives and penalties for violation.
- Enforced by constant monitoring (but not 
+: Legal contracts specifying 
+\series bold
+QoS objectives
+\series default
+ and 
+\series bold
+penalties
+\series default
+ for violation.
+ Enforced by monitoring (but not 
 \emph on
 continuous
 \emph default
- – cost)
+ monitoring– cost)
 \end_layout
 
 \begin_layout Paragraph
-Performance Evaluation techniques
+Performance Evaluation techniques: Measuring, Analytical modeling, Simulation
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \series bold
 Measuring
 \series default
 : Performed on prototype / final system.
- Good accuracy, often based on instrumentation.
- Costly and difficult to perform.
+ Good accuracy.
+ Often based on instrumentation.
+ Costly and difficult - need to measure system on different environments
+ (setups & data).
 \end_layout
 
-\begin_layout Itemize
+\begin_deeper
+\begin_layout Enumerate
 
 \series bold
-Benchmark
+Run benchmark
 \series default
-: Apply workload after getting system into a predefined state.
- Workload generator has to be at least as good as the system being benchmarked.
+: Get system into predefined state, then apply workload.
  Types of workloads:
 \end_layout
 
 \begin_deeper
-\begin_layout Itemize
+\begin_layout Enumerate
 Batch (like a query set).
  Analyse 
 \series bold
@@ -187,25 +254,26 @@ throughput
 .
 \end_layout
 
-\begin_layout Itemize
-Interactive (generate random queries).
+\begin_layout Enumerate
+Interactive (randomly generate query).
  Analyse 
 \series bold
 latency
 \series default
 .
+ Workload generator must be at least as good as the system being benchmarked.
 \end_layout
 
-\begin_layout Itemize
-Hybrids (random access in query set).
+\begin_layout Enumerate
+Hybrids (random query from predefined work set).
  
 \end_layout
 
 \end_deeper
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \series bold
-Parameters
+With parameters
 \series default
 : 
 \emph on
@@ -219,24 +287,24 @@ Workload parameters
  (users, available memory, etc.), often continuous.
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \series bold
-Statistic
+Perform statistics
 \series default
-: Aggregate multiple runs with variance to eliminate the noise.
+: Aggregate multiple runs to eliminate the noise.
 \end_layout
 
 \begin_deeper
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \series bold
 Utilisation
 \series default
-: % of resource that is used to perform this service
+: % of resource that is used to perform a service
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \series bold
 Bottleneck
@@ -245,57 +313,75 @@ Bottleneck
 \end_layout
 
 \end_deeper
-\begin_layout Paragraph
-Improving performance
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Analytical modeling
+\series default
+: 
 \end_layout
 
-\begin_layout Itemize
+\begin_deeper
+\begin_layout Enumerate
 
 \series bold
 Goal
 \series default
-: Alternative designs (
+: Improve performance by comparing alternative designs (
 \emph on
 development
 \emph default
-) select best value for parameter (
+) OR selecting best value for a parameter (
 \emph on
 tuning
 \emph default
 ).
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Enumerate
 
 \series bold
-Analytical modeling
+Analytical model
 \series default
-: Mathematical relationship between performance parameters and performance
- metrics.
+: Mathematical relationship between parameters and metrics.
  
-\emph on
-How to model dynamic system with static equations?
-\emph default
- Fast, allow what-if analysis.
 \end_layout
 
-\begin_layout Itemize
+\begin_deeper
+\begin_layout Enumerate
+Models dynamic system with 
+\series bold
+static equations
+\series default
+\emph on
+.
+
+\emph default
+ Fast, allows what-if analysis.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+Parameter tuning
+\series medium
+: Find the vector in the parameter space that either minimises the resource
+ consumption OR maximises a performance metric.
+ Sometimes requires a trade off: reduce use of expensive / non-scalable
+ resource by using more of a cheap one.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
 
 \series bold
 Simulation
 \series default
-: When system is too complex to be understood.
+: Dynamic.
+ Used when system is too complex to be understood.
  Slow experiments.
-\end_layout
-
-\begin_layout Paragraph
-Parameter tuning
-\series medium
-.
- Find optimal parameter vector to maximise performance metric & minimise
- the resource consumption.
- Sometimes means trading the use of expensive / non-scalable resource by
- using more of others.
 \end_layout
 
 \begin_layout Section
@@ -304,16 +390,16 @@ Performance profiling & tracing
 
 \begin_layout Standard
 
-\emph on
+\series bold
 Profile
-\emph default
-: A graphical or other reprentation charactising the system in terms of
- the time it spends in certain states.
+\series default
+: A graphical or other representation characterising the system in terms
+ of the time it spends in certain states.
  Can be used to identify critical paths, bottlenecks or help tuning.
 \end_layout
 
 \begin_layout Paragraph
-Events
+Event
 \series medium
 .
  A change in the system.
@@ -321,49 +407,97 @@ Events
  
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
 \series bold
-Collecting events
-\series default
-.
- 
-\series bold
-Tracing
-\series default
- (keep state for every event, high overhead, more information), 
-\series bold
-Sampling
-\series default
- (keep state in intervals, often time based, inaccurate).
- Sampling with size 1 is event based (counting number of occurences).
+Collecting events:
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
+Event-based/ Event counting
+\series default
+: count events on occurence
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Tracing
+\series default
+: keep state for every event (high overhead, more information)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Sampling
+\series default
+: keep state in intervals (inaccurate, non-deterministic)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Indirect
+\series default
+: count events that dominate others
+\end_layout
+
+\begin_layout Standard
 
 \series bold
 Making a profile
 \series default
-: Aggregating over the events of a specific metric/
+: Aggregate over the events of a specific metric.
+ (Global or broken down by some other event)
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 
 \series bold
 Trace
 \series default
-: Ordered log of every state.
- Example with stack call tracing, aggregated in flame graph.
+: Ordered collection of all events and their state.
+ 
+\end_layout
+
+\begin_layout Standard
+E.g.
+ stack call tracing: events are entering/leaving function, event state is
+ the function stack.
+ Make into profile: aggregate into flame graph.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename img/event-classification.png
-	width 90page%
+	filename img/event-classification-fixed.png
+	width 90text%
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Use reference cycles as a proxy metric for time.
+\end_layout
+
+\begin_layout Standard
+N.B.
+ Any event can be used to define intervals(cache misses, network requetss
+ etc.)
+\end_layout
+
+\begin_layout Standard
+Interval resolution is discrete but time is continuous.
+ Can lead to 
+\series bold
+quantization errors
+\series default
+/biases (e.g.
+ costs attributed to wrong instruction).
 \end_layout
 
 \begin_layout Paragraph
@@ -372,8 +506,8 @@ Collecting events
 .
  Want detailed and accurate measurements whilst limiting the perturbation
  in the system.
- Could collect with software (OS, compiler), hardware (counter) or creating
- an emulator.
+ Could collect with software (OS, library, compiler(instrumentation)), hardware
+ (counter) or creating an emulator.
 \end_layout
 
 \begin_layout Itemize
@@ -381,41 +515,74 @@ Collecting events
 \series bold
 Instrumentation
 \series default
-: Augment program with even logging code.
- No need for hardware supports and works regardless of admin right etc.
- Overhead and perturbation are high.
+: Augment program with event logging code.
+ No need for hardware support & very flexible.
+ High overhead & high perturbation.
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
 
 \series bold
-Automatic
+Manual
 \series default
- source level: libraries.
- Binary level: Usually compiler supported, less control.
- If static then always pay overhead whereas dynamic means no recompilation,
- can be performed on running process, JIT?
+: printf logging.
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
++ Fine control, no special hardware or compiler needs
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
-Manual
-\series default
-: Logging.
- +: Control, no special hardware or compiler needs.
- -: disabled for release builds, needs recompilation.
+- Disabled for release builds, needs recompilation, overhead for implementation
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-Performance counting
+Automatic
+\series default
+: source level (script puts logging into your code) OR binary level (compiler
+ supported injecting of logging into your binaries)
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
++ Offload expertise to expert
+\end_layout
+
+\begin_layout Itemize
+- Less control, need compiler support.
+ 
+\end_layout
+
+\begin_layout Itemize
+Binary level instrumentation is static/dynamic:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Static: simple, portable, can see instrumentation from reading your binary
+\end_layout
+
+\begin_layout Itemize
+Dynamic(read/write source code while in memory): no recompilation, can be
+ performed on running process/ JiT-compiled code
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Performance counters
 \series default
 .
- Software (application specific/OS level -packets, context switch).
+ Software (application specific/OS level packets, context switch).
  Hardware (Often buggy and poorly documented).
 \end_layout
 
@@ -433,14 +600,22 @@ Hardware are designed for certain classes of programs and full of hacks
 \begin_layout Itemize
 
 \series bold
-Pipelining
+Pipelined execution
 \series default
-: instructions on different stages are executed in parallel on the CPU.
+: Instructions at different stages are executed in parallel on the CPU.
  A 
 \series bold
-Control hazard
+control hazard
 \series default
- means the pipeline is stopped because next intruction is conditional.
+ means the pipeline is unfilled because next intruction is conditional.
+ N.B.
+ CPUs stall on control dependencies.
+\end_layout
+
+\begin_layout Itemize
+CPU execution: in-order (when one instruction stalls, all those after are
+ also stalled); out-of-order (instructions can jump others); super-scale
+ execution (multiple pipelines)
 \end_layout
 
 \begin_layout Itemize
@@ -461,6 +636,10 @@ Hot
 \end_layout
 
 \begin_layout Standard
+CPU Memory Access Latencies(depending on locality)
+\end_layout
+
+\begin_layout Standard
 \begin_inset Graphics
 	filename img/cache-locality.png
 	width 43page%
@@ -468,6 +647,22 @@ Hot
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+CPU Memory Access Latencies(depending on hot data set size)
+\end_layout
+
+\begin_layout Standard
+L1 capacity 32Kb; L2 capacity 4Mb.
+ Graph shapes caused by different cache replacement strategies.
+ L1 probably uses LRU.
+ Different strategy may give smaller CPU memory access latency but take
+ longer to calculate next cache line to evict so not worth the trade off.
+ L2 strategy is better than LRU (less sharp jump in access time).
+\end_layout
+
+\begin_layout Standard
 \begin_inset Graphics
 	filename img/hot-dataset.png
 	width 43page%
@@ -475,6 +670,11 @@ Hot
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+N.B.
+ CPUs stall on data access.
 \end_layout
 
 \begin_layout Paragraph
@@ -501,8 +701,15 @@ status open
 
 \begin_layout Standard
 \begin_inset Graphics
-	filename img/cpu-bottleneck-analysis.png
-	width 50page%
+	filename img/cpu_pipeline_explained.png
+	width 90text%
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename img/bottleneck_analysis_detailed.png
+	width 90text%
 
 \end_inset
 
