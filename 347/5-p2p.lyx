@@ -194,7 +194,7 @@ linewidth
 
 \begin_deeper
 \begin_layout Column
-.32
+.3
 \begin_inset ERT
 status open
 
@@ -220,32 +220,27 @@ linewidth
 
 \begin_deeper
 \begin_layout Standard
-\begin_inset Flex Bold
-status open
-
-\begin_layout Plain Layout
-
-\size large
-Distributed shared memory
+Create a 
+\series bold
+virtual network at the application layer
+\series default
+ in order to share resources.
 \end_layout
 
-\end_inset
-
-
+\begin_layout Itemize
+Data-centric, not host-centric.
 \end_layout
 
-\end_deeper
-\begin_layout Columns
-\begin_inset VSpace medskip
-\end_inset
-
-
+\begin_layout Itemize
+Heterogenous nodes in terms of capacity.
 \end_layout
 
-\begin_deeper
-\begin_layout Standard
-An abstraction which provides the impression of a logical single large monolithi
-c memory.
+\begin_layout Itemize
+Nodes communicate directly.
+\end_layout
+
+\begin_layout Itemize
+High churn.
 \end_layout
 
 \end_deeper
@@ -264,28 +259,15 @@ Advantages.
 
 \begin_deeper
 \begin_layout Itemize
-No need for programmers to worry about communication primitives.
+Self-organising.
 \end_layout
 
 \begin_layout Itemize
-Advantage of a large single address space (e.g.
- passing by reference).
+Scalable.
 \end_layout
 
 \begin_layout Itemize
-System can exploit locality of reference (transfer blocks of data).
-\end_layout
-
-\begin_layout Itemize
-Often cheaper than dedicated systems (simple API, off-the-shelf hardware).
-\end_layout
-
-\begin_layout Itemize
-Easily scalable (no bottleneck due to single memory access bus).
-\end_layout
-
-\begin_layout Itemize
-Program portability due to common API.
+Reliable.
 \end_layout
 
 \end_deeper
@@ -297,56 +279,122 @@ Disadvantages.
 
 \begin_deeper
 \begin_layout Itemize
-Programmers must understand consistency models.
+Administration.
 \end_layout
 
 \begin_layout Itemize
-Loss in flexibility, and increased overhead.
- Cannot be more efficient that asynchronous message passing implementations.
+Security.
 \end_layout
 
-\end_deeper
-\begin_layout Columns
+\begin_layout Itemize
+Data recovery.
+\end_layout
 
-\series bold
-Implementation issues.
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Structured overlays
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Data consistency and semantics for concurrent access.
+Deterministic placement of resources allows for fast lookup.
 \end_layout
 
 \begin_layout Itemize
-Degree of replication, where and what to replicate.
+Arbitrary queries cannot be handled directly.
 \end_layout
 
 \begin_layout Itemize
-Reducing communication delays.
+Resource insertion and deletion has an overhead.
 \end_layout
 
 \end_deeper
-\begin_layout Columns
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
 
-\series bold
-Implementations decisions.
+
+\end_layout
+
+\begin_layout Block
+\begin_inset Argument 2
+status collapsed
+
+\begin_layout Plain Layout
+Unstructured overlays
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Block
+Requires algorithms for searching:
 \end_layout
 
 \begin_deeper
-\begin_layout Itemize
-Data can be replicated or cached.
+\begin_layout Enumerate
+
+\series bold
+Flooding.
+
+\series default
+ High message overhead.
 \end_layout
 
-\begin_layout Itemize
-Access, caching, replication may be controlled via hardware or software.
+\begin_layout Enumerate
+
+\series bold
+Expanding ring.
+
+\series default
+ Make use of TTL to reduce overhead.
 \end_layout
 
-\begin_layout Itemize
-DSM may be controlled by OS, distributed memory manager, or language runtime.
+\begin_layout Enumerate
+
+\series bold
+Random walk.
+
+\series default
+ Lower message overhead but high latency.
 \end_layout
 
+\begin_layout Enumerate
+
+\series bold
+\begin_inset Formula $k$
+\end_inset
+
+-random walk.
+
+\series default
+ Choose 
+\begin_inset Formula $k$
+\end_inset
+
+ random neighbours to reduce latency.
+\end_layout
+
+\end_deeper
 \begin_layout Column
-.32
+.5
 \begin_inset ERT
 status open
 
@@ -367,225 +415,7 @@ linewidth
 status collapsed
 
 \begin_layout Plain Layout
-Memory consistency models
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Strict consistency/Linerisability.
-
-\series default
- Use total order broadcast.
- Requires full replication.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Ordered by a common global time.
-\end_layout
-
-\begin_layout Itemize
-Each write is immediately visible to all processes.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Sequential consistency.
-
-\series default
- Writes participate in total order broadcasts.
- Can use either local reads or local writes.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Ordered by local time references.
-\end_layout
-
-\begin_layout Itemize
-Result of execution is 
-\emph on
-possible in some sequential order
-\emph default
-.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Causal consistency.
-
-\series default
- Use causal order broadcast.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Only 
-\emph on
-causally related writes
-\emph default
- need to be seen in order.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-A write operation causally precedes a read operation if the value returned
- by the read is the value written by the write.
-\end_layout
-
-\begin_layout Itemize
-All causally relate writes must be seen in the same order by all processes.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Processor consistency/Pipelined RAM.
-
-\series default
- Use FIFO broadcast.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Write operation 
-\emph on
-issued by one processor
-\emph default
- are seen by all other processors in the same order they were issued.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Slow memory consistency.
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Write operations issued by one processor 
-\emph on
-to the same memory
-\emph default
- are seen in the same order they were issued.
-\end_layout
-
-\end_deeper
-\end_deeper
-\begin_layout Block
-
-\series bold
-Synchronisation based consistency models.
-
-\series default
- Synchronisation variable used to control access to critical section as
- necessary.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Weak consistency.
-
-\series default
- On synchronisation, all writes propagated to all processes, and all writes
- brought locally.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-Access to sync vars are sequentially consistent.
-\end_layout
-
-\begin_layout Enumerate
-No access to a sync var is allowed until all previous writes are completed.
-\end_layout
-
-\begin_layout Enumerate
-No read/write is allowed to be performed until all accesses to sync vars
- have been performed.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Release consistency.
-
-\series default
- Before an acquire, all write brought locally, and before release, all updates
- must be propagated to all other processes.
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-All 
-\emph on
-Acquire
-\emph default
- operations must complete successfully before accessing a protected var.
-\end_layout
-
-\begin_layout Enumerate
-All access to a protected var must complete before a 
-\emph on
-Release
-\emph default
- can be performed.
-\end_layout
-
-\begin_layout Enumerate
-
-\emph on
-Acquire
-\emph default
- and 
-\emph on
-Release
-\emph default
- operations follow PRAM.
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-
-\series bold
-Entry consistency.
-
-\series default
- Every shared variable must be associated with some synchronisation variable.
-\end_layout
-
-\end_deeper
-\begin_layout Block
-
-\end_layout
-
-\begin_layout Column
-.32
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-linewidth
+Napster
 \end_layout
 
 \end_inset
@@ -594,48 +424,32 @@ linewidth
 \end_layout
 
 \begin_layout Block
-\begin_inset Argument 2
-status collapsed
 
-\begin_layout Plain Layout
-Mutual exclusion
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Block
-Share one resource amongst many processes.
+\series bold
+Server-mediated central index
+\series default
+ architecture.
 \end_layout
 
 \begin_deeper
-\begin_layout Enumerate
-
-\series bold
-S: Mutual exclusion.
-
-\series default
- At any time, only one process may execute CS.
+\begin_layout Itemize
+Each server maintains table of client's IP, port, bandwidth and files.
 \end_layout
 
 \begin_layout Enumerate
-
-\series bold
-L: Progress.
-
-\series default
- No process outside CS should block another from entering it.
+Client connects to meta-server which assigns a lightly-loaded server.
 \end_layout
 
 \begin_layout Enumerate
+Client sends server its identity + query.
+\end_layout
 
-\series bold
-F: Bounded waiting.
+\begin_layout Enumerate
+Server responds to query.
+\end_layout
 
-\series default
- A process should not have to wait indefinitely to execute CS.
+\begin_layout Enumerate
+Client sets up direct connection to another client to download file.
 \end_layout
 
 \end_deeper
@@ -651,7 +465,7 @@ F: Bounded waiting.
 status collapsed
 
 \begin_layout Plain Layout
-Lamport's bakery algorithm
+Gnutella
 \end_layout
 
 \end_inset
@@ -660,38 +474,61 @@ Lamport's bakery algorithm
 \end_layout
 
 \begin_deeper
-\begin_layout Enumerate
-Each process given a unique identifier on entry.
-\end_layout
-
-\begin_layout Enumerate
-Processes wait until their identifier is the smallest.
-\end_layout
-
-\end_deeper
-\begin_layout Block
-For 
-\begin_inset Formula $n$
-\end_inset
-
- processes:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-Space complexity—LB of 
-\begin_inset Formula $n$
-\end_inset
-
- registers.
+\begin_layout Standard
+Completely decentralised.
+ Uses local indexing.
 \end_layout
 
 \begin_layout Itemize
-Time complexity of 
-\begin_inset Formula $O(n)$
-\end_inset
+Standard nodes must be known before joining.
+\end_layout
 
-.
+\begin_layout Enumerate
+New node connects to network by connecting to standard nodes.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\emph on
+Ping
+\series default
+\emph default
+ messages to advertise new host and discover existing hosts.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\emph on
+Pong
+\series default
+\emph default
+ responds with IP, port, max data size.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\emph on
+Query
+\series default
+\emph default
+ messages use flooding strategy.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+\emph on
+QueryHit
+\series default
+\emph default
+ messages sent back via reverse path.
+\end_layout
+
+\begin_layout Enumerate
+Download done directly over HTTP.
 \end_layout
 
 \end_deeper
@@ -707,7 +544,7 @@ Time complexity of
 status collapsed
 
 \begin_layout Plain Layout
-Fast mutual exclusion
+Chord
 \end_layout
 
 \end_inset
@@ -716,35 +553,145 @@ Fast mutual exclusion
 \end_layout
 
 \begin_layout Block
+Uses distributed indexing.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For an 
+\begin_inset Formula $m$
+\end_inset
+
+-bit identifier, there are 
+\begin_inset Formula $2^{m}$
+\end_inset
+
+ potential nodes.
+\end_layout
+
+\begin_layout Itemize
+Nodes arranged as 
+\series bold
+logical ring
+\series default
+ 
+\begin_inset Formula $\mod2^{m}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Keys assigned to the first node with id 
+\begin_inset Formula $\geq k\mod\left(2^{m}\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+Every node knows its successors, queries are forwarded along the ring.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Complexity:
+\series default
+ 
 \begin_inset Formula $O(1)$
 \end_inset
 
- time complexity but does not guarantee fairness.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Separator plain
+ (space), 
+\begin_inset Formula $O\left(n\right)$
 \end_inset
 
+ (time).
+\end_layout
 
+\end_deeper
+\begin_layout Block
+
+\series bold
+Finger tables
+\series default
+ can be used to keep track of first node greater than us by 
+\begin_inset Formula $\geq2^{p-1}\mod\left(2^{m}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Complexity:
+\series default
+ 
+\begin_inset Formula $O\left(m\right)$
+\end_inset
+
+ (space), 
+\begin_inset Formula $O\left(\log n\right)$
+\end_inset
+
+ (time).
+\end_layout
+
+\end_deeper
+\begin_layout Block
+
+\series bold
+Managing churn.
+
+\series default
+ When a node joins (fails*):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Calculate position in the network.
+\end_layout
+
+\begin_layout Enumerate
+*Adjust predecessors and successors.
+\end_layout
+
+\begin_layout Enumerate
+Transfer required keys.
+\end_layout
+
+\begin_layout Enumerate
+*Recalculate finger tables.
+\end_layout
+
+\end_deeper
+\begin_layout Block
+Store keys at multiple successors to avoid data loss.
 \end_layout
 
 \begin_layout Block
-\begin_inset Argument 2
-status collapsed
+
+\end_layout
+
+\begin_layout Column
+.16
+\begin_inset ERT
+status open
 
 \begin_layout Plain Layout
-Wait-freedom
+
+
+\backslash
+linewidth
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Block
-Any process can complete an operation in a finite number of steps, even
- if other processes crash or experience unexpected delays.
 \end_layout
 
 \end_deeper

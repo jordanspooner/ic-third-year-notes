@@ -888,10 +888,16 @@ Consensus-based group memebership
 
 \end_layout
 
-\begin_layout Block
-TODO.
+\begin_deeper
+\begin_layout Enumerate
+Invoke uniform consensus upon detecting a crash.
 \end_layout
 
+\begin_layout Enumerate
+Install the new view only once consensus has been agreed.
+\end_layout
+
+\end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -913,7 +919,7 @@ View-synchronous communication
 \end_layout
 
 \begin_layout Block
-TODO
+Integrates reliable broadcast and group membership.
 \end_layout
 
 \end_deeper
